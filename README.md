@@ -12,6 +12,9 @@ inspired by
 
 ## Methods
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
+ 
+## Install
+    $ composer require bastman/php7-arrayly 0.0.1
 
 ## Examples
 - see: tests/examples
