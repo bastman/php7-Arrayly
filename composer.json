@@ -1,5 +1,5 @@
 {
-  "name": "bastman/php7-Arrayly",
+  "name": "bastman/php7-arrayly",
   "description": "a simple port of Kotlin Collections to php",
   "keywords": [
     "array", "manipulation", "utility",
