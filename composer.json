@@ -1,0 +1,32 @@
+{
+  "name": "bastman/php7-Arrayly",
+  "description": "a simple port of Kotlin Collections to php",
+  "keywords": [
+    "array", "manipulation", "utility",
+    "helpers", "utils"
+  ],
+  "homepage": "https://github.com/bastman/php7-Arrayly",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Seb Schmidt"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "support": {
+    "issues": "https://github.com/bastman/php7-Arrayly",
+    "source": "https://github.com/bastman/php7-Arrayly"
+  },
+  "autoload": {
+    "psr-4": { "Arrayly\\": "src/" },
+    "files": ["src/Create.php"]
+  },
+  "autoload-dev": {
+    "classmap": [ "tests" ]
+  }
+}
