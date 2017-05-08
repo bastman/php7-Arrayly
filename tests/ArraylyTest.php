@@ -34,7 +34,18 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
                 return $v["city"];
             })->toArray();
 
-
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
+    }
+
+    public function testFilter() {
+        $source = $this->provideTestCities();
+
+        $sink=A::ofArray($source)
+            ->filter(function($v) {
+                return $v["country"]==="Germany";
+            })->toArray();
+
+        $this->assertSame([["city" => "Berlin", "country" => "Germany"],
+            ["city" => "Hamburg", "country" => "Germany"]], $sink);
     }
 }
