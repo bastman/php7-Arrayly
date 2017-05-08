@@ -65,6 +65,119 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
             ["city" => "Hamburg", "country" => "Germany"]], $sink);
     }
 
+    public function testTake()
+    {
+        $source = A::ofArray($this->provideTestCities())
+            ->map(function ($v) {
+                return $v["city"];
+            })
+            ->toArray();
+
+        $sink = A::ofArray($source)
+            ->take(0)
+            ->toArray();
+        $this->assertSame([], $sink);
+
+        $sink = A::ofArray($source)
+            ->take(1)
+            ->toArray();
+        $this->assertSame(["Berlin"], $sink);
+
+        $sink = A::ofArray($source)
+            ->take(3)
+            ->toArray();
+        $this->assertSame(["Berlin","Hamburg","London"], $sink);
+
+        $sink = A::ofArray($source)
+            ->take(1000)
+            ->toArray();
+        $this->assertSame(["Berlin","Hamburg","London","Manchester", "Paris"], $sink);
+    }
+
+    public function testDropValues()
+    {
+        $source = A::ofArray($this->provideTestCities())
+            ->map(function ($v) {
+                return $v["city"];
+            })
+            ->toArray();
+
+        $sink = A::ofArray($source)
+            ->drop(0)
+            ->values()
+            ->toArray();
+        $this->assertSame(["Berlin","Hamburg","London","Manchester", "Paris"], $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(1)
+            ->values()
+            ->toArray();
+        $this->assertSame(["Hamburg","London","Manchester", "Paris"], $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(3)
+            ->values()
+            ->toArray();
+        $this->assertSame(["Manchester", "Paris"], $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(1000)
+            ->values()
+            ->toArray();
+        $this->assertSame([], $sink);
+    }
+
+    public function testDrop()
+    {
+        $source = [
+            "a"=>"A",
+            "b"=>"B",
+            "c"=>"C"
+        ];
+
+        $sink = A::ofArray($source)
+            ->drop(0)
+            ->toArray();
+        $this->assertSame($source, $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(1)
+            ->toArray();
+        $this->assertSame([
+            "b"=>"B",
+            "c"=>"C"
+        ], $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(2)
+            ->toArray();
+        $this->assertSame([
+            "c"=>"C"
+        ], $sink);
+
+        $sink = A::ofArray($source)
+            ->drop(1000)
+            ->toArray();
+        $this->assertSame(
+            [], $sink);
+
+        $source = [
+            ["A"],
+            ["B"],
+            ["C"]
+        ];
+        $sink = A::ofArray($source)
+            ->drop(1)
+            ->toArray();
+
+        $this->assertSame(
+            [
+                "1"=>["B"],
+                "2"=>["C"],
+            ], $sink);
+    }
+
+
     public function testGroupBy()
     {
         $source = $this->provideTestCities();
