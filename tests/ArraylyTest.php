@@ -178,6 +178,143 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
     }
 
 
+    public function testTakeWhile()
+    {
+        $source = [
+            "a"=>"A",
+            "b"=>"B",
+            "c"=>"C"
+        ];
+
+        $monitor=new stdClass();
+        $monitor->max=0;
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<=$monitor->max;
+            })
+            ->toArray();
+        $this->assertSame([], $sink);
+
+
+        $monitor=new stdClass();
+        $monitor->max=1;
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<=$monitor->max;
+            })
+            ->toArray();
+        $this->assertSame(["a"=>"A"], $sink);
+
+        $monitor=new stdClass();
+        $monitor->max=2;
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<=$monitor->max;
+            })
+            ->toArray();
+        $this->assertSame(["a"=>"A", "b"=>"B"], $sink);
+    }
+
+    public function testDropWhile()
+    {
+        $source = [
+            "a"=>"A",
+            "b"=>"B",
+            "c"=>"C"
+        ];
+
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v){
+                return true;
+            })
+            ->toArray();
+        $this->assertSame([], $sink);
+
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v){
+                return false;
+            })
+            ->toArray();
+        $this->assertSame($source, $sink);
+
+        $monitor=new stdClass();
+
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<100;
+            })
+            ->toArray();
+        $this->assertSame([], $sink);
+
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<4;
+            })
+            ->toArray();
+        $this->assertSame([], $sink);
+
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<3;
+            })
+            ->toArray();
+        $this->assertSame(["c"=>"C"], $sink);
+
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<2;
+            })
+            ->toArray();
+        $this->assertSame(["b"=>"B", "c"=>"C"], $sink);
+
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<1;
+            })
+            ->toArray();
+        $this->assertSame(["a"=>"A", "b"=>"B", "c"=>"C"], $sink);
+
+/*
+        $monitor=new stdClass();
+        $monitor->max=1;
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<=$monitor->max;
+            })
+            ->toArray();
+        $this->assertSame(["a"=>"A"], $sink);
+
+        $monitor=new stdClass();
+        $monitor->max=2;
+        $monitor->current=0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function($v) use ($monitor){
+                $monitor->current++;
+                return $monitor->current<=$monitor->max;
+            })
+            ->toArray();
+        $this->assertSame(["a"=>"A", "b"=>"B"], $sink);
+*/
+    }
+
     public function testGroupBy()
     {
         $source = $this->provideTestCities();
