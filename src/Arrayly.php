@@ -1,8 +1,9 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Arrayly;
 
+use Arrayly\Sequence\Sequence;
 
 class Arrayly
 {
@@ -24,7 +25,7 @@ class Arrayly
      * @param array $data
      * @return Arrayly
      */
-    public static function ofArray(array $data)
+    public static function ofArray(array $data):Arrayly
     {
         return new Arrayly($data);
     }
@@ -33,7 +34,7 @@ class Arrayly
      * @param iterable $source
      * @return Arrayly
      */
-    public static function ofIterable(iterable $source)
+    public static function ofIterable(iterable $source):Arrayly
     {
         $sink = [];
         foreach ($source as $k => $v) {
@@ -45,7 +46,7 @@ class Arrayly
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray():array
     {
         return $this->data;
     }
@@ -53,9 +54,23 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function toArrayly()
+    public function toArrayly():Arrayly
     {
         return new Arrayly($this->data);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function toGenerator():\Generator {
+        yield from $this->data;
+    }
+
+    /**
+     * @return Sequence
+     */
+    public function asSequence():Sequence {
+        return Sequence::ofArray($this->data);
     }
 
     /**
@@ -63,7 +78,7 @@ class Arrayly
      * @param $value
      * @return Arrayly
      */
-    public function withKey($key, $value)
+    public function withKey($key, $value):Arrayly
     {
         $sink = $this->data;
         $sink[$key] = $value;
@@ -75,7 +90,7 @@ class Arrayly
      * @param array $data
      * @return Arrayly
      */
-    public function withData(array $data)
+    public function withData(array $data):Arrayly
     {
         return new Arrayly($data);
     }
@@ -84,7 +99,7 @@ class Arrayly
      * @param bool $strict
      * @return Arrayly
      */
-    public function keys(bool $strict)
+    public function keys(bool $strict=true):Arrayly
     {
         return $this->withData(array_keys($this->data, null, $strict));
     }
@@ -92,7 +107,7 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function values()
+    public function values():Arrayly
     {
         return $this->withData(array_values($this->data));
     }
@@ -100,7 +115,7 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function flip()
+    public function flip():Arrayly
     {
         return $this->withData(array_flip($this->data));
     }
@@ -109,7 +124,7 @@ class Arrayly
      * @param int $times
      * @return Arrayly
      */
-    public function shuffle(int $times)
+    public function shuffle(int $times):Arrayly
     {
         $sink = (array)$this->data;
         $i = 0;
@@ -123,7 +138,7 @@ class Arrayly
     /**
      * @return int
      */
-    public function count()
+    public function count():int
     {
         return count($this->data);
     }
@@ -132,7 +147,7 @@ class Arrayly
      * @param bool $preserveKeys
      * @return Arrayly
      */
-    public function reverse(bool $preserveKeys)
+    public function reverse(bool $preserveKeys):Arrayly
     {
         return $this->withData(array_reverse($this->data, $preserveKeys));
     }
@@ -141,7 +156,7 @@ class Arrayly
      * @param $key
      * @return bool
      */
-    public function hasKey($key)
+    public function hasKey($key):bool
     {
         return array_key_exists($key, $this->data);
     }
@@ -247,7 +262,7 @@ class Arrayly
     public function findOrElse(\Closure $predicate, \Closure $defaultValueSupplier)
     {
         foreach ($this->data as $k => $v) {
-            if ($predicate($v) === true) {
+            if ($predicate($v)) {
 
                 return $v;
             }
@@ -298,7 +313,7 @@ class Arrayly
      * @param \Closure $callback
      * @return $this
      */
-    public function onEach(\Closure $callback)
+    public function onEach(\Closure $callback):Arrayly
     {
         foreach ($this->data as $k => $v) {
             $callback($v);
@@ -309,9 +324,9 @@ class Arrayly
 
     /**
      * @param \Closure $callback
-     * @return $this
+     * @return Arrayly
      */
-    public function onEachIndexed(\Closure $callback)
+    public function onEachIndexed(\Closure $callback):Arrayly
     {
         foreach ($this->data as $k => $v) {
             $callback($k, $v);
@@ -324,11 +339,11 @@ class Arrayly
      * @param \Closure $pedicate
      * @return Arrayly
      */
-    public function filter(\Closure $pedicate)
+    public function filter(\Closure $pedicate):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
-            if ($pedicate($v) === true) {
+            if ($pedicate($v)) {
                 $sink[$k] = $v;
             }
         }
@@ -340,11 +355,11 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function filterIndexed(\Closure $predicate)
+    public function filterIndexed(\Closure $predicate):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v) === true) {
+            if ($predicate($k, $v)) {
                 $sink[$k] = $v;
             }
         }
@@ -356,7 +371,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function map(\Closure $transform)
+    public function map(\Closure $transform):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -370,7 +385,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function mapIndexed(\Closure $transform)
+    public function mapIndexed(\Closure $transform):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -384,7 +399,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeys(\Closure $keySelector)
+    public function mapKeys(\Closure $keySelector):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -398,7 +413,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeysIndexed(\Closure $keySelector)
+    public function mapKeysIndexed(\Closure $keySelector):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -412,7 +427,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function flatMap(\Closure $transform)
+    public function flatMap(\Closure $transform):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -430,7 +445,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function flatMapIndexed(\Closure $transform)
+    public function flatMapIndexed(\Closure $transform):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -449,7 +464,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function groupBy(\Closure $keySelector)
+    public function groupBy(\Closure $keySelector):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -468,7 +483,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function groupByIndexed(\Closure $keySelector)
+    public function groupByIndexed(\Closure $keySelector):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
@@ -518,7 +533,7 @@ class Arrayly
      * @param bool $descending
      * @return Arrayly
      */
-    public function sortBy(\Closure $comparator, bool $descending)
+    public function sortBy(\Closure $comparator, bool $descending):Arrayly
     {
         $source = (array)$this->data;
         usort($source, $comparator);
@@ -534,7 +549,7 @@ class Arrayly
      * @param int $amount
      * @return Arrayly
      */
-    public function take(int $amount)
+    public function take(int $amount):Arrayly
     {
         $sink = [];
         $currentAmount = 0;
@@ -554,11 +569,11 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function takeWhile(\Closure $predicate)
+    public function takeWhile(\Closure $predicate):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
-            if ($predicate($v) === true) {
+            if ($predicate($v)) {
                 $sink[$k] = $v;
             } else {
 
@@ -574,11 +589,11 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function takeWhileIndexed(\Closure $predicate)
+    public function takeWhileIndexed(\Closure $predicate):Arrayly
     {
         $sink = [];
         foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v) === true) {
+            if ($predicate($k, $v)) {
                 $sink[$k] = $v;
             } else {
 
@@ -594,7 +609,7 @@ class Arrayly
      * @param int $amount
      * @return Arrayly
      */
-    public function drop(int $amount)
+    public function drop(int $amount):Arrayly
     {
         $sink = [];
         $dropped = 0;
@@ -614,11 +629,15 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function dropWhile(\Closure $predicate)
+    public function dropWhile(\Closure $predicate):Arrayly
     {
         $sink = [];
+        $failed = false;
         foreach ($this->data as $k => $v) {
-            if ($predicate($v) !== true) {
+            if (!$failed && !$predicate($v)) {
+                $failed = true;
+            }
+            if ($failed) {
                 $sink[$k] = $v;
             }
         }
@@ -630,11 +649,15 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function dropWhileIndexed(\Closure $predicate)
+    public function dropWhileIndexed(\Closure $predicate):Arrayly
     {
         $sink = [];
+        $failed = false;
         foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v) !== true) {
+            if (!$failed && !$predicate($v)) {
+                $failed = true;
+            }
+            if ($failed) {
                 $sink[$k] = $v;
             }
         }
