@@ -39,6 +39,19 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
     }
 
+    public function testReduce()
+    {
+        $source = $this->provideTestCities();
+
+        $sink = A::ofArray($source)
+            ->map(function ($v) {
+                return $v["city"];
+            })
+            ->reduce('', function ($acc, $v){ return $acc.'-'.$v;})
+            ;
+        $this->assertSame("-Berlin-Hamburg-London-Manchester-Paris", $sink);
+    }
+
     public function testFilter()
     {
         $source = $this->provideTestCities();
@@ -89,6 +102,47 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
                 ]
             ]
         ];
+
+        $this->assertSame($expected, $sink);
+    }
+
+    public function testFlatMap()
+    {
+        $source = [
+            "Germany" => [
+                [
+                    "city" => "Berlin",
+                    "country" => "Germany"
+                ],
+                [
+                    "city" => "Hamburg",
+                    "country" => "Germany"
+                ]
+            ],
+            "England" => [
+                [
+                    "city" => "London",
+                    "country" => "England"
+                ],
+                [
+                    "city" => "Manchester",
+                    "country" => "England"
+                ]
+            ],
+            "France" => [
+                [
+                    "city" => "Paris",
+                    "country" => "France"
+                ]
+            ]
+        ];
+
+        $sink = A::ofArray($source)
+            ->flatMap(function ($v) {
+                return $v;
+            })->toArray();
+
+        $expected = $this->provideTestCities();
 
         $this->assertSame($expected, $sink);
     }
