@@ -36,7 +36,10 @@ class ArraylyTestCase extends TestCase
         $sink = A::ofArray($source)
             ->map(function ($v) {
                 return $v["city"];
-            })->toArray();
+            })
+            ->onEach(function($v){})
+            ->onEachIndexed(function($k, $v){})
+            ->toArray();
 
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
     }
