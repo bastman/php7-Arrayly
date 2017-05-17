@@ -21,31 +21,32 @@ class SequenceExamples001
         TestUtils::printTestResult("GENERATORS.keys()", $r);
 
         $r = Seq::ofArray($cities)
-            //->onEach(function ($v){ echo "BEF.".json_encode($v).PHP_EOL;}
-            ->groupBy(function ($v) {
+            ->onEach(function ($v){ echo "peek: start: ".json_encode($v).PHP_EOL;})
+            ->filter(function (array $v):bool {
+                echo "filter: " . json_encode($v) . PHP_EOL;
+                return $v['country']==='Germany';
+            })
+            ->map(function(array $v):array{
+                echo "map: " . json_encode($v) . PHP_EOL;
+                return $v;
+            })
+            ->onEach(function ($v){ echo "peek: mapped:".json_encode($v).PHP_EOL;})
+            ->groupBy(function (array $v):string {
+                echo "groupBy:".json_encode($v).PHP_EOL;
                 return $v['country'];
             })
-            ->flatMap(function ($itemGroup) {
+            ->onEach(function ($v){ echo "peek: grouped:".json_encode($v).PHP_EOL;})
+            ->flatMap(function (array $itemGroup):array {
+                echo "flatMap:".json_encode($itemGroup).PHP_EOL;
                 return $itemGroup;
             })
-            // ->map(function ($v){ echo "map: ".json_encode($v).PHP_EOL;
-            //return $v["city"];  })
-            //->onEach(function ($v){ echo "AFT.".json_encode($v).PHP_EOL;;})
-            ->filter(function ($v) {
-                echo "filter: " . json_encode($v) . PHP_EOL;
-                return true;
-            })
-            /*
-            ->map(function($v){return $v["city"];})
+            ->onEach(function ($v){ echo "peek: flatMapped:".json_encode($v).PHP_EOL;})
             ->pipeTo(function(iterable $iterable){
-
                 foreach ($iterable as $k=>$v) {
-                    yield $v=>$k;
+                    yield $k=>$v;
                 }
-                //return yield from $iterable;
             })
-            */
-
+            ->onEach(function ($v){ echo "peek: piped:".json_encode($v).PHP_EOL;})
 
             ->toArray();
 
