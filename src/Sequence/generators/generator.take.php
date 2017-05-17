@@ -14,3 +14,25 @@ function take(iterable $iterable, int $amount): \Generator
         $currentAmount++;
     }
 }
+
+function takeWhile(iterable $iterable, \Closure $predicate): \Generator
+{
+    foreach ($iterable as $k => $v) {
+        if (!$predicate($v)) {
+
+            return; // break???
+        }
+        yield $k => $v;
+    }
+}
+
+function takeWhileIndexed(iterable $iterable, \Closure $predicate): \Generator
+{
+    foreach ($iterable as $k => $v) {
+        if (!$predicate($k, $v)) {
+
+            return; // break???
+        }
+        yield $k => $v;
+    }
+}

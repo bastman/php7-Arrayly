@@ -191,4 +191,83 @@ class SequenceTest extends TestCase
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
     }
 
+    public function testTakeWhile()
+    {
+        $source = [
+            "a1" => "A1",
+            "a2" => "A2",
+            "b1" => "B1",
+            "b2" => "B2",
+            "c1" => "C1",
+            "c2" => "C2",
+        ];
+
+        $pattern = "*D*";
+        $expected = [];
+        $sink = S::ofArray($source)
+            ->takeWhile(function ($v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->takeWhileIndexed(function ($k,$v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $pattern = "*A*";
+        $expected = [
+            "a1" => "A1",
+            "a2" => "A2",
+        ];
+        $sink = S::ofArray($source)
+            ->takeWhile(function ($v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->takeWhileIndexed(function ($k,$v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $pattern = "*C*";
+        $expected = [];
+        $sink = S::ofArray($source)
+            ->takeWhile(function ($v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->takeWhileIndexed(function ($k,$v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $pattern = "*1*";
+        $expected = [
+            "a1" => "A1"
+        ];
+        $sink = S::ofArray($source)
+            ->takeWhile(function ($v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->takeWhileIndexed(function ($k,$v) use ($pattern){
+                return fnmatch($pattern, $v);
+            })
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+
+    }
+
 }

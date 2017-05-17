@@ -15,16 +15,6 @@ function drop(iterable $iterable, int $amount): \Generator
     }
 }
 
-function takeWhile(iterable $iterable, \Closure $predicate): \Generator
-{
-    foreach ($iterable as $k => $v) {
-        if (!$predicate($v)) {
-
-            return; // break???
-        }
-        yield $k => $v;
-    }
-}
 
 function dropWhile(iterable $iterable, \Closure $predicate): \Generator
 {

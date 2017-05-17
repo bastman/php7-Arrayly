@@ -202,6 +202,13 @@ class Sequence
         return new static($gen);
     }
 
+    public function takeWhileIndexed(\Closure $predicate): Sequence
+    {
+        $gen = generate\takeWhileIndexed($this->data, $predicate);
+
+        return new static($gen);
+    }
+
     public function dropWhile(\Closure $predicate): Sequence
     {
         $gen = generate\dropWhile($this->data, $predicate);
