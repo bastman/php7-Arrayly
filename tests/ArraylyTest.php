@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 use Arrayly\Arrayly as A;
 use \Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
