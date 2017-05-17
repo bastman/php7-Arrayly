@@ -22,8 +22,6 @@ class ArraylyExamples001
 
     public static function run()
     {
-        //die("DIED!!!!! ".__FILE__.__LINE__);
-
         self::arraylyExamples();
         self::seqExamples();
         self::pipeExamples();
