@@ -15,7 +15,6 @@ function drop(iterable $iterable, int $amount): \Generator
     }
 }
 
-
 function dropWhile(iterable $iterable, \Closure $predicate): \Generator
 {
     $failed = false;
@@ -29,3 +28,15 @@ function dropWhile(iterable $iterable, \Closure $predicate): \Generator
     }
 }
 
+function dropWhileIndexed(iterable $iterable, \Closure $predicate): \Generator
+{
+    $failed = false;
+    foreach ($iterable as $key => $value) {
+        if (!$failed && !$predicate($key, $value)) {
+            $failed = true;
+        }
+        if ($failed) {
+            yield $key => $value;
+        }
+    }
+}

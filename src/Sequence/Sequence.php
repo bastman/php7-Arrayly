@@ -216,6 +216,13 @@ class Sequence
         return new static($gen);
     }
 
+    public function dropWhileIndexed(\Closure $predicate): Sequence
+    {
+        $gen = generate\dropWhileIndexed($this->data, $predicate);
+
+        return new static($gen);
+    }
+
     public function sortBy(\Closure $comparator, bool $descending): Sequence
     {
         $gen = generate\sortBy($this->data, $comparator, $descending);
