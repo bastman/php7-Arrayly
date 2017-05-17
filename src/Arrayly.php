@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly;
 
+use Arrayly\fn;
 use Arrayly\Sequence\Sequence;
 
 class Arrayly
@@ -101,7 +102,7 @@ class Arrayly
      */
     public function keys(bool $strict=true):Arrayly
     {
-        return $this->withData(array_keys($this->data, null, $strict));
+        return $this->withData(fn\keys($this->data, $strict));
     }
 
     /**
@@ -109,7 +110,7 @@ class Arrayly
      */
     public function values():Arrayly
     {
-        return $this->withData(array_values($this->data));
+        return $this->withData(fn\values($this->data));
     }
 
     /**
@@ -117,7 +118,7 @@ class Arrayly
      */
     public function flip():Arrayly
     {
-        return $this->withData(array_flip($this->data));
+        return $this->withData(fn\flip($this->data));
     }
 
     /**
@@ -126,13 +127,7 @@ class Arrayly
      */
     public function shuffle(int $times):Arrayly
     {
-        $sink = (array)$this->data;
-        $i = 0;
-        while ($i < $times) {
-            shuffle($sink);
-        }
-
-        return $this->withData((array)$sink);
+        return $this->withData(fn\shuffle($this->data, $times));
     }
 
     /**
@@ -140,7 +135,7 @@ class Arrayly
      */
     public function count():int
     {
-        return count($this->data);
+        return fn\count($this->data);
     }
 
     /**
@@ -149,7 +144,7 @@ class Arrayly
      */
     public function reverse(bool $preserveKeys):Arrayly
     {
-        return $this->withData(array_reverse($this->data, $preserveKeys));
+        return $this->withData(fn\reverse($this->data, $preserveKeys));
     }
 
     /**
@@ -158,7 +153,7 @@ class Arrayly
      */
     public function hasKey($key):bool
     {
-        return array_key_exists($key, $this->data);
+        return fn\hasKey($this->data, $key);
     }
 
     /**
@@ -166,7 +161,7 @@ class Arrayly
      */
     public function firstOrNull()
     {
-        return $this->firstOrDefault(null);
+        return fn\firstOrNull($this->data);
     }
 
     /**
@@ -175,9 +170,7 @@ class Arrayly
      */
     public function firstOrDefault($defaultValue)
     {
-        return $this->firstOrElse(function () use ($defaultValue) {
-            return $defaultValue;
-        });
+        return fn\firstOrDefault($this->data, $defaultValue);
     }
 
     /**
@@ -186,12 +179,7 @@ class Arrayly
      */
     public function firstOrElse(\Closure $defaultValueSupplier)
     {
-        foreach ($this->data as $item) {
-
-            return $item;
-        }
-
-        return $defaultValueSupplier();
+        return fn\firstOrElse($this->data, $defaultValueSupplier);
     }
 
     /**
@@ -201,12 +189,7 @@ class Arrayly
      */
     public function getOrElse($key, \Closure $defaultValueSupplier)
     {
-        if (array_key_exists($key, $this->data)) {
-
-            return $this->data[$key];
-        }
-
-        return $defaultValueSupplier();
+        return fn\getOrElse($this->data, $key, $defaultValueSupplier);
     }
 
     /**
@@ -215,7 +198,7 @@ class Arrayly
      */
     public function getOrNull($key)
     {
-        return $this->getOrDefault($key, null);
+        return fn\getOrNull($this->data, $key);
     }
 
     /**
@@ -225,12 +208,7 @@ class Arrayly
      */
     public function getOrDefault($key, $defaultValue)
     {
-        if (array_key_exists($key, $this->data)) {
-
-            return $this->data[$key];
-        }
-
-        return $defaultValue;
+        return fn\getOrDefault($this->data, $key, $defaultValue);
     }
 
     /**
@@ -239,7 +217,7 @@ class Arrayly
      */
     public function findOrNull(\Closure $predicate)
     {
-        return $this->findOrDefault($predicate, null);
+        return fn\findOrNull($this->data, $predicate);
     }
 
     /**
@@ -249,9 +227,7 @@ class Arrayly
      */
     public function findOrDefault(\Closure $predicate, $defaultValue)
     {
-        return $this->findOrElse($predicate, function () use ($defaultValue) {
-            return $defaultValue;
-        });
+        return fn\findOrDefault($this->data, $predicate, $defaultValue);
     }
 
     /**
@@ -261,14 +237,7 @@ class Arrayly
      */
     public function findOrElse(\Closure $predicate, \Closure $defaultValueSupplier)
     {
-        foreach ($this->data as $k => $v) {
-            if ($predicate($v)) {
-
-                return $v;
-            }
-        }
-
-        return $defaultValueSupplier();
+        return fn\findOrElse($this->data, $predicate, $defaultValueSupplier);
     }
 
     /**
@@ -277,7 +246,7 @@ class Arrayly
      */
     public function findIndexedOrNull(\Closure $predicate)
     {
-        return $this->findIndexedOrDefault($predicate, null);
+        return fn\findIndexedOrNull($this->data, $predicate);
     }
 
     /**
@@ -287,9 +256,7 @@ class Arrayly
      */
     public function findIndexedOrDefault(\Closure $predicate, $defaultValue)
     {
-        return $this->findIndexedOrElse($predicate, function () use ($defaultValue) {
-            return $defaultValue;
-        });
+        return fn\findIndexedOrDefault($this->data, $predicate, $defaultValue);
     }
 
     /**
@@ -299,25 +266,16 @@ class Arrayly
      */
     public function findIndexedOrElse(\Closure $predicate, \Closure $defaultValueSupplier)
     {
-        foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v) === true) {
-
-                return $v;
-            }
-        }
-
-        return $defaultValueSupplier();
+        return fn\findIndexedOrElse($this->data, $predicate, $defaultValueSupplier);
     }
 
     /**
      * @param \Closure $callback
-     * @return $this
+     * @return Arrayly
      */
     public function onEach(\Closure $callback):Arrayly
     {
-        foreach ($this->data as $k => $v) {
-            $callback($v);
-        }
+        fn\onEach($this->data, $callback);
 
         return $this;
     }
@@ -328,27 +286,18 @@ class Arrayly
      */
     public function onEachIndexed(\Closure $callback):Arrayly
     {
-        foreach ($this->data as $k => $v) {
-            $callback($k, $v);
-        }
+        fn\onEachIndexed($this->data, $callback);
 
         return $this;
     }
 
     /**
-     * @param \Closure $pedicate
+     * @param \Closure $predicate
      * @return Arrayly
      */
-    public function filter(\Closure $pedicate):Arrayly
+    public function filter(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            if ($pedicate($v)) {
-                $sink[$k] = $v;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\filter($this->data, $predicate));
     }
 
     /**
@@ -357,14 +306,7 @@ class Arrayly
      */
     public function filterIndexed(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v)) {
-                $sink[$k] = $v;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\filterIndexed($this->data, $predicate));
     }
 
     /**
@@ -373,12 +315,7 @@ class Arrayly
      */
     public function map(\Closure $transform):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $sink[$k] = $transform($v);
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\map($this->data, $transform));
     }
 
     /**
@@ -387,12 +324,7 @@ class Arrayly
      */
     public function mapIndexed(\Closure $transform):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $sink[$k] = $transform($k, $v);
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\mapIndexed($this->data, $transform));
     }
 
     /**
@@ -401,12 +333,7 @@ class Arrayly
      */
     public function mapKeys(\Closure $keySelector):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $sink[$keySelector($v)] = $v;
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\mapKeys($this->data, $keySelector));
     }
 
     /**
@@ -415,12 +342,7 @@ class Arrayly
      */
     public function mapKeysIndexed(\Closure $keySelector):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $sink[$keySelector($k, $v)] = $v;
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\mapKeysIndexed($this->data, $keySelector));
     }
 
     /**
@@ -429,16 +351,7 @@ class Arrayly
      */
     public function flatMap(\Closure $transform):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            /** @var iterable $transformedCollection */
-            $transformedCollection = $transform($v);
-            foreach ($transformedCollection as $transformedItem) {
-                $sink[] = $transformedItem;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\flatMap($this->data, $transform));
     }
 
     /**
@@ -447,16 +360,7 @@ class Arrayly
      */
     public function flatMapIndexed(\Closure $transform):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            /** @var iterable $transformed */
-            $transformedCollection = $transform($k, $v);
-            foreach ($transformedCollection as $transformedItem) {
-                $sink[] = $transformedItem;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\flatMapIndexed($this->data, $transform));
     }
 
 
@@ -466,17 +370,7 @@ class Arrayly
      */
     public function groupBy(\Closure $keySelector):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $groupKey = $keySelector($v);
-            if (array_key_exists($groupKey, $sink)) {
-                $sink[$groupKey][] = $v;
-            } else {
-                $sink[$groupKey] = [$v];
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\groupBy($this->data, $keySelector));
     }
 
     /**
@@ -485,17 +379,7 @@ class Arrayly
      */
     public function groupByIndexed(\Closure $keySelector):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $groupKey = $keySelector($k, $v);
-            if (array_key_exists($groupKey, $sink)) {
-                $sink[$groupKey][] = $v;
-            } else {
-                $sink[$groupKey] = [$v];
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\groupByIndexed($this->data, $keySelector));
     }
 
     /**
@@ -505,12 +389,7 @@ class Arrayly
      */
     public function reduce($initialValue, \Closure $reducer)
     {
-        $accumulatedValue = $initialValue;
-        foreach ($this->data as $k => $v) {
-            $accumulatedValue = $reducer($accumulatedValue, $v);
-        }
-
-        return $accumulatedValue;
+        return fn\reduce($this->data, $initialValue, $reducer);
     }
 
     /**
@@ -520,12 +399,7 @@ class Arrayly
      */
     public function reduceIndexed($initialValue, \Closure $reducer)
     {
-        $accumulatedValue = $initialValue;
-        foreach ($this->data as $k => $v) {
-            $accumulatedValue = $reducer($accumulatedValue, $k, $v);
-        }
-
-        return $accumulatedValue;
+        return fn\reduceIndexed($this->data, $initialValue, $reducer);
     }
 
     /**
@@ -535,14 +409,7 @@ class Arrayly
      */
     public function sortBy(\Closure $comparator, bool $descending):Arrayly
     {
-        $source = (array)$this->data;
-        usort($source, $comparator);
-        $sink = (array)$source;
-        if ($descending) {
-            $sink = array_reverse($sink);
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\sortBy($this->data, $comparator, $descending));
     }
 
     /**
@@ -551,18 +418,7 @@ class Arrayly
      */
     public function take(int $amount):Arrayly
     {
-        $sink = [];
-        $currentAmount = 0;
-        foreach ($this->data as $k => $v) {
-            if ($currentAmount >= $amount) {
-
-                break;
-            }
-            $sink[$k] = $v;
-            $currentAmount++;
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\take($this->data, $amount));
     }
 
     /**
@@ -571,18 +427,7 @@ class Arrayly
      */
     public function takeWhile(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            if ($predicate($v)) {
-                $sink[$k] = $v;
-            } else {
-
-                break;
-            }
-
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\takeWhile($this->data, $predicate));
     }
 
     /**
@@ -591,18 +436,7 @@ class Arrayly
      */
     public function takeWhileIndexed(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            if ($predicate($k, $v)) {
-                $sink[$k] = $v;
-            } else {
-
-                break;
-            }
-
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\takeWhileIndexed($this->data, $predicate));
     }
 
     /**
@@ -611,17 +445,7 @@ class Arrayly
      */
     public function drop(int $amount):Arrayly
     {
-        $sink = [];
-        $dropped = 0;
-        foreach ($this->data as $k => $v) {
-            if ($dropped < $amount) {
-                $dropped++;
-            } else {
-                $sink[$k] = $v;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\drop($this->data, $amount));
     }
 
 
@@ -631,18 +455,7 @@ class Arrayly
      */
     public function dropWhile(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        $failed = false;
-        foreach ($this->data as $k => $v) {
-            if (!$failed && !$predicate($v)) {
-                $failed = true;
-            }
-            if ($failed) {
-                $sink[$k] = $v;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\dropWhile($this->data, $predicate));
     }
 
     /**
@@ -651,18 +464,7 @@ class Arrayly
      */
     public function dropWhileIndexed(\Closure $predicate):Arrayly
     {
-        $sink = [];
-        $failed = false;
-        foreach ($this->data as $k => $v) {
-            if (!$failed && !$predicate($v)) {
-                $failed = true;
-            }
-            if ($failed) {
-                $sink[$k] = $v;
-            }
-        }
-
-        return $this->withData($sink);
+        return $this->withData(fn\dropWhileIndexed($this->data, $predicate));
     }
 
 }
