@@ -29,7 +29,6 @@
     ]
   },
   "autoload-dev": {
-    "psr-4": { "Arrayly\\Tests\\": "tests/" },
-    "classmap": [ "tests" ]
+    "psr-4": { "Arrayly\\Test\\": "tests/" }
   }
 }
