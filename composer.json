@@ -48,6 +48,7 @@
       "src/Sequence/generators/generator.sort.php",
       "src/Sequence/generators/generator.take.php",
       "src/Sequence/generators/generator.drop.php",
+      "src/Sequence/generators/generator.reduce.php",
       "src/Pipeline/pipeline.fn.php"
     ]
   },

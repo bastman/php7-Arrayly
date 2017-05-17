@@ -484,4 +484,36 @@ class SequenceTest extends TestCase
 
     }
 
+    public function testReducing()
+    {
+        $source = [
+            "a1" => "A1",
+            "a2" => "A2",
+            "b1" => "B1",
+            "b2" => "B2",
+            "c1" => "C1",
+            "c2" => "C2",
+        ];
+
+        $expected=["C2"];
+        $sink = S::ofArray($source)
+            ->reducing([], function ($acc, $v) { return $v;})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->reducingIndexed([], function ($acc, $k, $v) { return $v;})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $expected=['A1A2B1B2C1C2'];
+        $sink = S::ofArray($source)
+            ->reducing("", function (string $acc, string $v) { return $acc.$v;})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofArray($source)
+            ->reducingIndexed("", function (string $acc, $k, string $v) { return $acc.$v;})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+    }
+
 }

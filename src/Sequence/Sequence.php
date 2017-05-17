@@ -64,6 +64,20 @@ class Sequence
         return $accumulatedValue;
     }
 
+    public function reducing($initialValue, \Closure $reducer): Sequence
+    {
+        $gen = generate\reducing($this->data, $initialValue, $reducer);
+
+        return new static($gen);
+    }
+
+    public function reducingIndexed($initialValue, \Closure $reducer): Sequence
+    {
+        $gen = generate\reducingIndexed($this->data, $initialValue, $reducer);
+
+        return new static($gen);
+    }
+
     public function pipeTo(\Closure $transform): Sequence
     {
         $gen = generate\pipeTo($this->data, $transform);
