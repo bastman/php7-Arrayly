@@ -35,5 +35,16 @@ inspired by
             ->take(2)
             
             ->toArray();
+-             
+            Arrayly::ofArray($cities)
+                        ->groupBy(function (array $item):string {
+                            return $item["country"];
+                        })
+                        ->flatMap(function (array $itemGroup):array {
+                            return $itemGroup;
+                        })
+                        ->reduce('', function (string $acc, array $item):string {
+                            return $acc . ':' . $item["city"];
+                        });
             
   
