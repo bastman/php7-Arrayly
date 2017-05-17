@@ -9,11 +9,11 @@ use Arrayly\Sequence\generators as generate;
 class Sequence
 {
     /**
-     * @var \Generator
+     * @var iterable
      */
     private $data;
 
-    public function __construct(\Generator $data)
+    public function __construct(iterable $data)
     {
         $this->data = $data;
     }

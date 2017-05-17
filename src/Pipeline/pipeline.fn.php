@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Pipeline\fn;
 
-use Arrayly\Sequence\gen as generate;
+use Arrayly\Sequence\generators as generate;
 
 function genReduce(iterable $iterable, $initialValue, \Closure $reducer): \Generator
 {
