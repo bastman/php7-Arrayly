@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Arrayly\Sequence;
 
 use Arrayly\Arrayly;
-use Arrayly\Sequence\gen as generate;
+use Arrayly\Sequence\generators as generate;
 
 class Sequence
 {
@@ -106,9 +106,23 @@ class Sequence
         return new static($gen);
     }
 
+    public function onEachIndexed(\Closure $callback): Sequence
+    {
+        $gen = generate\onEachIndexed($this->data, $callback);
+
+        return new static($gen);
+    }
+
     public function map(\Closure $transform): Sequence
     {
         $gen = generate\map($this->data, $transform);
+
+        return new static($gen);
+    }
+
+    public function mapIndexed(\Closure $transform): Sequence
+    {
+        $gen = generate\mapIndexed($this->data, $transform);
 
         return new static($gen);
     }
@@ -134,16 +148,35 @@ class Sequence
         return new static($gen);
     }
 
+    public function filterIndexed(\Closure $predicate): Sequence
+    {
+        $gen = generate\filterIndexed($this->data, $predicate);
+
+        return new static($gen);
+    }
+
     public function flatMap(\Closure $transform): Sequence
     {
         $gen = generate\flatMap($this->data, $transform);
 
         return new static($gen);
     }
+    public function flatMapIndexed(\Closure $transform): Sequence
+    {
+        $gen = generate\flatMapIndexed($this->data, $transform);
 
+        return new static($gen);
+    }
     public function groupBy(\Closure $keySelector): Sequence
     {
         $gen = generate\groupBy($this->data, $keySelector);
+
+        return new static($gen);
+    }
+
+    public function groupByIndexed(\Closure $keySelector): Sequence
+    {
+        $gen = generate\groupByIndexed($this->data, $keySelector);
 
         return new static($gen);
     }

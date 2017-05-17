@@ -19,6 +19,12 @@ function drop(array $source, int $amount): array
 }
 
 
+/**
+ * Returns a list containing all elements except first elements that satisfy the given [predicate].
+ * @param array $source
+ * @param \Closure $predicate
+ * @return array
+ */
 function dropWhile(array $source, \Closure $predicate): array
 {
     $sink = [];

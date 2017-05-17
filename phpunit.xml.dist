@@ -6,8 +6,9 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="Arrayly">
-            <file>tests/ArraylyTest.php</file>
             <file>tests/FactoryTest.php</file>
+            <file>tests/ArraylyTest.php</file>
+            <file>tests/SequenceTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

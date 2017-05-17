@@ -39,7 +39,15 @@
       "src/fn/array.fn.reduce.php",
       "src/fn/array.fn.sort.php",
       "src/fn/array.fn.each.php",
-      "src/Sequence/sequence.gen.php",
+      "src/Sequence/generators/generator.base.php",
+      "src/Sequence/generators/generator.map.php",
+      "src/Sequence/generators/generator.each.php",
+      "src/Sequence/generators/generator.filter.php",
+      "src/Sequence/generators/generator.flatMap.php",
+      "src/Sequence/generators/generator.group.php",
+      "src/Sequence/generators/generator.sort.php",
+      "src/Sequence/generators/generator.take.php",
+      "src/Sequence/generators/sequence.gen.php",
       "src/Pipeline/pipeline.fn.php"
     ]
   },
