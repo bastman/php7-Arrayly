@@ -4,18 +4,13 @@ declare(strict_types=1);
 namespace Arrayly\Test\Examples;
 
 ini_set("display_errors", '1');
-require_once __DIR__ . "/../../../vendor/autoload.php";
+require_once __DIR__."/../../../vendor/autoload.php";
 
 use Arrayly\Pipeline\Pipeline as Pipe;
 use Arrayly\Test\TestUtils;
 
 class PipeExamples001
 {
-    private static function createCities(): array
-    {
-        return TestUtils::loadResourceJson('source/cities-list.json');
-    }
-
     public static function run()
     {
         TestUtils::printTestResult("pipe start ...", null);
@@ -44,7 +39,7 @@ class PipeExamples001
         $p2->map(function ($v) {
             return $v['city'];
         })->reduce("", function ($acc, $v) {
-            return $acc . "-" . $v;
+            return $acc."-".$v;
         })
             ->map(function ($v) {
                 return strtoupper($v);
@@ -71,6 +66,11 @@ class PipeExamples001
         }
         TestUtils::printTestResult("PIPELINE 2.3.done", null);
 
+    }
+
+    private static function createCities(): array
+    {
+        return TestUtils::loadResourceJson('source/cities-list.json');
     }
 
 }

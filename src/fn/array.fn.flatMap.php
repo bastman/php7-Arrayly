@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function flatMap(array $source,\Closure $transform):array
+function flatMap(array $source, \Closure $transform): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -17,7 +17,7 @@ function flatMap(array $source,\Closure $transform):array
     return $sink;
 }
 
-function flatMapIndexed(array $source, \Closure $transform):array
+function flatMapIndexed(array $source, \Closure $transform): array
 {
     $sink = [];
     foreach ($source as $k => $v) {

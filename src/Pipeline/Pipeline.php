@@ -16,6 +16,7 @@ class Pipeline
     {
         $gen = fn\map($transform);
         $this->commands[] = $gen;
+
         return $this;
     }
 
@@ -23,6 +24,7 @@ class Pipeline
     {
         $gen = fn\filter($predicate);
         $this->commands[] = $gen;
+
         return $this;
     }
 
@@ -30,6 +32,7 @@ class Pipeline
     {
         $gen = fn\reduce($initialValue, $reducer);
         $this->commands[] = $gen;
+
         return $this;
     }
 

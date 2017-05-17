@@ -23,6 +23,7 @@ class Sequence
         $gen = function () use ($source) {
             yield from $source;
         };
+
         return new static($gen());
     }
 
@@ -32,6 +33,7 @@ class Sequence
         foreach ($this->data as $k => $v) {
             $sink[$k] = $v;
         }
+
         return $sink;
     }
 
@@ -65,102 +67,119 @@ class Sequence
     public function pipeTo(\Closure $transform): Sequence
     {
         $gen = generate\pipeTo($this->data, $transform);
+
         return new static($gen);
     }
 
     public function keys(): Sequence
     {
         $gen = generate\keys($this->data);
+
         return new static($gen);
     }
 
     public function values(): Sequence
     {
         $gen = generate\values($this->data);
+
         return new static($gen);
     }
 
     public function flip(): Sequence
     {
         $gen = generate\flip($this->data);
+
         return new static($gen);
     }
 
     public function reverse(bool $preserveKeys): Sequence
     {
         $gen = generate\reverse($this->data, $preserveKeys);
+
         return new static($gen);
     }
 
     public function onEach(\Closure $callback): Sequence
     {
         $gen = generate\onEach($this->data, $callback);
+
         return new static($gen);
     }
 
     public function map(\Closure $transform): Sequence
     {
         $gen = generate\map($this->data, $transform);
+
         return new static($gen);
     }
 
     public function mapKeys(\Closure $keySelector): Sequence
     {
         $gen = generate\mapKeys($this->data, $keySelector);
+
         return new static($gen);
     }
 
     public function mapKeysIndexed(\Closure $keySelector): Sequence
     {
         $gen = generate\mapKeysIndexed($this->data, $keySelector);
+
         return new static($gen);
     }
 
     public function filter(\Closure $predicate): Sequence
     {
         $gen = generate\filter($this->data, $predicate);
+
         return new static($gen);
     }
 
     public function flatMap(\Closure $transform): Sequence
     {
         $gen = generate\flatMap($this->data, $transform);
+
         return new static($gen);
     }
 
     public function groupBy(\Closure $keySelector): Sequence
     {
         $gen = generate\groupBy($this->data, $keySelector);
+
         return new static($gen);
     }
 
     public function take(int $amount): Sequence
     {
         $gen = generate\take($this->data, $amount);
+
         return new static($gen);
     }
 
     public function drop(int $amount): Sequence
     {
         $gen = generate\drop($this->data, $amount);
+
         return new static($gen);
     }
 
     public function takeWhile(\Closure $predicate): Sequence
     {
         $gen = generate\takeWhile($this->data, $predicate);
+
         return new static($gen);
     }
 
     public function dropWhile(\Closure $predicate): Sequence
     {
         $gen = generate\dropWhile($this->data, $predicate);
+
         return new static($gen);
     }
 
     public function sortBy(\Closure $comparator, bool $descending): Sequence
     {
         $gen = generate\sortBy($this->data, $comparator, $descending);
+
         return new static($gen);
     }
 

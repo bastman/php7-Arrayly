@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function map(array $source, \Closure $transform):array
+function map(array $source, \Closure $transform): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -13,7 +13,7 @@ function map(array $source, \Closure $transform):array
     return $sink;
 }
 
-function mapIndexed(array $source, \Closure $transform):array
+function mapIndexed(array $source, \Closure $transform): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -23,7 +23,7 @@ function mapIndexed(array $source, \Closure $transform):array
     return $sink;
 }
 
-function mapKeys(array $source,\Closure $keySelector):array
+function mapKeys(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -33,7 +33,7 @@ function mapKeys(array $source,\Closure $keySelector):array
     return $sink;
 }
 
-function mapKeysIndexed(array $source,\Closure $keySelector):array
+function mapKeysIndexed(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {

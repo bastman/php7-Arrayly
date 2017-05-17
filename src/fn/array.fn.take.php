@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function take(array $source, int $amount):array
+function take(array $source, int $amount): array
 {
     $sink = [];
     $currentAmount = 0;
@@ -19,7 +19,7 @@ function take(array $source, int $amount):array
     return $sink;
 }
 
-function takeWhile(array $source, \Closure $predicate):array
+function takeWhile(array $source, \Closure $predicate): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -35,7 +35,7 @@ function takeWhile(array $source, \Closure $predicate):array
     return $sink;
 }
 
-function takeWhileIndexed(array $source,\Closure $predicate):array
+function takeWhileIndexed(array $source, \Closure $predicate): array
 {
     $sink = [];
     foreach ($source as $k => $v) {

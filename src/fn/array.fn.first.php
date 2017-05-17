@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function firstOrDefault(array $source, $defaultValue){
+function firstOrDefault(array $source, $defaultValue)
+{
     return firstOrElse($source, function () use ($defaultValue) {
         return $defaultValue;
     });
@@ -11,7 +12,7 @@ function firstOrDefault(array $source, $defaultValue){
 
 function firstOrNull(array $source)
 {
-    return firstOrDefault($source,null);
+    return firstOrDefault($source, null);
 }
 
 function firstOrElse(array $source, \Closure $defaultValueSupplier)

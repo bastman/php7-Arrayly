@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function groupBy(array $source, \Closure $keySelector):array
+function groupBy(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -18,7 +18,7 @@ function groupBy(array $source, \Closure $keySelector):array
     return $sink;
 }
 
-function groupByIndexed(array $source, \Closure $keySelector):array
+function groupByIndexed(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {

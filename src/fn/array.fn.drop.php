@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function drop(array $source, int $amount):array
+function drop(array $source, int $amount): array
 {
     $sink = [];
     $dropped = 0;
@@ -19,7 +19,7 @@ function drop(array $source, int $amount):array
 }
 
 
-function dropWhile(array $source, \Closure $predicate):array
+function dropWhile(array $source, \Closure $predicate): array
 {
     $sink = [];
     $failed = false;
@@ -35,7 +35,7 @@ function dropWhile(array $source, \Closure $predicate):array
     return $sink;
 }
 
-function dropWhileIndexed(array $source,\Closure $predicate):array
+function dropWhileIndexed(array $source, \Closure $predicate): array
 {
     $sink = [];
     $failed = false;

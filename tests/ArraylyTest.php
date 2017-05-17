@@ -1,22 +1,14 @@
 <?php
 declare(strict_types=1);
+
 namespace Arrayly\Test;
 
 use Arrayly\Arrayly as A;
-use \Arrayly\Test\TestUtils as TestUtils;
+use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
+
 class ArraylyTestCase extends TestCase
 {
-    private function provideTestCitiesAsList(): array
-    {
-        return TestUtils::loadResourceJson('source/cities-list.json');
-    }
-
-    private function provideTestCountriesAsMap(): array
-    {
-        return TestUtils::loadResourceJson('source/countries-map.json');
-    }
-
     public function testConstruct()
     {
         $arrayly = new A(["foo" => "bar"]);
@@ -37,11 +29,18 @@ class ArraylyTestCase extends TestCase
             ->map(function ($v) {
                 return $v["city"];
             })
-            ->onEach(function($v){})
-            ->onEachIndexed(function($k, $v){})
+            ->onEach(function ($v) {
+            })
+            ->onEachIndexed(function ($k, $v) {
+            })
             ->toArray();
 
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
+    }
+
+    private function provideTestCitiesAsList(): array
+    {
+        return TestUtils::loadResourceJson('source/cities-list.json');
     }
 
     public function testReduce()
@@ -52,8 +51,9 @@ class ArraylyTestCase extends TestCase
             ->map(function ($v) {
                 return $v["city"];
             })
-            ->reduce('', function ($acc, $v){ return $acc.'-'.$v;})
-            ;
+            ->reduce('', function ($acc, $v) {
+                return $acc.'-'.$v;
+            });
         $this->assertSame("-Berlin-Hamburg-London-Manchester-Paris", $sink);
     }
 
@@ -66,8 +66,10 @@ class ArraylyTestCase extends TestCase
                 return $v["country"] === "Germany";
             })->toArray();
 
-        $this->assertSame([["city" => "Berlin", "country" => "Germany"],
-            ["city" => "Hamburg", "country" => "Germany"]], $sink);
+        $this->assertSame([
+            ["city" => "Berlin", "country" => "Germany"],
+            ["city" => "Hamburg", "country" => "Germany"],
+        ], $sink);
     }
 
     public function testTake()
@@ -91,12 +93,12 @@ class ArraylyTestCase extends TestCase
         $sink = A::ofArray($source)
             ->take(3)
             ->toArray();
-        $this->assertSame(["Berlin","Hamburg","London"], $sink);
+        $this->assertSame(["Berlin", "Hamburg", "London"], $sink);
 
         $sink = A::ofArray($source)
             ->take(1000)
             ->toArray();
-        $this->assertSame(["Berlin","Hamburg","London","Manchester", "Paris"], $sink);
+        $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
     }
 
     public function testDropValues()
@@ -111,13 +113,13 @@ class ArraylyTestCase extends TestCase
             ->drop(0)
             ->values()
             ->toArray();
-        $this->assertSame(["Berlin","Hamburg","London","Manchester", "Paris"], $sink);
+        $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
 
         $sink = A::ofArray($source)
             ->drop(1)
             ->values()
             ->toArray();
-        $this->assertSame(["Hamburg","London","Manchester", "Paris"], $sink);
+        $this->assertSame(["Hamburg", "London", "Manchester", "Paris"], $sink);
 
         $sink = A::ofArray($source)
             ->drop(3)
@@ -135,9 +137,9 @@ class ArraylyTestCase extends TestCase
     public function testDrop()
     {
         $source = [
-            "a"=>"A",
-            "b"=>"B",
-            "c"=>"C"
+            "a" => "A",
+            "b" => "B",
+            "c" => "C",
         ];
 
         $sink = A::ofArray($source)
@@ -149,15 +151,15 @@ class ArraylyTestCase extends TestCase
             ->drop(1)
             ->toArray();
         $this->assertSame([
-            "b"=>"B",
-            "c"=>"C"
+            "b" => "B",
+            "c" => "C",
         ], $sink);
 
         $sink = A::ofArray($source)
             ->drop(2)
             ->toArray();
         $this->assertSame([
-            "c"=>"C"
+            "c" => "C",
         ], $sink);
 
         $sink = A::ofArray($source)
@@ -169,7 +171,7 @@ class ArraylyTestCase extends TestCase
         $source = [
             ["A"],
             ["B"],
-            ["C"]
+            ["C"],
         ];
         $sink = A::ofArray($source)
             ->drop(1)
@@ -177,122 +179,129 @@ class ArraylyTestCase extends TestCase
 
         $this->assertSame(
             [
-                "1"=>["B"],
-                "2"=>["C"],
+                "1" => ["B"],
+                "2" => ["C"],
             ], $sink);
     }
-
 
     public function testTakeWhile()
     {
         $source = [
-            "a"=>"A",
-            "b"=>"B",
-            "c"=>"C"
+            "a" => "A",
+            "b" => "B",
+            "c" => "C",
         ];
 
-        $monitor=new \stdClass();
-        $monitor->max=0;
-        $monitor->current=0;
+        $monitor = new \stdClass();
+        $monitor->max = 0;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->takeWhile(function($v) use ($monitor){
+            ->takeWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<=$monitor->max;
+
+                return $monitor->current <= $monitor->max;
             })
             ->toArray();
         $this->assertSame([], $sink);
 
-        $monitor=new \stdClass();
-        $monitor->max=1;
-        $monitor->current=0;
+        $monitor = new \stdClass();
+        $monitor->max = 1;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->takeWhile(function($v) use ($monitor){
+            ->takeWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<=$monitor->max;
-            })
-            ->toArray();
-        $this->assertSame(["a"=>"A"], $sink);
 
-        $monitor=new \stdClass();
-        $monitor->max=2;
-        $monitor->current=0;
-        $sink = A::ofArray($source)
-            ->takeWhile(function($v) use ($monitor){
-                $monitor->current++;
-                return $monitor->current<=$monitor->max;
+                return $monitor->current <= $monitor->max;
             })
             ->toArray();
-        $this->assertSame(["a"=>"A", "b"=>"B"], $sink);
+        $this->assertSame(["a" => "A"], $sink);
+
+        $monitor = new \stdClass();
+        $monitor->max = 2;
+        $monitor->current = 0;
+        $sink = A::ofArray($source)
+            ->takeWhile(function ($v) use ($monitor) {
+                $monitor->current++;
+
+                return $monitor->current <= $monitor->max;
+            })
+            ->toArray();
+        $this->assertSame(["a" => "A", "b" => "B"], $sink);
     }
 
     public function testDropWhile()
     {
         $source = [
-            "a"=>"A",
-            "b"=>"B",
-            "c"=>"C"
+            "a" => "A",
+            "b" => "B",
+            "c" => "C",
         ];
 
         $sink = A::ofArray($source)
-            ->dropWhile(function($v){
+            ->dropWhile(function ($v) {
                 return true;
             })
             ->toArray();
         $this->assertSame([], $sink);
 
         $sink = A::ofArray($source)
-            ->dropWhile(function($v){
+            ->dropWhile(function ($v) {
                 return false;
             })
             ->toArray();
         $this->assertSame($source, $sink);
 
-        $monitor=new \stdClass();
+        $monitor = new \stdClass();
 
-        $monitor->current=0;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->dropWhile(function($v) use ($monitor){
+            ->dropWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<100;
+
+                return $monitor->current < 100;
             })
             ->toArray();
         $this->assertSame([], $sink);
 
-        $monitor->current=0;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->dropWhile(function($v) use ($monitor){
+            ->dropWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<4;
+
+                return $monitor->current < 4;
             })
             ->toArray();
         $this->assertSame([], $sink);
 
-        $monitor->current=0;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->dropWhile(function($v) use ($monitor){
+            ->dropWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<3;
-            })
-            ->toArray();
-        $this->assertSame(["c"=>"C"], $sink);
 
-        $monitor->current=0;
-        $sink = A::ofArray($source)
-            ->dropWhile(function($v) use ($monitor){
-                $monitor->current++;
-                return $monitor->current<2;
+                return $monitor->current < 3;
             })
             ->toArray();
-        $this->assertSame(["b"=>"B", "c"=>"C"], $sink);
+        $this->assertSame(["c" => "C"], $sink);
 
-        $monitor->current=0;
+        $monitor->current = 0;
         $sink = A::ofArray($source)
-            ->dropWhile(function($v) use ($monitor){
+            ->dropWhile(function ($v) use ($monitor) {
                 $monitor->current++;
-                return $monitor->current<1;
+
+                return $monitor->current < 2;
             })
             ->toArray();
-        $this->assertSame(["a"=>"A", "b"=>"B", "c"=>"C"], $sink);
+        $this->assertSame(["b" => "B", "c" => "C"], $sink);
+
+        $monitor->current = 0;
+        $sink = A::ofArray($source)
+            ->dropWhile(function ($v) use ($monitor) {
+                $monitor->current++;
+
+                return $monitor->current < 1;
+            })
+            ->toArray();
+        $this->assertSame(["a" => "A", "b" => "B", "c" => "C"], $sink);
     }
 
     public function testGroupBy()
@@ -304,9 +313,14 @@ class ArraylyTestCase extends TestCase
                 return $v["country"];
             })->toArray();
 
-        $expected=$this->provideTestCountriesAsMap();
+        $expected = $this->provideTestCountriesAsMap();
 
         $this->assertSame($expected, $sink);
+    }
+
+    private function provideTestCountriesAsMap(): array
+    {
+        return TestUtils::loadResourceJson('source/countries-map.json');
     }
 
     public function testFlatMap()

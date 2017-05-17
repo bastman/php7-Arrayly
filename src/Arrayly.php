@@ -26,7 +26,7 @@ class Arrayly
      * @param array $data
      * @return Arrayly
      */
-    public static function ofArray(array $data):Arrayly
+    public static function ofArray(array $data): Arrayly
     {
         return new Arrayly($data);
     }
@@ -35,19 +35,20 @@ class Arrayly
      * @param iterable $source
      * @return Arrayly
      */
-    public static function ofIterable(iterable $source):Arrayly
+    public static function ofIterable(iterable $source): Arrayly
     {
         $sink = [];
         foreach ($source as $k => $v) {
             $sink[$k] = $v;
         }
+
         return new Arrayly($sink);
     }
 
     /**
      * @return array
      */
-    public function toArray():array
+    public function toArray(): array
     {
         return $this->data;
     }
@@ -55,7 +56,7 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function toArrayly():Arrayly
+    public function toArrayly(): Arrayly
     {
         return new Arrayly($this->data);
     }
@@ -63,14 +64,16 @@ class Arrayly
     /**
      * @return \Generator
      */
-    public function toGenerator():\Generator {
+    public function toGenerator(): \Generator
+    {
         yield from $this->data;
     }
 
     /**
      * @return Sequence
      */
-    public function asSequence():Sequence {
+    public function asSequence(): Sequence
+    {
         return Sequence::ofArray($this->data);
     }
 
@@ -79,7 +82,7 @@ class Arrayly
      * @param $value
      * @return Arrayly
      */
-    public function withKey($key, $value):Arrayly
+    public function withKey($key, $value): Arrayly
     {
         $sink = $this->data;
         $sink[$key] = $value;
@@ -91,7 +94,7 @@ class Arrayly
      * @param array $data
      * @return Arrayly
      */
-    public function withData(array $data):Arrayly
+    public function withData(array $data): Arrayly
     {
         return new Arrayly($data);
     }
@@ -100,7 +103,7 @@ class Arrayly
      * @param bool $strict
      * @return Arrayly
      */
-    public function keys(bool $strict=true):Arrayly
+    public function keys(bool $strict = true): Arrayly
     {
         return $this->withData(fn\keys($this->data, $strict));
     }
@@ -108,7 +111,7 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function values():Arrayly
+    public function values(): Arrayly
     {
         return $this->withData(fn\values($this->data));
     }
@@ -116,7 +119,7 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function flip():Arrayly
+    public function flip(): Arrayly
     {
         return $this->withData(fn\flip($this->data));
     }
@@ -125,7 +128,7 @@ class Arrayly
      * @param int $times
      * @return Arrayly
      */
-    public function shuffle(int $times):Arrayly
+    public function shuffle(int $times): Arrayly
     {
         return $this->withData(fn\shuffle($this->data, $times));
     }
@@ -133,7 +136,7 @@ class Arrayly
     /**
      * @return int
      */
-    public function count():int
+    public function count(): int
     {
         return fn\count($this->data);
     }
@@ -142,7 +145,7 @@ class Arrayly
      * @param bool $preserveKeys
      * @return Arrayly
      */
-    public function reverse(bool $preserveKeys):Arrayly
+    public function reverse(bool $preserveKeys): Arrayly
     {
         return $this->withData(fn\reverse($this->data, $preserveKeys));
     }
@@ -151,7 +154,7 @@ class Arrayly
      * @param $key
      * @return bool
      */
-    public function hasKey($key):bool
+    public function hasKey($key): bool
     {
         return fn\hasKey($this->data, $key);
     }
@@ -273,7 +276,7 @@ class Arrayly
      * @param \Closure $callback
      * @return Arrayly
      */
-    public function onEach(\Closure $callback):Arrayly
+    public function onEach(\Closure $callback): Arrayly
     {
         fn\onEach($this->data, $callback);
 
@@ -284,7 +287,7 @@ class Arrayly
      * @param \Closure $callback
      * @return Arrayly
      */
-    public function onEachIndexed(\Closure $callback):Arrayly
+    public function onEachIndexed(\Closure $callback): Arrayly
     {
         fn\onEachIndexed($this->data, $callback);
 
@@ -295,7 +298,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function filter(\Closure $predicate):Arrayly
+    public function filter(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\filter($this->data, $predicate));
     }
@@ -304,7 +307,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function filterIndexed(\Closure $predicate):Arrayly
+    public function filterIndexed(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\filterIndexed($this->data, $predicate));
     }
@@ -313,7 +316,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function map(\Closure $transform):Arrayly
+    public function map(\Closure $transform): Arrayly
     {
         return $this->withData(fn\map($this->data, $transform));
     }
@@ -322,7 +325,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function mapIndexed(\Closure $transform):Arrayly
+    public function mapIndexed(\Closure $transform): Arrayly
     {
         return $this->withData(fn\mapIndexed($this->data, $transform));
     }
@@ -331,7 +334,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeys(\Closure $keySelector):Arrayly
+    public function mapKeys(\Closure $keySelector): Arrayly
     {
         return $this->withData(fn\mapKeys($this->data, $keySelector));
     }
@@ -340,7 +343,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeysIndexed(\Closure $keySelector):Arrayly
+    public function mapKeysIndexed(\Closure $keySelector): Arrayly
     {
         return $this->withData(fn\mapKeysIndexed($this->data, $keySelector));
     }
@@ -349,7 +352,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function flatMap(\Closure $transform):Arrayly
+    public function flatMap(\Closure $transform): Arrayly
     {
         return $this->withData(fn\flatMap($this->data, $transform));
     }
@@ -358,7 +361,7 @@ class Arrayly
      * @param \Closure $transform
      * @return Arrayly
      */
-    public function flatMapIndexed(\Closure $transform):Arrayly
+    public function flatMapIndexed(\Closure $transform): Arrayly
     {
         return $this->withData(fn\flatMapIndexed($this->data, $transform));
     }
@@ -368,7 +371,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function groupBy(\Closure $keySelector):Arrayly
+    public function groupBy(\Closure $keySelector): Arrayly
     {
         return $this->withData(fn\groupBy($this->data, $keySelector));
     }
@@ -377,7 +380,7 @@ class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function groupByIndexed(\Closure $keySelector):Arrayly
+    public function groupByIndexed(\Closure $keySelector): Arrayly
     {
         return $this->withData(fn\groupByIndexed($this->data, $keySelector));
     }
@@ -407,7 +410,7 @@ class Arrayly
      * @param bool $descending
      * @return Arrayly
      */
-    public function sortBy(\Closure $comparator, bool $descending):Arrayly
+    public function sortBy(\Closure $comparator, bool $descending): Arrayly
     {
         return $this->withData(fn\sortBy($this->data, $comparator, $descending));
     }
@@ -416,7 +419,7 @@ class Arrayly
      * @param int $amount
      * @return Arrayly
      */
-    public function take(int $amount):Arrayly
+    public function take(int $amount): Arrayly
     {
         return $this->withData(fn\take($this->data, $amount));
     }
@@ -425,7 +428,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function takeWhile(\Closure $predicate):Arrayly
+    public function takeWhile(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\takeWhile($this->data, $predicate));
     }
@@ -434,7 +437,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function takeWhileIndexed(\Closure $predicate):Arrayly
+    public function takeWhileIndexed(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\takeWhileIndexed($this->data, $predicate));
     }
@@ -443,7 +446,7 @@ class Arrayly
      * @param int $amount
      * @return Arrayly
      */
-    public function drop(int $amount):Arrayly
+    public function drop(int $amount): Arrayly
     {
         return $this->withData(fn\drop($this->data, $amount));
     }
@@ -453,7 +456,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function dropWhile(\Closure $predicate):Arrayly
+    public function dropWhile(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\dropWhile($this->data, $predicate));
     }
@@ -462,7 +465,7 @@ class Arrayly
      * @param \Closure $predicate
      * @return Arrayly
      */
-    public function dropWhileIndexed(\Closure $predicate):Arrayly
+    public function dropWhileIndexed(\Closure $predicate): Arrayly
     {
         return $this->withData(fn\dropWhileIndexed($this->data, $predicate));
     }

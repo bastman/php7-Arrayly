@@ -2,8 +2,9 @@
 declare(strict_types=1);
 
 namespace Arrayly\Test;
-use function Arrayly\ofArray as A;
+
 use PHPUnit\Framework\TestCase;
+use function Arrayly\ofArray as A;
 
 class FactoryTest extends TestCase
 {

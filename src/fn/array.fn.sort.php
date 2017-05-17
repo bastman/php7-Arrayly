@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function sortBy(array $source, \Closure $comparator, bool $descending):array
+function sortBy(array $source, \Closure $comparator, bool $descending): array
 {
     $source = (array)$source;
     usort($source, $comparator);

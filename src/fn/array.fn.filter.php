@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\fn;
 
-function filter(array $source, \Closure $predicate):array
+function filter(array $source, \Closure $predicate): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -15,7 +15,7 @@ function filter(array $source, \Closure $predicate):array
     return $sink;
 }
 
-function filterIndexed(array $source,\Closure $predicate):array
+function filterIndexed(array $source, \Closure $predicate): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
