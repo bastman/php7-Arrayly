@@ -5,6 +5,19 @@ namespace Arrayly\Test;
 
 class TestUtils
 {
+
+    public static function printTestResult(string $message, $result)
+    {
+        echo PHP_EOL . "===" . $message . "===" . PHP_EOL;
+        echo json_encode($result) . PHP_EOL;
+    }
+
+    public static function iterableAsArray(iterable $it):array {
+        $sink=[];
+        foreach ($it as $k=>$v) {$sink[$k]=$v;}
+        return $sink;
+    }
+
     /**
      * @param \SplFileInfo $fileInfo
      * @return string
