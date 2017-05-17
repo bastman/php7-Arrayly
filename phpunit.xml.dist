@@ -7,7 +7,7 @@
     <testsuites>
         <testsuite name="Arrayly">
             <file>tests/ArraylyTest.php</file>
-            <file phpVersion="7.7.0">tests/CreateTest.php</file>
+            <file>tests/FactoryTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

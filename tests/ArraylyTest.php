@@ -1,18 +1,17 @@
 <?php
 use Arrayly\Arrayly as A;
-
-class ArraylyTestCase extends PHPUnit_Framework_TestCase
+use \Arrayly\Test\TestUtils as TestUtils;
+use PHPUnit\Framework\TestCase;
+class ArraylyTestCase extends TestCase
 {
-
-    private function provideTestCities(): array
+    private function provideTestCitiesAsList(): array
     {
-        return $cities = [
-            ["city" => "Berlin", "country" => "Germany"],
-            ["city" => "Hamburg", "country" => "Germany"],
-            ["city" => "London", "country" => "England"],
-            ["city" => "Manchester", "country" => "England"],
-            ["city" => "Paris", "country" => "France"],
-        ];
+        return TestUtils::loadResourceJson('source/cities-list.json');
+    }
+
+    private function provideTestCountriesAsMap(): array
+    {
+        return TestUtils::loadResourceJson('source/countries-map.json');
     }
 
     public function testConstruct()
@@ -29,7 +28,7 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
 
     public function testMap()
     {
-        $source = $this->provideTestCities();
+        $source = $this->provideTestCitiesAsList();
 
         $sink = A::ofArray($source)
             ->map(function ($v) {
@@ -41,7 +40,7 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
 
     public function testReduce()
     {
-        $source = $this->provideTestCities();
+        $source = $this->provideTestCitiesAsList();
 
         $sink = A::ofArray($source)
             ->map(function ($v) {
@@ -54,7 +53,7 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
 
     public function testFilter()
     {
-        $source = $this->provideTestCities();
+        $source = $this->provideTestCitiesAsList();
 
         $sink = A::ofArray($source)
             ->filter(function ($v) {
@@ -67,7 +66,7 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
 
     public function testTake()
     {
-        $source = A::ofArray($this->provideTestCities())
+        $source = A::ofArray($this->provideTestCitiesAsList())
             ->map(function ($v) {
                 return $v["city"];
             })
@@ -96,7 +95,7 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
 
     public function testDropValues()
     {
-        $source = A::ofArray($this->provideTestCities())
+        $source = A::ofArray($this->provideTestCitiesAsList())
             ->map(function ($v) {
                 return $v["city"];
             })
@@ -197,7 +196,6 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
             ->toArray();
         $this->assertSame([], $sink);
 
-
         $monitor=new stdClass();
         $monitor->max=1;
         $monitor->current=0;
@@ -289,110 +287,32 @@ class ArraylyTestCase extends PHPUnit_Framework_TestCase
             })
             ->toArray();
         $this->assertSame(["a"=>"A", "b"=>"B", "c"=>"C"], $sink);
-
-/*
-        $monitor=new stdClass();
-        $monitor->max=1;
-        $monitor->current=0;
-        $sink = A::ofArray($source)
-            ->takeWhile(function($v) use ($monitor){
-                $monitor->current++;
-                return $monitor->current<=$monitor->max;
-            })
-            ->toArray();
-        $this->assertSame(["a"=>"A"], $sink);
-
-        $monitor=new stdClass();
-        $monitor->max=2;
-        $monitor->current=0;
-        $sink = A::ofArray($source)
-            ->takeWhile(function($v) use ($monitor){
-                $monitor->current++;
-                return $monitor->current<=$monitor->max;
-            })
-            ->toArray();
-        $this->assertSame(["a"=>"A", "b"=>"B"], $sink);
-*/
     }
 
     public function testGroupBy()
     {
-        $source = $this->provideTestCities();
+        $source = $this->provideTestCitiesAsList();
 
         $sink = A::ofArray($source)
             ->groupBy(function ($v) {
                 return $v["country"];
             })->toArray();
 
-        $expected = [
-            "Germany" => [
-                [
-                    "city" => "Berlin",
-                    "country" => "Germany"
-                ],
-                [
-                    "city" => "Hamburg",
-                    "country" => "Germany"
-                ]
-            ],
-            "England" => [
-                [
-                    "city" => "London",
-                    "country" => "England"
-                ],
-                [
-                    "city" => "Manchester",
-                    "country" => "England"
-                ]
-            ],
-            "France" => [
-                [
-                    "city" => "Paris",
-                    "country" => "France"
-                ]
-            ]
-        ];
+        $expected=$this->provideTestCountriesAsMap();
 
         $this->assertSame($expected, $sink);
     }
 
     public function testFlatMap()
     {
-        $source = [
-            "Germany" => [
-                [
-                    "city" => "Berlin",
-                    "country" => "Germany"
-                ],
-                [
-                    "city" => "Hamburg",
-                    "country" => "Germany"
-                ]
-            ],
-            "England" => [
-                [
-                    "city" => "London",
-                    "country" => "England"
-                ],
-                [
-                    "city" => "Manchester",
-                    "country" => "England"
-                ]
-            ],
-            "France" => [
-                [
-                    "city" => "Paris",
-                    "country" => "France"
-                ]
-            ]
-        ];
+        $source = $this->provideTestCountriesAsMap();
 
         $sink = A::ofArray($source)
             ->flatMap(function ($v) {
                 return $v;
             })->toArray();
 
-        $expected = $this->provideTestCities();
+        $expected = $this->provideTestCitiesAsList();
 
         $this->assertSame($expected, $sink);
     }

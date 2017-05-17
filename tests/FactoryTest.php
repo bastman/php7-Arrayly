@@ -1,11 +1,13 @@
 <?php
-use function Arrayly\ofArray as s;
+namespace Arrayly\Test;
+use function Arrayly\ofArray as A;
+use PHPUnit\Framework\TestCase;
 
-class CreateTestCase extends PHPUnit_Framework_TestCase
+class FactoryTest extends TestCase
 {
     public function testCreate()
     {
-        $arrayly = s(["foo" => "bar"]);
+        $arrayly = A(["foo" => "bar"]);
         $this->assertInstanceOf('Arrayly\Arrayly', $arrayly);
         $this->assertEquals('bar', (string)$arrayly->getOrNull('foo'));
     }

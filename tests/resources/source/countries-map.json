@@ -1,0 +1,28 @@
+{
+  "Germany": [
+    {
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    {
+      "city": "Hamburg",
+      "country": "Germany"
+    }
+  ],
+  "England": [
+    {
+      "city": "London",
+      "country": "England"
+    },
+    {
+      "city": "Manchester",
+      "country": "England"
+    }
+  ],
+  "France": [
+    {
+      "city": "Paris",
+      "country": "France"
+    }
+  ]
+}
