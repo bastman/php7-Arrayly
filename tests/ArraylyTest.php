@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Arrayly\Test;
 
 use Arrayly\Arrayly as A;
 use \Arrayly\Test\TestUtils as TestUtils;
@@ -187,7 +188,7 @@ class ArraylyTestCase extends TestCase
             "c"=>"C"
         ];
 
-        $monitor=new stdClass();
+        $monitor=new \stdClass();
         $monitor->max=0;
         $monitor->current=0;
         $sink = A::ofArray($source)
@@ -198,7 +199,7 @@ class ArraylyTestCase extends TestCase
             ->toArray();
         $this->assertSame([], $sink);
 
-        $monitor=new stdClass();
+        $monitor=new \stdClass();
         $monitor->max=1;
         $monitor->current=0;
         $sink = A::ofArray($source)
@@ -209,7 +210,7 @@ class ArraylyTestCase extends TestCase
             ->toArray();
         $this->assertSame(["a"=>"A"], $sink);
 
-        $monitor=new stdClass();
+        $monitor=new \stdClass();
         $monitor->max=2;
         $monitor->current=0;
         $sink = A::ofArray($source)
@@ -243,7 +244,7 @@ class ArraylyTestCase extends TestCase
             ->toArray();
         $this->assertSame($source, $sink);
 
-        $monitor=new stdClass();
+        $monitor=new \stdClass();
 
         $monitor->current=0;
         $sink = A::ofArray($source)
