@@ -8,8 +8,6 @@ function requireIterable(iterable $source): iterable
     return $source;
 }
 
-;
-
 function keys(array $source, bool $strict = true): array
 {
     return array_keys($source, null, $strict);
