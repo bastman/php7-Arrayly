@@ -9,6 +9,7 @@
             <file>tests/FactoryTest.php</file>
             <file>tests/ArraylyTest.php</file>
             <file>tests/SequenceTest.php</file>
+            <file>tests/PipelineTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -4,34 +4,40 @@ declare(strict_types=1);
 namespace Arrayly\Pipeline;
 
 use Arrayly\Arrayly;
-use Arrayly\Pipeline\fn as fn;
+//use Arrayly\Pipeline\fn as fn;
 use Arrayly\Sequence\Sequence;
-
+use Arrayly\Sequence\partials as fn;
 class Pipeline
 {
 
+    /**
+     * @var \Closure[]
+     */
     private $commands = [];
+
+    private function addCommand(\Closure ...$command) {
+        foreach ($command as $cmd) {
+            $this->commands[]=$cmd;
+        }
+    }
 
     public function map(\Closure $transform): Pipeline
     {
-        $gen = fn\map($transform);
-        $this->commands[] = $gen;
+        $this->addCommand(fn\map($transform));
 
         return $this;
     }
 
     public function filter(\Closure $predicate): Pipeline
     {
-        $gen = fn\filter($predicate);
-        $this->commands[] = $gen;
+        $this->addCommand(fn\filter($predicate));
 
         return $this;
     }
 
-    public function reduce($initialValue, \Closure $reducer): Pipeline
+    public function reducing($initialValue, \Closure $reducer): Pipeline
     {
-        $gen = fn\reduce($initialValue, $reducer);
-        $this->commands[] = $gen;
+        $this->addCommand(fn\reducing($initialValue, $reducer));
 
         return $this;
     }

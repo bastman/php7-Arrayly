@@ -50,6 +50,19 @@
       "src/Sequence/generators/generator.reduce.php",
       "src/Sequence/generators/generator.sort.php",
       "src/Sequence/generators/generator.take.php",
+
+      "src/Sequence/partials/partial.base.php",
+      "src/Sequence/partials/partial.drop.php",
+      "src/Sequence/partials/partial.each.php",
+      "src/Sequence/partials/partial.filter.php",
+      "src/Sequence/partials/partial.flatMap.php",
+      "src/Sequence/partials/partial.group.php",
+      "src/Sequence/partials/partial.map.php",
+      "src/Sequence/partials/partial.misc.php",
+      "src/Sequence/partials/partial.reduce.php",
+      "src/Sequence/partials/partial.sort.php",
+      "src/Sequence/partials/partial.take.php",
+
       "src/Pipeline/pipeline.fn.php"
     ]
   },
