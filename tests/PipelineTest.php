@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace Arrayly\Test;
 use Arrayly\Pipeline\Pipeline as P;
 use Arrayly\Pipeline\Pipeline;
+use Arrayly\Pipeline\Pipeline2;
 use Arrayly\Test\TestUtils as TestUtils;
+use function MongoDB\BSON\fromJSON;
 use PHPUnit\Framework\TestCase;
 
 /*
@@ -45,10 +47,30 @@ class PipelineTest extends TestCase
         $r=$p->collectAsArray($sourceGeneratorSupplier());
         var_dump($r);
 
-        //die("DIED");
+        var_dump("================");
 
-       // self::assertTrue(true);
+        $p2=new Pipeline2($this->iterableToGenerator($source));
 
+        $p2->filter(function($v){
+            return fnmatch("*B*", $v);
+        })->map(function ($v) { return strtolower($v);});
+
+        $r=$p2->collectAsSequence()->toArray();
+        var_dump($r);
+
+        //$r=$p2->collectAsSequence()->toArray();
+        //var_dump($r);
+
+
+        $gen = $this->iterableToGenerator($source);
+
+        var_dump("++++++done");
+
+        ;
+    }
+
+    private function iterableToGenerator(iterable $iterable):\Generator {
+        yield from $iterable;
     }
 
 }

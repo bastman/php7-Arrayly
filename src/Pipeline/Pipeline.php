@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Arrayly\Pipeline;
 
 use Arrayly\Arrayly;
-//use Arrayly\Pipeline\fn as fn;
 use Arrayly\Sequence\Sequence;
 use Arrayly\Sequence\partials as fn;
 class Pipeline
@@ -52,6 +51,7 @@ class Pipeline
         return $current;
     }
 
+
     public function collectAsArray(iterable $source): array
     {
         return $this->collectAsSequence($source)
@@ -78,6 +78,5 @@ class Pipeline
         return $this->collectAsSequence($source)
             ->toArrayly();
     }
-
 
 }
