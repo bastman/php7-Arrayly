@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Arrayly\Pipeline;
 
+use Arrayly\Arrayly;
+use function Arrayly\ofArray;
 use Arrayly\Sequence\Sequence;
 use Arrayly\Sequence\partials as fn;
 class Pipeline2
@@ -16,9 +18,26 @@ class Pipeline2
      */
     private $source;
 
-    public function __construct(iterable $source)
+    public static function ofIterable(iterable $source) {
+        return new static($source, ...[]);
+    }
+
+    public static function create() {
+        return new static([], ...[]);
+    }
+
+    public function __construct(iterable $source, \Closure ...$commands)
     {
         $this->source = $source;
+        $this->addCommand(...$commands);
+    }
+
+    public function copy():Pipeline2 {
+        return new static($this->source, ...$this->commands);
+    }
+
+    public function withSource(iterable $source):Pipeline2 {
+        return new static($source, ...$this->commands);
     }
 
     private function addCommand(\Closure ...$command) {
@@ -62,5 +81,11 @@ class Pipeline2
     public function collectAsSequence(): Sequence
     {
         return new Sequence($this->collect());
+    }
+
+    public function collectAsArrayly(): Arrayly
+    {
+        $iterable = $this->collect();
+        return Arrayly::ofIterable($iterable);
     }
 }

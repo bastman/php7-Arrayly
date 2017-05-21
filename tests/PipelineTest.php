@@ -49,20 +49,51 @@ class PipelineTest extends TestCase
 
         var_dump("================");
 
-        $p2=new Pipeline2($this->iterableToGenerator($source));
-
+        $p2=Pipeline2::ofIterable($this->iterableToGenerator($source));
         $p2->filter(function($v){
             return fnmatch("*B*", $v);
         })->map(function ($v) { return strtolower($v);});
 
-        $r=$p2->collectAsSequence()->toArray();
+        $r=$p2->collectAsArrayly()->toArray();
         var_dump($r);
+        $r=$p2->withSource($this->iterableToGenerator($source))
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
+
+
+        $p2=Pipeline2::ofIterable($source);
+        $p2->filter(function($v){
+            return fnmatch("*B*", $v);
+        })->map(function ($v) { return strtolower($v);});
+
+        $r=$p2->collectAsArrayly()->toArray();
+        var_dump($r);
+        $r=$p2->withSource($this->iterableToGenerator($source))
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
+
+        $p2=Pipeline2::create();
+        $p2->filter(function($v){
+            return fnmatch("*B*", $v);
+        })->map(function ($v) { return strtolower($v);});
+
+        $r=$p2->collectAsArrayly()->toArray();
+        var_dump($r);
+        $r=$p2->withSource($this->iterableToGenerator($source))
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
+
+        //$r=$p2->collectAsArrayly()->toArray();
+        //var_dump($r);
 
         //$r=$p2->collectAsSequence()->toArray();
         //var_dump($r);
 
 
-        $gen = $this->iterableToGenerator($source);
+        //$gen = $this->iterableToGenerator($source);
 
         var_dump("++++++done");
 
