@@ -2,11 +2,7 @@
 declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
-
-function requireIterable(iterable $iterable):iterable
-{
-    return $iterable;
-}
+use Arrayly\Util as utils;
 
 // Is there any use case for that?
 function iterate(iterable $iterable): \Generator
@@ -18,5 +14,5 @@ function iterate(iterable $iterable): \Generator
 
 function pipeTo(iterable $iterable, \Closure $transform): \Generator
 {
-    yield from requireIterable($transform($iterable));
+    yield from utils\requireIterable($transform($iterable));
 }

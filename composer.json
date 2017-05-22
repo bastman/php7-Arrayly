@@ -27,7 +27,7 @@
     "files": [
       "src/Util/functions.php",
 
-      "src/Arrays/fn/array.fn.base.php",
+      "src/Arrays/fn/array.fn.misc.php",
       "src/Arrays/fn/array.fn.map.php",
       "src/Arrays/fn/array.fn.take.php",
       "src/Arrays/fn/array.fn.drop.php",

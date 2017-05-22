@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Arrayly\Arrays\fn;
 
+use Arrayly\Util as utils;
+
 function flatMap(array $source, \Closure $transform): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
         $transformedCollection = $transform($v);
-        $transformedCollection = requireIterable($transformedCollection);
+        $transformedCollection = utils\requireIterable($transformedCollection);
         foreach ($transformedCollection as $transformedItem) {
             $sink[] = $transformedItem;
         }
@@ -22,7 +24,7 @@ function flatMapIndexed(array $source, \Closure $transform): array
     $sink = [];
     foreach ($source as $k => $v) {
         $transformedCollection = $transform($k, $v);
-        $transformedCollection = requireIterable($transformedCollection);
+        $transformedCollection = utils\requireIterable($transformedCollection);
         foreach ($transformedCollection as $transformedItem) {
             $sink[] = $transformedItem;
         }

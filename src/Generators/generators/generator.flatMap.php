@@ -2,11 +2,12 @@
 declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
+use Arrayly\Util as utils;
 
 function flatMap(iterable $iterable, \Closure $transform): \Generator
 {
     foreach ($iterable as $k => $v) {
-        $transformedCollection = requireIterable($transform($v));
+        $transformedCollection = utils\requireIterable($transform($v));
         foreach ($transformedCollection as $transformedItem) {
             yield $transformedItem;
         }
@@ -16,7 +17,7 @@ function flatMap(iterable $iterable, \Closure $transform): \Generator
 function flatMapIndexed(iterable $iterable, \Closure $transform): \Generator
 {
     foreach ($iterable as $k => $v) {
-        $transformedCollection = requireIterable($transform($k, $v));
+        $transformedCollection = utils\requireIterable($transform($k, $v));
         foreach ($transformedCollection as $transformedItem) {
             yield $transformedItem;
         }
