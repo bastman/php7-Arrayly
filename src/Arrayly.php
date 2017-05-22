@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly;
 
-use Arrayly\fn;
+use Arrayly\Arrays\fn;
 use Arrayly\Sequence\Sequence;
 
 class Arrayly

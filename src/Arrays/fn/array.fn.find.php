@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\fn;
-
+namespace Arrayly\Arrays\fn;
 
 function findOrNull(array $source, \Closure $predicate)
 {

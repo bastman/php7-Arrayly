@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\fn;
+namespace Arrayly\Arrays\fn;
 
 function groupBy(array $source, \Closure $keySelector): array
 {

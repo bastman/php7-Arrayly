@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\fn;
+namespace Arrayly\Arrays\fn;
 
 function getOrElse(array $source, $key, \Closure $defaultValueSupplier)
 {

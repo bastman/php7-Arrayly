@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\fn;
+namespace Arrayly\Arrays\fn;
 
 function flatMap(array $source, \Closure $transform): array
 {
