@@ -6,7 +6,6 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="Arrayly">
-            <file>tests/FactoryTest.php</file>
             <file>tests/ArraylyTest.php</file>
             <file>tests/SequenceTest.php</file>
             <file>tests/FlowRewindableTest.php</file>
