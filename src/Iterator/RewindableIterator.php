@@ -2,6 +2,7 @@
 declare( strict_types = 1 );
 namespace Arrayly\Iterator;
 
+use Arrayly\Util as utils;
 
 class RewindableIterator implements \Iterator
 {
@@ -39,16 +40,13 @@ class RewindableIterator implements \Iterator
         $this->createIterator();
     }
 
-    private function requireIsIterator(\Iterator $iterable):\Iterator{
-        return $iterable;
-    }
     private function createIterator() {
         $supplier = $this->iteratorSupplier;
         $iterator = $supplier();
         if(is_array($iterator)) {
             $iterator=new \ArrayIterator($iterator);
         }
-        $iterator = $this->requireIsIterator($iterator);
+        $iterator = utils\requireIsIterator($iterator);
         $this->iterator = $iterator;
     }
 

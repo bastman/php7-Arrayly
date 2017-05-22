@@ -25,7 +25,8 @@
   "autoload": {
     "psr-4": { "Arrayly\\": "src/" },
     "files": [
-      "src/functions.php",
+      "src/Util/functions.php",
+
       "src/Arrays/fn/array.fn.base.php",
       "src/Arrays/fn/array.fn.map.php",
       "src/Arrays/fn/array.fn.take.php",
