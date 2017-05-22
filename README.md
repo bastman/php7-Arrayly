@@ -20,7 +20,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.5
+    $ composer require bastman/php7-arrayly 0.0.6
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -29,8 +29,7 @@ inspired by
             
             ->map(function ($item) {return $item["country"];})
             ->filter(function ($country) {return $country == 'Germany';})
-            ->sortBy(function ($a, $b) {return strcasecmp($a, $b);}, true)
-            ->reverse()
+            ->sortByDescending(function ($a, $b) {return strcasecmp($a, $b);})
             ->drop(1)
             ->take(2)
             
@@ -43,6 +42,7 @@ inspired by
                         ->flatMap(function (array $itemGroup):array {
                             return $itemGroup;
                         })
+                        ->reverse()
                         ->reduce('', function (string $acc, array $item):string {
                             return $acc . ':' . $item["city"];
                         });
