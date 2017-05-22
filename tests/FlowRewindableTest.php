@@ -59,14 +59,21 @@ class FlowRewindableTest extends TestCase
 
         $flowDerived = $flow->withSource($source);
         for ($i = 0; $i < 3; $i++) {
-            $sink = $flowDerived->collectAsArrayly()->toArray();
+            $r1=$flowDerived->collect()->asArray();
+            $r2=$flowDerived->collect()->asArray();
+            $sink = $flowDerived->collect()
+                ->asArrayly()
+                ->toArray();
             $this->assertSame($expected, $sink);
             $this->printTestResult("Flow.withSource(array).collect(): (re-)consume iterator ...", $sink);
         }
 
         $flowDerived = $flow->withSourceSupplier($sourceSupplier);
         for ($i = 0; $i < 3; $i++) {
-            $sink = $flowDerived->collectAsArrayly()->toArray();
+            $r1=$flowDerived->collect()->asArray();
+            $r2=$flowDerived->collect()->asArray();
+            $sink = $flowDerived->collect()
+                ->asArrayly()->toArray();
             $this->assertSame($expected, $sink);
             $this->printTestResult("Flow.withSourceSupplier(fn).collect(): (re-)consume iterator ...", $sink);
         }

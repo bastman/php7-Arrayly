@@ -10,6 +10,7 @@
             <file>tests/ArraylyTest.php</file>
             <file>tests/SequenceTest.php</file>
             <file>tests/FlowRewindableTest.php</file>
+            <file>tests/FlowTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
