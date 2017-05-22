@@ -52,21 +52,6 @@ class Sequence
         }
     }
 
-    /**
-     * @param mixed $initialValue
-     * @param \Closure $reducer
-     * @return mixed
-     */
-    public function reduce($initialValue, \Closure $reducer)
-    {
-        $accumulatedValue = $initialValue;
-        foreach ($this->data as $k => $v) {
-            $accumulatedValue = $reducer($accumulatedValue, $v);
-        }
-
-        return $accumulatedValue;
-    }
-
     public function reducing($initialValue, \Closure $reducer): Sequence
     {
         $gen = generate\reducing($this->data, $initialValue, $reducer);
