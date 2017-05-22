@@ -12,6 +12,15 @@ function requireIterable(iterable $iterable): iterable
     return $iterable;
 }
 
+function iterableToArray(iterable $source):array {
+    $sink = [];
+    foreach ($source as $k => $v) {
+        $sink[$k] = $v;
+    }
+
+    return $sink;
+}
+
 /**
  * @param \Closure[] ...$closure
  * @return \Closure[]

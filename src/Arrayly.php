@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Arrayly;
 
 use Arrayly\Arrays\fn;
+use Arrayly\Util\internals as utils;
 
 class Arrayly
 {
@@ -36,12 +37,7 @@ class Arrayly
      */
     public static function ofIterable(iterable $source): Arrayly
     {
-        $sink = [];
-        foreach ($source as $k => $v) {
-            $sink[$k] = $v;
-        }
-
-        return new Arrayly($sink);
+        return static::ofArray(utils\iterableToArray($source));
     }
 
     /**
@@ -55,9 +51,18 @@ class Arrayly
     /**
      * @return Arrayly
      */
-    public function toArrayly(): Arrayly
+    public function copy(): Arrayly
     {
-        return new Arrayly($this->data);
+        return static::ofArray($this->data);
+    }
+
+    /**
+     * @param array $data
+     * @return Arrayly
+     */
+    public function withData(array $data): Arrayly
+    {
+        return static::ofArray($data);
     }
 
     /**
@@ -87,15 +92,6 @@ class Arrayly
         $sink[$key] = $value;
 
         return $this->withData($sink);
-    }
-
-    /**
-     * @param array $data
-     * @return Arrayly
-     */
-    public function withData(array $data): Arrayly
-    {
-        return new Arrayly($data);
     }
 
     /**
