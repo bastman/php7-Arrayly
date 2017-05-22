@@ -400,14 +400,18 @@ class Arrayly
         return fn\reduceIndexed($this->data, $initialValue, $reducer);
     }
 
-    /**
-     * @param \Closure $comparator
-     * @param bool $descending
-     * @return Arrayly
-     */
-    public function sortBy(\Closure $comparator, bool $descending): Arrayly
+    public function sortedBy(\Closure $comparator, bool $descending): Arrayly
     {
-        return $this->withData(fn\sortBy($this->data, $comparator, $descending));
+        return $this->withData(fn\sortedBy($this->data, $descending, $comparator));
+    }
+
+    public function sortBy(\Closure $comparator): Arrayly
+    {
+        return $this->withData(fn\sortBy($this->data, $comparator));
+    }
+    public function sortByDescending(\Closure $comparator): Arrayly
+    {
+        return $this->withData(fn\sortByDescending($this->data, $comparator));
     }
 
     /**

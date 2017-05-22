@@ -68,7 +68,7 @@ class ArraylyExamples001
             })
             ->sortBy(function ($a, $b) {
                 return strcasecmp($a, $b);
-            }, false)
+            })
             ->toArray();
         TestUtils::printTestResult("map & sort (ASC)", $r);
 
@@ -77,9 +77,9 @@ class ArraylyExamples001
             ->map(function ($item) {
                 return $item["city"];
             })
-            ->sortBy(function ($a, $b) {
+            ->sortByDescending(function ($a, $b) {
                 return strcasecmp($a, $b);
-            }, true)
+            })
             ->toArray();
         TestUtils::printTestResult("map & sort (DESC)", $r);
     }
