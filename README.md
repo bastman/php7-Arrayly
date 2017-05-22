@@ -1,7 +1,7 @@
 # php7-Arrayly
 - Arrayly (eager): decorates php array with methods similar to Java Streams / Kotlin Collections
 - Sequence (lazy): provides fluid interface to php generators
-- Pipeline (lazy): kind of flow-style (FBP) for replayable transformations
+- Flow (lazy): kind of flow-style (FBP) for replayable transformations
 
 
 inspired by 
@@ -20,7 +20,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.4
+    $ composer require bastman/php7-arrayly 0.0.5
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -52,31 +52,22 @@ inspired by
 
              Sequence::ofArray($cities)
              
-              ->onEach(function ($v){ echo "peek: start: ".json_encode($v).PHP_EOL;})
               ->filter(function (array $v):bool {
-                  echo "filter: " . json_encode($v) . PHP_EOL;
                   return $v['country']==='Germany';
               })
               ->map(function(array $v):array{
-                  echo "map: " . json_encode($v) . PHP_EOL;
                   return $v;
               })
-              ->onEach(function ($v){ echo "peek: mapped:".json_encode($v).PHP_EOL;})
               ->groupBy(function (array $v):string {
-                  echo "groupBy:".json_encode($v).PHP_EOL;
                   return $v['country'];
               })
-              ->onEach(function ($v){ echo "peek: grouped:".json_encode($v).PHP_EOL;})
               ->flatMap(function (array $itemGroup):array {
-                  echo "flatMap:".json_encode($itemGroup).PHP_EOL;
                   return $itemGroup;
               })
-              ->onEach(function ($v){ echo "peek: flatMapped:".json_encode($v).PHP_EOL;})
               ->pipeTo(function(iterable $iterable){
                   foreach ($iterable as $k=>$v) {
                       yield $k=>$v;
                   }
               })
-              ->onEach(function ($v){ echo "peek: piped:".json_encode($v).PHP_EOL;})
-  
+              
               ->toArray();

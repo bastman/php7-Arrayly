@@ -18,6 +18,10 @@ class Sequence
         $this->data = $data;
     }
 
+    public static function ofIterable(iterable $data):Sequence {
+        return new static($data);
+    }
+
     public static function ofArray(array $source): Sequence
     {
         $gen = function () use ($source) {

@@ -1,24 +1,20 @@
 <?php
 declare(strict_types=1);
 namespace Arrayly\Test;
+use Arrayly\Arrayly;
+use Arrayly\Pipeline\IterableProducer;
 use Arrayly\Pipeline\Pipeline as P;
 use Arrayly\Pipeline\Pipeline;
 use Arrayly\Pipeline\Pipeline2;
+use Arrayly\Pipeline\RewindableIterator;
 use Arrayly\Test\TestUtils as TestUtils;
-use function MongoDB\BSON\fromJSON;
+
 use PHPUnit\Framework\TestCase;
 
-/*
-ini_set("display_errors", "1");
-    $t=new PipelineTest();
 
-    $t->testFoo();
-*/
 class PipelineTest extends TestCase
 {
     public function testFoo() {
-
-
         //self::assertTrue(false);
         $source = [
             "a1"=>"A1",
@@ -74,26 +70,65 @@ class PipelineTest extends TestCase
             ->toArray();
         var_dump($r);
 
+
+
+
         $p2=Pipeline2::create();
         $p2->filter(function($v){
             return fnmatch("*B*", $v);
         })->map(function ($v) { return strtolower($v);});
-
         $r=$p2->collectAsArrayly()->toArray();
         var_dump($r);
+
         $r=$p2->withSource($this->iterableToGenerator($source))
             ->collectAsArrayly()
             ->toArray();
         var_dump($r);
 
-        //$r=$p2->collectAsArrayly()->toArray();
-        //var_dump($r);
+        $r=$p2->withSource($this->iterableToGenerator($source))
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
 
-        //$r=$p2->collectAsSequence()->toArray();
-        //var_dump($r);
+        // rewindable tests
+
+        $r=$p2
+            ->withSource($source);
+        //var_dump($p2);
 
 
-        //$gen = $this->iterableToGenerator($source);
+        $it=RewindableIterator::ofIterable($source);
+        var_dump(iterator_to_array($it));
+        $it = $it->new();
+        var_dump(iterator_to_array($it));
+
+
+        $p3=$p2->withSource($source);
+        $p3=$p2->withSource(RewindableIterator::ofIterable($source));
+        //$p3=$p2->withSource($this->iterableToGenerator($source));
+
+        $r=$p3
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
+
+
+        $r=$p3
+            ->collectAsArrayly()
+            ->toArray();
+        var_dump($r);
+
+
+        //var_dump($p2);
+
+        /*
+        $it=RewindableIterator::ofIterable($source);
+        foreach ($it as $k=>$v){
+            var_dump($k);
+        }
+        var_dump(iterator_to_array($it));
+        var_dump(iterator_to_array($it));
+        */
 
         var_dump("++++++done");
 
