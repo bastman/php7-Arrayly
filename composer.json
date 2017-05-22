@@ -40,7 +40,7 @@
       "src/Arrays/fn/array.fn.reduce.php",
       "src/Arrays/fn/array.fn.sort.php",
       "src/Arrays/fn/array.fn.each.php",
-      "src/Generators/generators/generator.base.php",
+
       "src/Generators/generators/generator.drop.php",
       "src/Generators/generators/generator.each.php",
       "src/Generators/generators/generator.filter.php",
@@ -48,11 +48,11 @@
       "src/Generators/generators/generator.group.php",
       "src/Generators/generators/generator.map.php",
       "src/Generators/generators/generator.misc.php",
+      "src/Generators/generators/generator.pipeTo.php",
       "src/Generators/generators/generator.reduce.php",
       "src/Generators/generators/generator.sort.php",
       "src/Generators/generators/generator.take.php",
 
-      "src/Generators/partials/partial.base.php",
       "src/Generators/partials/partial.drop.php",
       "src/Generators/partials/partial.each.php",
       "src/Generators/partials/partial.filter.php",
@@ -60,6 +60,7 @@
       "src/Generators/partials/partial.group.php",
       "src/Generators/partials/partial.map.php",
       "src/Generators/partials/partial.misc.php",
+      "src/Generators/partials/partial.pipeTo.php",
       "src/Generators/partials/partial.reduce.php",
       "src/Generators/partials/partial.sort.php",
       "src/Generators/partials/partial.take.php"
