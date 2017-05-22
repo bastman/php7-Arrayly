@@ -21,6 +21,7 @@ function iterableToArray(iterable $source):array {
     return $sink;
 }
 
+
 /**
  * @param \Closure[] ...$closure
  * @return \Closure[]

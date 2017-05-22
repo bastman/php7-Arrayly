@@ -65,13 +65,6 @@ class Arrayly
         return static::ofArray($data);
     }
 
-    /**
-     * @return \Generator
-     */
-    public function toGenerator(): \Generator
-    {
-        yield from $this->data;
-    }
 
     /**
      * @return Sequence

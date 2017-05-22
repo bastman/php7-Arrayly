@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Arrayly;
 
 use Arrayly\Generators\generators as generate;
-
+use Arrayly\Util\internals as utils;
 class Sequence
 {
     /**
@@ -15,6 +15,10 @@ class Sequence
     public function __construct(iterable $data)
     {
         $this->data = $data;
+    }
+
+    public function withData(iterable $data):Sequence {
+        return new static($data);
     }
 
     public static function ofIterable(iterable $data):Sequence {
@@ -32,12 +36,7 @@ class Sequence
 
     public function toArray(): array
     {
-        $sink = [];
-        foreach ($this->data as $k => $v) {
-            $sink[$k] = $v;
-        }
-
-        return $sink;
+        return utils\iterableToArray($this->data);
     }
 
     public function toArrayly(): Arrayly
@@ -54,196 +53,140 @@ class Sequence
 
     public function reducing($initialValue, \Closure $reducer): Sequence
     {
-        $gen = generate\reducing($this->data, $initialValue, $reducer);
-
-        return new static($gen);
+        return $this->withData(generate\reducing($this->data, $initialValue, $reducer));
     }
 
     public function reducingIndexed($initialValue, \Closure $reducer): Sequence
     {
-        $gen = generate\reducingIndexed($this->data, $initialValue, $reducer);
-
-        return new static($gen);
+        return $this->withData(generate\reducingIndexed($this->data, $initialValue, $reducer));
     }
 
     public function pipeTo(\Closure $transform): Sequence
     {
-        $gen = generate\pipeTo($this->data, $transform);
-
-        return new static($gen);
+        return $this->withData(generate\pipeTo($this->data, $transform));
     }
 
     public function keys(): Sequence
     {
-        $gen = generate\keys($this->data);
-
-        return new static($gen);
+        return $this->withData(generate\keys($this->data));
     }
 
     public function values(): Sequence
     {
-        $gen = generate\values($this->data);
-
-        return new static($gen);
+        return $this->withData(generate\values($this->data));
     }
 
     public function flip(): Sequence
     {
-        $gen = generate\flip($this->data);
-
-        return new static($gen);
+        return $this->withData(generate\flip($this->data));
     }
 
     public function reverse(bool $preserveKeys): Sequence
     {
-        $gen = generate\reverse($this->data, $preserveKeys);
-
-        return new static($gen);
+        return $this->withData(generate\reverse($this->data, $preserveKeys));
     }
 
     public function onEach(\Closure $callback): Sequence
     {
-        $gen = generate\onEach($this->data, $callback);
-
-        return new static($gen);
+        return $this->withData(generate\onEach($this->data, $callback));
     }
 
     public function onEachIndexed(\Closure $callback): Sequence
     {
-        $gen = generate\onEachIndexed($this->data, $callback);
-
-        return new static($gen);
+        return $this->withData(generate\onEachIndexed($this->data, $callback));
     }
 
     public function map(\Closure $transform): Sequence
     {
-        $gen = generate\map($this->data, $transform);
-
-        return new static($gen);
+        return $this->withData(generate\map($this->data, $transform));
     }
 
     public function mapIndexed(\Closure $transform): Sequence
     {
-        $gen = generate\mapIndexed($this->data, $transform);
-
-        return new static($gen);
+        return $this->withData(generate\mapIndexed($this->data, $transform));
     }
 
     public function mapKeys(\Closure $keySelector): Sequence
     {
-        $gen = generate\mapKeys($this->data, $keySelector);
-
-        return new static($gen);
+        return $this->withData(generate\mapKeys($this->data, $keySelector));
     }
 
     public function mapKeysIndexed(\Closure $keySelector): Sequence
     {
-        $gen = generate\mapKeysIndexed($this->data, $keySelector);
-
-        return new static($gen);
+        return $this->withData(generate\mapKeysIndexed($this->data, $keySelector));
     }
 
     public function filter(\Closure $predicate): Sequence
     {
-        $gen = generate\filter($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\filter($this->data, $predicate));
     }
 
     public function filterIndexed(\Closure $predicate): Sequence
     {
-        $gen = generate\filterIndexed($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\filterIndexed($this->data, $predicate));
     }
 
     public function flatMap(\Closure $transform): Sequence
     {
-        $gen = generate\flatMap($this->data, $transform);
-
-        return new static($gen);
+        return $this->withData(generate\flatMap($this->data, $transform));
     }
     public function flatMapIndexed(\Closure $transform): Sequence
     {
-        $gen = generate\flatMapIndexed($this->data, $transform);
-
-        return new static($gen);
+        return $this->withData(generate\flatMapIndexed($this->data, $transform));
     }
     public function groupBy(\Closure $keySelector): Sequence
     {
-        $gen = generate\groupBy($this->data, $keySelector);
-
-        return new static($gen);
+        return $this->withData(generate\groupBy($this->data, $keySelector));
     }
 
     public function groupByIndexed(\Closure $keySelector): Sequence
     {
-        $gen = generate\groupByIndexed($this->data, $keySelector);
-
-        return new static($gen);
+        return $this->withData(generate\groupByIndexed($this->data, $keySelector));
     }
 
     public function take(int $amount): Sequence
     {
-        $gen = generate\take($this->data, $amount);
-
-        return new static($gen);
+        return $this->withData(generate\take($this->data, $amount));
     }
 
     public function drop(int $amount): Sequence
     {
-        $gen = generate\drop($this->data, $amount);
-
-        return new static($gen);
+        return $this->withData(generate\drop($this->data, $amount));
     }
 
     public function takeWhile(\Closure $predicate): Sequence
     {
-        $gen = generate\takeWhile($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\takeWhile($this->data, $predicate));
     }
 
     public function takeWhileIndexed(\Closure $predicate): Sequence
     {
-        $gen = generate\takeWhileIndexed($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\takeWhileIndexed($this->data, $predicate));
     }
 
     public function dropWhile(\Closure $predicate): Sequence
     {
-        $gen = generate\dropWhile($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\dropWhile($this->data, $predicate));
     }
 
     public function dropWhileIndexed(\Closure $predicate): Sequence
     {
-        $gen = generate\dropWhileIndexed($this->data, $predicate);
-
-        return new static($gen);
+        return $this->withData(generate\dropWhileIndexed($this->data, $predicate));
     }
 
     public function sortedBy(bool $descending, \Closure $comparator): Sequence
     {
-        $gen = generate\sortedBy($this->data, $descending, $comparator);
-
-        return new static($gen);
+        return $this->withData(generate\sortedBy($this->data, $descending, $comparator));
     }
 
     public function sortBy(\Closure $comparator): Sequence
     {
-        $gen = generate\sortBy($this->data, $comparator);
-
-        return new static($gen);
+        return $this->withData(generate\sortBy($this->data, $comparator));
     }
 
     public function sortByDescending(\Closure $comparator): Sequence
     {
-        $gen = generate\sortByDescending($this->data, $comparator);
-
-        return new static($gen);
+        return $this->withData(generate\sortByDescending($this->data, $comparator));
     }
 
 
