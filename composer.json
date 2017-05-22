@@ -61,9 +61,7 @@
       "src/Sequence/partials/partial.misc.php",
       "src/Sequence/partials/partial.reduce.php",
       "src/Sequence/partials/partial.sort.php",
-      "src/Sequence/partials/partial.take.php",
-
-      "src/Pipeline/pipeline.fn.php"
+      "src/Sequence/partials/partial.take.php"
     ]
   },
   "autoload-dev": {
