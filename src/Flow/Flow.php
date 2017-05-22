@@ -22,63 +22,78 @@ class Flow
     private $source;
 
     public static function ofIterable(iterable $source):Flow {
-        return new static(RewindableIterator::ofIterable($source), ...[]);
+        return new static(RewindableIterator::ofIterable($source), []);
     }
 
     public static function create():Flow {
         return static::ofIterable([]);
     }
 
-    public function __construct(RewindableIterator $source, \Closure ...$commands)
+    /**
+     * @param \Closure[] ...$closure
+     * @return \Closure[]
+     */
+    private static function requireClosureList(\Closure ...$closure):array {
+        return $closure;
+    }
+
+    private static function appendClosure(array $source, \Closure ...$closure):array {
+        $sink=static::requireClosureList(...$source);
+        foreach ($closure as $cls) {
+            $sink[]=$cls;
+        }
+
+        return $sink;
+    }
+
+    public function __construct(RewindableIterator $source, array $commands)
     {
+        $this->commands = static::requireClosureList(...$commands);
         $this->source=$source;
-        $this->addCommand(...$commands);
     }
 
     public function copy():Flow {
-        return new static($this->source, ...$this->commands);
+        return new static($this->source, $this->commands);
     }
 
     public function withSource(iterable $source):Flow {
         if($source instanceof RewindableIterator) {
-            return new static($source, ...$this->commands);
+            return new static($source, $this->commands);
         } else {
-            return new static(RewindableIterator::ofIterable($source), ...$this->commands);
+            return new static(RewindableIterator::ofIterable($source), $this->commands);
         }
     }
     public function withSourceSupplier(\Closure $sourceSupplier):Flow {
-        return new static(RewindableIterator::ofIterableSupplier($sourceSupplier), ...$this->commands);
+        return new static(RewindableIterator::ofIterableSupplier($sourceSupplier), $this->commands);
     }
 
     public function withoutSource():Flow {
-        return new static(RewindableIterator::ofIterable([]), ...$this->commands);
+        return new static(RewindableIterator::ofIterable([]), $this->commands);
     }
 
-    private function addCommand(\Closure ...$command) {
-        foreach ($command as $cmd) {
-            $this->commands[]=$cmd;
-        }
+    private function withCommandAppended(\Closure ...$commands):Flow {
+        $newInstance = $this->copy();
+        $newInstance->commands = static::appendClosure(
+            $newInstance->commands,
+            ...$commands
+        );
+
+        return $newInstance;
     }
 
     public function map(\Closure $transform): Flow
     {
-        $this->addCommand(fn\map($transform));
-
-        return $this;
+        return $this->withCommandAppended(fn\map($transform));
     }
 
     public function filter(\Closure $predicate): Flow
     {
-        $this->addCommand(fn\filter($predicate));
-
-        return $this;
+        return $this->withCommandAppended(fn\filter($predicate));
     }
 
     public function reducing($initialValue, \Closure $reducer): Flow
     {
-        $this->addCommand(fn\reducing($initialValue, $reducer));
-
-        return $this;
+        return $this->withCommandAppended(fn\reducing($initialValue, $reducer));
     }
 
     public function collectAsIterable(): iterable
