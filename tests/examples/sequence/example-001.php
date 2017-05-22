@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Arrayly\Test\Examples;
 
-ini_set("display_errors", '1');
 require_once __DIR__."/../../../vendor/autoload.php";
 
-use Arrayly\Sequence\Sequence as Seq;
+use Arrayly\Sequence as Seq;
 use Arrayly\Test\TestUtils;
 
 class SequenceExamples001

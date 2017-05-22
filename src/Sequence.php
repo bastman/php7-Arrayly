@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Sequence;
+namespace Arrayly;
 
-use Arrayly\Arrayly;
 use Arrayly\Generators\generators as generate;
 
 class Sequence

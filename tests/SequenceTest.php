@@ -1,7 +1,7 @@
 <?php
 namespace Arrayly\Test;
 
-use Arrayly\Sequence\Sequence as S;
+use Arrayly\Sequence as S;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 
