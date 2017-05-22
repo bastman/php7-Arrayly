@@ -225,9 +225,23 @@ class Sequence
         return new static($gen);
     }
 
-    public function sortBy(\Closure $comparator, bool $descending): Sequence
+    public function sortedBy(bool $descending, \Closure $comparator): Sequence
     {
-        $gen = generate\sortBy($this->data, $comparator, $descending);
+        $gen = generate\sortedBy($this->data, $descending, $comparator);
+
+        return new static($gen);
+    }
+
+    public function sortBy(\Closure $comparator): Sequence
+    {
+        $gen = generate\sortBy($this->data, $comparator);
+
+        return new static($gen);
+    }
+
+    public function sortByDescending(\Closure $comparator): Sequence
+    {
+        $gen = generate\sortByDescending($this->data, $comparator);
 
         return new static($gen);
     }

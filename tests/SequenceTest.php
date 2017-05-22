@@ -76,22 +76,6 @@ class SequenceTest extends TestCase
 
     }
 
-    /*
-
-    public function testReduce()
-    {
-        $source = $this->provideTestCitiesAsList();
-
-        $sink = A::ofArray($source)
-            ->map(function ($v) {
-                return $v["city"];
-            })
-            ->reduce('', function ($acc, $v) {
-                return $acc.'-'.$v;
-            });
-        $this->assertSame("-Berlin-Hamburg-London-Manchester-Paris", $sink);
-    }
-     */
 
     public function testFilter()
     {
@@ -143,7 +127,7 @@ class SequenceTest extends TestCase
         $sink = S::ofArray($source)
             ->sortBy(function ($v1, $v2) {
                 return strcasecmp($v1["city"], $v2["city"]);
-            }, false)
+            })
             ->toArray();
         $this->assertSame($expected, $sink);
     }
@@ -155,9 +139,9 @@ class SequenceTest extends TestCase
         // desc
         $expected = $this->provideTestCitiesAsListDescending();
         $sink = S::ofArray($source)
-            ->sortBy(function ($v1, $v2) {
+            ->sortByDescending(function ($v1, $v2) {
                 return strcasecmp($v1["city"], $v2["city"]);
-            }, true)
+            })
             ->toArray();
         $this->assertSame($expected, $sink);
     }

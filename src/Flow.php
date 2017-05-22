@@ -210,9 +210,19 @@ class Flow
         return $this->withCommandAppended(generate\dropWhileIndexed($predicate));
     }
 
-    public function sortBy(\Closure $comparator, bool $descending): Flow
+    public function sortedBy(bool $descending, \Closure $comparator): Flow
     {
-        return $this->withCommandAppended(generate\sortBy($comparator, $descending));
+        return $this->withCommandAppended(generate\sortedBy($descending, $comparator));
+    }
+
+    public function sortBy(\Closure $comparator): Flow
+    {
+        return $this->withCommandAppended(generate\sortBy($comparator));
+    }
+
+    public function sortByDescending(\Closure $comparator): Flow
+    {
+        return $this->withCommandAppended(generate\sortByDescending($comparator));
     }
 
 }

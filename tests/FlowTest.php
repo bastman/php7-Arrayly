@@ -129,7 +129,7 @@ class FlowTest extends TestCase
             $sink = Flow::ofIterable($source)
                 ->sortBy(function ($v1, $v2) {
                     return strcasecmp($v1["city"], $v2["city"]);
-                }, false)
+                })
                 ->collect()->asArray();
             $this->assertSame($expected, $sink);
         }
@@ -141,9 +141,9 @@ class FlowTest extends TestCase
             // desc
             $expected = $this->provideTestCitiesAsListDescending();
             $sink = Flow::ofIterable($source)
-                ->sortBy(function ($v1, $v2) {
+                ->sortByDescending(function ($v1, $v2) {
                     return strcasecmp($v1["city"], $v2["city"]);
-                }, true)
+                })
                 ->collect()->asArray();
             $this->assertSame($expected, $sink);
         }

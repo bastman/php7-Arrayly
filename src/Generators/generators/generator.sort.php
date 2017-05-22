@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
 
-function sortBy(iterable $iterable, \Closure $comparator, bool $descending): \Generator
+function sortedBy(iterable $iterable, bool $descending, \Closure $comparator): \Generator
 {
     $source = [];
     foreach ($iterable as $k => $v) {
@@ -14,5 +14,16 @@ function sortBy(iterable $iterable, \Closure $comparator, bool $descending): \Ge
     if ($descending) {
         $sink = array_reverse($sink);
     }
+
     yield from $sink;
+}
+
+function sortBy(iterable $iterable, \Closure $comparator): \Generator
+{
+    return sortedBy($iterable, false, $comparator);
+}
+
+function sortByDescending(iterable $iterable, \Closure $comparator): \Generator
+{
+    return sortedBy($iterable, true, $comparator);
 }

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
-use Arrayly\Util as utils;
+use Arrayly\Util\internals as utils;
 
 // Is there any use case for that?
 function iterate(iterable $iterable): \Generator
