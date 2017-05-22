@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Arrayly\Sequence;
 
 use Arrayly\Arrayly;
-use Arrayly\Sequence\generators as generate;
+use Arrayly\Generators\generators as generate;
 
 class Sequence
 {

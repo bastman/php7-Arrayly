@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Sequence\generators;
+namespace Arrayly\Generators\generators;
 
 function sortBy(iterable $iterable, \Closure $comparator, bool $descending): \Generator
 {

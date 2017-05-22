@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Arrayly\Flow;
 
-use Arrayly\Arrayly;
 use Arrayly\Iterator\RewindableIterator;
-use Arrayly\Sequence\Sequence;
-use Arrayly\Sequence\partials as fn;
+
+use Arrayly\Generators\partials as generate;
 
 class Flow
 {
@@ -105,130 +104,130 @@ class Flow
 
     public function reducing($initialValue, \Closure $reducer): Flow
     {
-        return $this->withCommandAppended(fn\reducing($initialValue, $reducer));
+        return $this->withCommandAppended(generate\reducing($initialValue, $reducer));
     }
 
     public function reducingIndexed($initialValue, \Closure $reducer): Flow
     {
-        return $this->withCommandAppended(fn\reducingIndexed($initialValue, $reducer));
+        return $this->withCommandAppended(generate\reducingIndexed($initialValue, $reducer));
     }
 
     public function pipeTo(\Closure $transform): Flow
     {
-        return $this->withCommandAppended(fn\pipeTo($transform));
+        return $this->withCommandAppended(generate\pipeTo($transform));
     }
 
     public function keys(): Flow
     {
-        return $this->withCommandAppended(fn\keys());
+        return $this->withCommandAppended(generate\keys());
     }
 
     public function values(): Flow
     {
-        return $this->withCommandAppended(fn\values());
+        return $this->withCommandAppended(generate\values());
     }
 
     public function flip(): Flow
     {
-        return $this->withCommandAppended(fn\flip());
+        return $this->withCommandAppended(generate\flip());
     }
 
     public function reverse(bool $preserveKeys): Flow
     {
-        return $this->withCommandAppended(fn\reverse($preserveKeys));
+        return $this->withCommandAppended(generate\reverse($preserveKeys));
     }
 
     public function onEach(\Closure $callback): Flow
     {
-        return $this->withCommandAppended(fn\onEach($callback));
+        return $this->withCommandAppended(generate\onEach($callback));
     }
 
     public function onEachIndexed(\Closure $callback): Flow
     {
-        return $this->withCommandAppended(fn\onEachIndexed($callback));
+        return $this->withCommandAppended(generate\onEachIndexed($callback));
     }
 
     public function map(\Closure $transform): Flow
     {
-        return $this->withCommandAppended(fn\map($transform));
+        return $this->withCommandAppended(generate\map($transform));
     }
 
     public function mapIndexed(\Closure $transform): Flow
     {
-        return $this->withCommandAppended(fn\mapIndexed($transform));
+        return $this->withCommandAppended(generate\mapIndexed($transform));
     }
 
     public function mapKeys(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(fn\mapKeys($keySelector));
+        return $this->withCommandAppended(generate\mapKeys($keySelector));
     }
 
     public function mapKeysIndexed(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(fn\mapKeysIndexed($keySelector));
+        return $this->withCommandAppended(generate\mapKeysIndexed($keySelector));
     }
 
     public function filter(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\filter($predicate));
+        return $this->withCommandAppended(generate\filter($predicate));
     }
 
     public function filterIndexed(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\filterIndexed($predicate));
+        return $this->withCommandAppended(generate\filterIndexed($predicate));
     }
 
     public function flatMap(\Closure $transform): Flow
     {
-        return $this->withCommandAppended(fn\flatMap($transform));
+        return $this->withCommandAppended(generate\flatMap($transform));
     }
     public function flatMapIndexed(\Closure $transform): Flow
     {
-        return $this->withCommandAppended(fn\flatMapIndexed($transform));
+        return $this->withCommandAppended(generate\flatMapIndexed($transform));
     }
     public function groupBy(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(fn\groupBy($keySelector));
+        return $this->withCommandAppended(generate\groupBy($keySelector));
     }
 
     public function groupByIndexed(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(fn\groupByIndexed($keySelector));
+        return $this->withCommandAppended(generate\groupByIndexed($keySelector));
     }
 
     public function take(int $amount): Flow
     {
-        return $this->withCommandAppended(fn\take($amount));
+        return $this->withCommandAppended(generate\take($amount));
     }
 
     public function drop(int $amount): Flow
     {
-        return $this->withCommandAppended(fn\drop($amount));
+        return $this->withCommandAppended(generate\drop($amount));
     }
 
     public function takeWhile(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\takeWhile($predicate));
+        return $this->withCommandAppended(generate\takeWhile($predicate));
     }
 
     public function takeWhileIndexed(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\takeWhileIndexed($predicate));
+        return $this->withCommandAppended(generate\takeWhileIndexed($predicate));
     }
 
     public function dropWhile(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\dropWhile($predicate));
+        return $this->withCommandAppended(generate\dropWhile($predicate));
     }
 
     public function dropWhileIndexed(\Closure $predicate): Flow
     {
-        return $this->withCommandAppended(fn\dropWhileIndexed($predicate));
+        return $this->withCommandAppended(generate\dropWhileIndexed($predicate));
     }
 
     public function sortBy(\Closure $comparator, bool $descending): Flow
     {
-        return $this->withCommandAppended(fn\sortBy($comparator, $descending));
+        return $this->withCommandAppended(generate\sortBy($comparator, $descending));
     }
 
 

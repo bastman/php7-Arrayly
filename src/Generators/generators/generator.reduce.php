@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Sequence\generators;
+namespace Arrayly\Generators\generators;
 
 function reducing(iterable $iterable, $initialValue, \Closure $reducer): \Generator
 {

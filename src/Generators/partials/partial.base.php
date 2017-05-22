@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Sequence\partials;
-use Arrayly\Sequence\generators as generate;
+namespace Arrayly\Generators\partials;
+use Arrayly\Generators\generators as generate;
 
 // Is there any use case for that?
 function iterate(): \Closure

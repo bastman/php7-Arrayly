@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sebastians
- * Date: 22.05.17
- * Time: 15:03
- */
 
 namespace Arrayly\Flow;
 

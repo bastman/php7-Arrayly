@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sebastians
- * Date: 17.05.17
- * Time: 15:06
- */
-
 namespace Arrayly\Test;
 
 use Arrayly\Sequence\Sequence as S;
