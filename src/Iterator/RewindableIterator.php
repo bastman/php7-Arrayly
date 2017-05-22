@@ -2,7 +2,7 @@
 declare( strict_types = 1 );
 namespace Arrayly\Iterator;
 
-use Arrayly\Util as utils;
+use Arrayly\Util\internals as utils;
 
 class RewindableIterator implements \Iterator
 {

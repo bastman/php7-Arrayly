@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Util;
+namespace Arrayly\Util\internals;
 
 function requireIsIterator(\Iterator $iterator):\Iterator{
     return $iterator;
@@ -10,4 +10,26 @@ function requireIsIterator(\Iterator $iterator):\Iterator{
 function requireIterable(iterable $iterable): iterable
 {
     return $iterable;
+}
+
+/**
+ * @param \Closure[] ...$closure
+ * @return \Closure[]
+ */
+function requireClosureListFromVarArgs(\Closure ...$closure):array {
+    return $closure;
+}
+
+/**
+ * @param \Closure[] $source
+ * @param \Closure[] ...$closure
+ * @return \Closure[]
+ */
+function appendClosureToList(array $source, \Closure ...$closure):array {
+    $sink=requireClosureListFromVarArgs(...$source);
+    foreach ($closure as $cls) {
+        $sink[]=$cls;
+    }
+
+    return $sink;
 }

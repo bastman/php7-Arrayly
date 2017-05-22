@@ -7,6 +7,7 @@ use Arrayly\Flow\FlowResult;
 use Arrayly\Iterator\RewindableIterator;
 
 use Arrayly\Generators\partials as generate;
+use Arrayly\Util\internals as utils;
 
 class Flow
 {
@@ -29,26 +30,9 @@ class Flow
         return static::ofIterable([]);
     }
 
-    /**
-     * @param \Closure[] ...$closure
-     * @return \Closure[]
-     */
-    private static function requireClosureList(\Closure ...$closure):array {
-        return $closure;
-    }
-
-    private static function appendClosure(array $source, \Closure ...$closure):array {
-        $sink=static::requireClosureList(...$source);
-        foreach ($closure as $cls) {
-            $sink[]=$cls;
-        }
-
-        return $sink;
-    }
-
     public function __construct(RewindableIterator $source, array $commands)
     {
-        $this->commands = static::requireClosureList(...$commands);
+        $this->commands = utils\requireClosureListFromVarArgs(...$commands);
         $this->source=$source;
     }
 
@@ -73,7 +57,7 @@ class Flow
 
     private function withCommandAppended(\Closure ...$commands):Flow {
         $newInstance = $this->copy();
-        $newInstance->commands = static::appendClosure(
+        $newInstance->commands = utils\appendClosureToList(
             $newInstance->commands,
             ...$commands
         );

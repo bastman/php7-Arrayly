@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Arrays\fn;
 
-use Arrayly\Util as utils;
+use Arrayly\Util\internals as utils;
 
 function flatMap(array $source, \Closure $transform): array
 {
