@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Test;
 
-use Arrayly\Flow\Flow;
+use Arrayly\Flow;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 

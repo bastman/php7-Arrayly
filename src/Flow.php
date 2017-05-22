@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Flow;
+namespace Arrayly;
 
+use Arrayly\Flow\FlowResult;
 use Arrayly\Iterator\RewindableIterator;
 
 use Arrayly\Generators\partials as generate;
@@ -229,7 +230,5 @@ class Flow
     {
         return $this->withCommandAppended(generate\sortBy($comparator, $descending));
     }
-
-
 
 }
