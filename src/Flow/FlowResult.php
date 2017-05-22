@@ -4,7 +4,7 @@ namespace Arrayly\Flow;
 
 
 use Arrayly\Arrayly;
-use Arrayly\Sequence\Sequence;
+use Arrayly\Sequence;
 
 class FlowResult
 {
