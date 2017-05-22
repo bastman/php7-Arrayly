@@ -5,10 +5,10 @@
 
 
 inspired by 
-- Stringy (OO-Style decorator for strings): https://github.com/danielstjules/Stringy
 - nikic/iter: https://github.com/nikic/iter
 - Kotlin Collections: https://antonioleiva.com/collection-operations-kotlin/
 - Java Stream API: http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
+- Stringy (OO-Style decorator for strings): https://github.com/danielstjules/Stringy
 
 ## Alternative Concepts
 - Transducers: https://github.com/mtdowling/transducers.php
