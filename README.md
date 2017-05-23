@@ -119,4 +119,107 @@ inspired by
         $sink = $derivedFlow
             ->collect()
             ->toArray();
-             
+  
+## Api (Arrayly)
+
+    public function toArray(): array;
+
+    public function toSequence(): Sequence;
+
+    public function copy(): Arrayly;
+
+    public function withData(array $data): Arrayly;
+
+    public function withKey($key, $value): Arrayly;
+
+    public function keys(bool $strict = true): Arrayly;
+
+    public function values(): Arrayly;
+
+    public function flip(): Arrayly;
+
+    public function shuffle(int $times): Arrayly;
+
+    public function count(): int;
+
+    public function reverse(bool $preserveKeys): Arrayly;
+
+    public function hasKey($key): bool;
+
+    public function firstOrNull();
+
+    public function firstOrDefault($defaultValue);
+
+    public function firstOrElse(\Closure $defaultValueSupplier);
+
+    public function getOrElse($key, \Closure $defaultValueSupplier);
+
+    public function getOrNull($key);
+
+    public function getOrDefault($key, $defaultValue);
+
+    public function findOrNull(\Closure $predicate);
+
+    public function findOrDefault(\Closure $predicate, $defaultValue);
+
+    public function findOrElse(\Closure $predicate, \Closure $defaultValueSupplier);
+
+    public function findIndexedOrNull(\Closure $predicate);
+
+    public function findIndexedOrDefault(\Closure $predicate, $defaultValue);
+
+    public function findIndexedOrElse(\Closure $predicate, \Closure $defaultValueSupplier);
+
+    public function onEach(\Closure $callback): Arrayly;
+
+    public function onEachIndexed(\Closure $callback): Arrayly;
+
+    public function filter(\Closure $predicate): Arrayly;
+
+    public function filterIndexed(\Closure $predicate): Arrayly;
+
+    public function filterNot(\Closure $predicate): Arrayly;
+
+    public function filterNotIndexed(\Closure $predicate): Arrayly;
+
+    public function filterNotNull(): Arrayly;
+
+    public function map(\Closure $transform): Arrayly;
+
+    public function mapIndexed(\Closure $transform): Arrayly;
+
+    public function mapKeysByValue(\Closure $keySelector): Arrayly;
+
+    public function mapKeysByValueIndexed(\Closure $keySelector): Arrayly;
+
+    public function flatMap(\Closure $transform): Arrayly;
+
+    public function flatMapIndexed(\Closure $transform): Arrayly;
+
+    public function groupBy(\Closure $keySelector): Arrayly;
+
+    public function groupByIndexed(\Closure $keySelector): Arrayly;
+
+    public function reduce($initialValue, \Closure $reducer);
+
+    public function reduceIndexed($initialValue, \Closure $reducer);
+
+    public function sortedBy(\Closure $comparator, bool $descending): Arrayly;
+
+    public function sortBy(\Closure $comparator): Arrayly;
+
+    public function sortByDescending(\Closure $comparator): Arrayly;
+
+    public function take(int $amount): Arrayly;
+
+    public function takeWhile(\Closure $predicate): Arrayly;
+
+    public function takeWhileIndexed(\Closure $predicate): Arrayly;
+
+    public function drop(int $amount): Arrayly;
+
+    public function dropWhile(\Closure $predicate): Arrayly;
+
+    public function dropWhileIndexed(\Closure $predicate): Arrayly;
+
+    public function chunk(int $batchSize, bool $preserveKeys): Arrayly;
