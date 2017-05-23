@@ -33,7 +33,7 @@ class FlowExamples001
         $cities = self::createCities();
         $sink = $flow->withProducerOfIterable($cities)
             ->collect()
-            ->asArray();
+            ->toArray();
         TestUtils::printTestResult("flow.withSource(array) -> results ...", $sink);
 
         // run the same flow again, but with a different source (supplier)
@@ -47,12 +47,12 @@ class FlowExamples001
         $flowWithSource = $flow->withProducer(RewindableProducer::ofIteratorSupplier($citiesSupplier));
         $sink = $flowWithSource
             ->collect()
-            ->asArray();
+            ->toArray();
         TestUtils::printTestResult("flow.withSourceSupplier(fn) -> results ...", $sink);
         // and re-run it - with the same source supplier
         $sink = $flowWithSource
             ->collect()
-            ->asArray();
+            ->toArray();
         TestUtils::printTestResult("flow.withSourceSupplier(fn) rerun -> results ...", $sink);
 
     }

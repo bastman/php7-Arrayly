@@ -48,7 +48,7 @@ class FlowTest extends TestCase
             ->onEachIndexed(function ($k, $v) {})
         ;
 
-        $this->assertSame($expected, $flow->collect()->asArray());
+        $this->assertSame($expected, $flow->collect()->toArray());
 
         $flow = Flow::create()
             ->withProducerOfIterable($source)
@@ -59,7 +59,7 @@ class FlowTest extends TestCase
             ->onEachIndexed(function ($k, $v) {})
         ;
 
-        $this->assertSame($expected, $flow->collect()->asArray());
+        $this->assertSame($expected, $flow->collect()->toArray());
     }
 
     public function testFlatMap()
@@ -72,14 +72,14 @@ class FlowTest extends TestCase
             ->flatMap(function ($v) {
                 return $v;
             });
-        $this->assertSame($expected, $flow->collect()->asArray());
+        $this->assertSame($expected, $flow->collect()->toArray());
 
         $flow = Flow::create()
             ->withProducerOfIterable($source)
             ->flatMapIndexed(function ($k, $v) {
                 return $v;
             });
-        $this->assertSame($expected, $flow->collect()->asArray());
+        $this->assertSame($expected, $flow->collect()->toArray());
     }
 
 
@@ -94,12 +94,12 @@ class FlowTest extends TestCase
         $sink = Flow::create()->withProducerOfIterable($source)
             ->filter(function ($v) {
                 return $v["country"] === "Germany";
-            })->collect()->asArray();
+            })->collect()->toArray();
         $this->assertSame($expected, $sink);
         $sink = Flow::create()->withProducerOfIterable($source)
             ->filterIndexed(function ($k, $v) {
                 return $v["country"] === "Germany";
-            })->collect()->asArray();
+            })->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $source = [
@@ -120,12 +120,12 @@ class FlowTest extends TestCase
         $sink = Flow::create()->withProducerOfIterable($source)
             ->filterNot(function ($v) {
                 return fnmatch('*b*Value*', $v);
-            })->collect()->asArray();
+            })->collect()->toArray();
         $this->assertSame($expected, $sink);
         $sink = Flow::create()->withProducerOfIterable($source)
             ->filterNotIndexed(function ($k, $v) {
                 return fnmatch('*b*Value*', $v);
-            })->collect()->asArray();
+            })->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $source = [
@@ -144,7 +144,7 @@ class FlowTest extends TestCase
         ];
         $sink = Flow::create()->withProducerOfIterable($source)
             ->filterNotNull()
-            ->collect()->asArray();
+            ->collect()->toArray();
         $this->assertSame($expected, $sink);
     }
 
@@ -157,7 +157,7 @@ class FlowTest extends TestCase
                 ->withProducerOfIterable($source)
                 ->groupBy(function ($v) {
                     return $v["country"];
-                })->collect()->asArray();
+                })->collect()->toArray();
 
             $this->assertSame($expected, $sink);
 
@@ -165,7 +165,7 @@ class FlowTest extends TestCase
                 ->withProducerOfIterable($source)
                 ->groupByIndexed(function ($k, $v) {
                     return $v["country"];
-                })->collect()->asArray();
+                })->collect()->toArray();
 
             $this->assertSame($expected, $sink);
         }
@@ -181,7 +181,7 @@ class FlowTest extends TestCase
                 ->sortBy(function ($v1, $v2) {
                     return strcasecmp($v1["city"], $v2["city"]);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
         }
 
@@ -196,7 +196,7 @@ class FlowTest extends TestCase
                 ->sortByDescending(function ($v1, $v2) {
                     return strcasecmp($v1["city"], $v2["city"]);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
         }
 
@@ -208,30 +208,30 @@ class FlowTest extends TestCase
                 ->map(function ($v) {
                     return $v["city"];
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
 
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->take(0)
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame([], $sink);
 
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->take(1)
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame(["Berlin"], $sink);
 
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->take(3)
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame(["Berlin", "Hamburg", "London"], $sink);
 
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->take(1000)
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
         }
 
@@ -252,14 +252,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) {
                     return true;
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) {
                     return true;
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
             $expected = [];
@@ -268,14 +268,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) {
                     return false;
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) {
                     return false;
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
 
@@ -286,14 +286,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
             $pattern = "*A*";
@@ -306,14 +306,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
             $pattern = "*C*";
@@ -323,14 +323,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
             $pattern = "*1*";
@@ -342,14 +342,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
 
             $pattern = "*2*";
@@ -359,14 +359,14 @@ class FlowTest extends TestCase
                 ->takeWhile(function ($v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
             $sink = Flow::create()
                 ->withProducerOfIterable($source)
                 ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                     return fnmatch($pattern, $v);
                 })
-                ->collect()->asArray();
+                ->collect()->toArray();
             $this->assertSame($expected, $sink);
         }
 
@@ -381,13 +381,13 @@ class FlowTest extends TestCase
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->drop(0)
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($source, $sink);
 
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->drop(1)
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame([
                     "b" => "B",
                     "c" => "C",
@@ -396,7 +396,7 @@ class FlowTest extends TestCase
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->drop(2)
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame([
                     "c" => "C",
                 ], $sink);
@@ -404,7 +404,7 @@ class FlowTest extends TestCase
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->drop(1000)
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame(
                     [], $sink);
 
@@ -416,7 +416,7 @@ class FlowTest extends TestCase
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->drop(1)
-                    ->collect()->asArray();
+                    ->collect()->toArray();
 
                 $this->assertSame(
                     [
@@ -442,14 +442,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) {
                         return true;
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) {
                         return true;
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
 
@@ -460,14 +460,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
 
@@ -483,14 +483,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
                 $pattern = "*C*";
@@ -500,14 +500,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
                 $pattern = "*1*";
@@ -523,14 +523,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
                 $pattern = "*2*";
@@ -540,14 +540,14 @@ class FlowTest extends TestCase
                     ->dropWhile(function ($v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                         return fnmatch($pattern, $v);
                     })
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
             }
@@ -567,24 +567,24 @@ class FlowTest extends TestCase
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->reducing([], function ($acc, $v) { return $v;})
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->reducingIndexed([], function ($acc, $k, $v) { return $v;})
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
 
                 $expected=['A1A2B1B2C1C2'];
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->reducing("", function (string $acc, string $v) { return $acc.$v;})
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
                 $sink = Flow::create()
                     ->withProducerOfIterable($source)
                     ->reducingIndexed("", function (string $acc, $k, string $v) { return $acc.$v;})
-                    ->collect()->asArray();
+                    ->collect()->toArray();
                 $this->assertSame($expected, $sink);
             }
 
@@ -601,7 +601,7 @@ class FlowTest extends TestCase
         $sink = Flow::create()
             ->withProducerOfIterable($source)
             ->mapKeysByValueIndexed(function ($k, $v) {return strtoupper($k);})
-            ->collect()->asArray();
+            ->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $expected = [
@@ -611,7 +611,7 @@ class FlowTest extends TestCase
         $sink = Flow::create()
             ->withProducerOfIterable($source)
             ->mapKeysByValueIndexed(function ($k, $v) {return $k.':'.$v;})
-            ->collect()->asArray();
+            ->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $expected = [
@@ -621,7 +621,7 @@ class FlowTest extends TestCase
         $sink = Flow::create()
             ->withProducerOfIterable($source)
             ->mapKeysByValue(function ($v) {return strtoupper($v);})
-            ->collect()->asArray();
+            ->collect()->toArray();
         $this->assertSame($expected, $sink);
     }
 }

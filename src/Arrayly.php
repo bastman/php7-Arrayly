@@ -28,6 +28,11 @@ final class Arrayly
         return $this->data;
     }
 
+    public function toSequence(): Sequence
+    {
+        return Sequence::ofIterable($this->data);
+    }
+
     public function copy(): Arrayly
     {
         return static::ofIterable($this->data);
@@ -36,11 +41,6 @@ final class Arrayly
     public function withData(array $data): Arrayly
     {
         return static::ofIterable($data);
-    }
-
-    public function asSequence(): Sequence
-    {
-        return Sequence::ofIterable($this->data);
     }
 
     public function withKey($key, $value): Arrayly

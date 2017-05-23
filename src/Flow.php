@@ -26,6 +26,11 @@ final class Flow
         return new static(RewindableProducer::ofIterable([]), []);
     }
 
+    public static function ofIterable(iterable $iterable):Flow {
+        return static::create()
+            ->withProducerOfIterable($iterable);
+    }
+
     private function __construct(RewindableProducer $producer, array $commands)
     {
         $this->commands = utils\requireClosureListFromVarArgs(...$commands);

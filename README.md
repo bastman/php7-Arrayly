@@ -25,7 +25,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.10
+    $ composer require bastman/php7-arrayly 0.0.11
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -99,7 +99,7 @@ inspired by
         $cities = self::createCities();
         $sink = $flow->withProducerOfIterable($cities)
             ->collect()
-            ->asArray();
+            ->toArray();
         
 3.
         // derive a new flow by applying a different producer
@@ -113,10 +113,10 @@ inspired by
         // run the drived flow        
         $sink = $derivedFlow
             ->collect()
-            ->asArray();
+            ->toArray();
 5.
         // and re-run the derived flow - because we can ;)
         $sink = $derivedFlow
             ->collect()
-            ->asArray();
+            ->toArray();
              

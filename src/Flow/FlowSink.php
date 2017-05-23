@@ -19,22 +19,22 @@ final class FlowSink
         $this->data = $data;
     }
 
-    public function asArray(): array
+    public function toArray(): array
     {
         return $this->data;
     }
 
-    public function asGenerator(): \Generator
+    public function toGenerator(): \Generator
     {
         yield from $this->data;
     }
 
-    public function asSequence(): Sequence
+    public function toSequence(): Sequence
     {
         return Sequence::ofIterable($this->data);
     }
 
-    public function asArrayly(): Arrayly
+    public function toArrayly(): Arrayly
     {
         return Arrayly::ofIterable($this->data);
     }
