@@ -26,3 +26,39 @@ function filterIndexed(array $source, \Closure $predicate): array
 
     return $sink;
 }
+
+function filterNot(array $source, \Closure $predicate): array
+{
+    $sink = [];
+    foreach ($source as $k => $v) {
+        if (! $predicate($v)) {
+            $sink[$k] = $v;
+        }
+    }
+
+    return $sink;
+}
+
+function filterNotIndexed(array $source, \Closure $predicate): array
+{
+    $sink = [];
+    foreach ($source as $k => $v) {
+        if (! $predicate($k, $v)) {
+            $sink[$k] = $v;
+        }
+    }
+
+    return $sink;
+}
+
+function filterNotNull(array $source): array
+{
+    $sink = [];
+    foreach ($source as $k => $v) {
+        if($v!==null) {
+            $sink[$k] = $v;
+        }
+    }
+
+    return $sink;
+}

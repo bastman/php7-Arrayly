@@ -80,21 +80,65 @@ class SequenceTest extends TestCase
     public function testFilter()
     {
         $source = $this->provideTestCitiesAsList();
+
         $expected = [
             ["city" => "Berlin", "country" => "Germany"],
             ["city" => "Hamburg", "country" => "Germany"],
         ];
-
         $sink = S::ofIterable($source)
             ->filter(function ($v) {
                 return $v["country"] === "Germany";
             })->toArray();
         $this->assertSame($expected, $sink);
-
         $sink = S::ofIterable($source)
             ->filterIndexed(function ($k, $v) {
                 return $v["country"] === "Germany";
             })->toArray();
+        $this->assertSame($expected, $sink);
+
+        $source = [
+            "a1"=>"a1Value",
+            "a2"=>"a2Value",
+            "b1"=>"b1Value",
+            "b2"=>"b2Value",
+            "c1"=>"c1Value",
+            "c2"=>"c2Value",
+        ];
+        $expected = [
+            "a1"=>"a1Value",
+            "a2"=>"a2Value",
+
+            "c1"=>"c1Value",
+            "c2"=>"c2Value",
+        ];
+        $sink = S::ofIterable($source)
+            ->filterNot(function ($v) {
+                return fnmatch('*b*Value*', $v);
+            })->toArray();
+        $this->assertSame($expected, $sink);
+        $sink = S::ofIterable($source)
+            ->filterNotIndexed(function ($k, $v) {
+                return fnmatch('*b*Value*', $v);
+            })->toArray();
+        $this->assertSame($expected, $sink);
+
+        $source = [
+            "a1"=>"a1Value",
+            "a2"=>null,
+            null,
+            null,
+            "b1"=>"b1Value",
+            "b2"=>null,
+            null,
+            null
+        ];
+        $expected = [
+            "a1"=>"a1Value",
+            "b1"=>"b1Value",
+        ];
+        $sink = S::ofIterable($source)
+            ->filterNotNull()
+            ->toArray();
         $this->assertSame($expected, $sink);
     }
 

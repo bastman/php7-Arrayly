@@ -86,23 +86,65 @@ class FlowTest extends TestCase
     public function testFilter()
     {
         $source = $this->provideTestCitiesAsList();
+
         $expected = [
             ["city" => "Berlin", "country" => "Germany"],
             ["city" => "Hamburg", "country" => "Germany"],
         ];
-
-        $sink = Flow::create()
-            ->withProducerOfIterable($source)
+        $sink = Flow::create()->withProducerOfIterable($source)
             ->filter(function ($v) {
                 return $v["country"] === "Germany";
             })->collect()->asArray();
         $this->assertSame($expected, $sink);
-
-        $sink = Flow::create()
-            ->withProducerOfIterable($source)
+        $sink = Flow::create()->withProducerOfIterable($source)
             ->filterIndexed(function ($k, $v) {
                 return $v["country"] === "Germany";
             })->collect()->asArray();
+        $this->assertSame($expected, $sink);
+
+        $source = [
+            "a1"=>"a1Value",
+            "a2"=>"a2Value",
+            "b1"=>"b1Value",
+            "b2"=>"b2Value",
+            "c1"=>"c1Value",
+            "c2"=>"c2Value",
+        ];
+        $expected = [
+            "a1"=>"a1Value",
+            "a2"=>"a2Value",
+
+            "c1"=>"c1Value",
+            "c2"=>"c2Value",
+        ];
+        $sink = Flow::create()->withProducerOfIterable($source)
+            ->filterNot(function ($v) {
+                return fnmatch('*b*Value*', $v);
+            })->collect()->asArray();
+        $this->assertSame($expected, $sink);
+        $sink = Flow::create()->withProducerOfIterable($source)
+            ->filterNotIndexed(function ($k, $v) {
+                return fnmatch('*b*Value*', $v);
+            })->collect()->asArray();
+        $this->assertSame($expected, $sink);
+
+        $source = [
+            "a1"=>"a1Value",
+            "a2"=>null,
+            null,
+            null,
+            "b1"=>"b1Value",
+            "b2"=>null,
+            null,
+            null
+        ];
+        $expected = [
+            "a1"=>"a1Value",
+            "b1"=>"b1Value",
+        ];
+        $sink = Flow::create()->withProducerOfIterable($source)
+            ->filterNotNull()
+            ->collect()->asArray();
         $this->assertSame($expected, $sink);
     }
 

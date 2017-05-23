@@ -156,6 +156,21 @@ final class Flow
         return $this->withCommandAppended(generate\filterIndexed($predicate));
     }
 
+    public function filterNot(\Closure $predicate): Flow
+    {
+        return $this->withCommandAppended(generate\filterNot($predicate));
+    }
+
+    public function filterNotIndexed(\Closure $predicate): Flow
+    {
+        return $this->withCommandAppended(generate\filterNotIndexed($predicate));
+    }
+
+    public function filterNotNull(): Flow
+    {
+        return $this->withCommandAppended(generate\filterNotNull());
+    }
+
     public function flatMap(\Closure $transform): Flow
     {
         return $this->withCommandAppended(generate\flatMap($transform));

@@ -117,6 +117,21 @@ final class Sequence
         return $this->withData(generate\filterIndexed($this->data, $predicate));
     }
 
+    public function filterNot(\Closure $predicate): Sequence
+    {
+        return $this->withData(generate\filterNot($this->data, $predicate));
+    }
+
+    public function filterNotIndexed(\Closure $predicate): Sequence
+    {
+        return $this->withData(generate\filterNotIndexed($this->data, $predicate));
+    }
+
+    public function filterNotNull(): Sequence
+    {
+        return $this->withData(generate\filterNotNull($this->data));
+    }
+
     public function flatMap(\Closure $transform): Sequence
     {
         return $this->withData(generate\flatMap($this->data, $transform));
