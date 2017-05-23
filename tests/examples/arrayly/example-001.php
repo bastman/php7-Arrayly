@@ -16,19 +16,19 @@ class ArraylyExamples001
         TestUtils::printTestResult("source: cities", $cities);
 
         // take(2)
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->take(2)
             ->toArray();
         TestUtils::printTestResult("take(2)", $r);
 
         // drop(2)
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->drop(2)
             ->toArray();
         TestUtils::printTestResult("drop(2)", $r);
 
         // map & filter
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->map(function ($item) {
                 return $item["country"];
             })
@@ -39,7 +39,7 @@ class ArraylyExamples001
         TestUtils::printTestResult("map & filter", $r);
 
         // group by
-        $groupedByCountry = A::ofArray($cities)
+        $groupedByCountry = A::ofIterable($cities)
             ->groupBy(function ($item) {
                 return $item["country"];
             })
@@ -47,7 +47,7 @@ class ArraylyExamples001
         TestUtils::printTestResult("group by country", $groupedByCountry);
 
         // flatmap
-        $r = A::ofArray($groupedByCountry)
+        $r = A::ofIterable($groupedByCountry)
             ->flatMap(function ($itemGroup) {
                 return $itemGroup;
             })
@@ -55,14 +55,14 @@ class ArraylyExamples001
         TestUtils::printTestResult("countries flatmap to list", $r);
 
         // reduce
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->reduce("", function ($acc, $item) {
                 return $acc.':'.$item["city"];
             });
         TestUtils::printTestResult("reduce", $r);
 
         // map & sort (ASC)
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->map(function ($item) {
                 return $item["city"];
             })
@@ -73,7 +73,7 @@ class ArraylyExamples001
         TestUtils::printTestResult("map & sort (ASC)", $r);
 
         // map & sort (DESC)
-        $r = A::ofArray($cities)
+        $r = A::ofIterable($cities)
             ->map(function ($item) {
                 return $item["city"];
             })

@@ -13,31 +13,14 @@ final class Arrayly
      */
     private $data = [];
 
-    /**
-     * Arrayly constructor.
-     * @param array $data
-     */
-    public function __construct(array $data)
+    public static function ofIterable(iterable $iterable): Arrayly
+    {
+        return new Arrayly(utils\iterableToArray($iterable));
+    }
+
+    private function __construct(array $data)
     {
         $this->data = $data;
-    }
-
-    /**
-     * @param array $data
-     * @return Arrayly
-     */
-    public static function ofArray(array $data): Arrayly
-    {
-        return new Arrayly($data);
-    }
-
-    /**
-     * @param iterable $source
-     * @return Arrayly
-     */
-    public static function ofIterable(iterable $source): Arrayly
-    {
-        return static::ofArray(utils\iterableToArray($source));
     }
 
     /**
@@ -53,7 +36,7 @@ final class Arrayly
      */
     public function copy(): Arrayly
     {
-        return static::ofArray($this->data);
+        return static::ofIterable($this->data);
     }
 
     /**
@@ -62,9 +45,8 @@ final class Arrayly
      */
     public function withData(array $data): Arrayly
     {
-        return static::ofArray($data);
+        return static::ofIterable($data);
     }
-
 
     /**
      * @return Sequence

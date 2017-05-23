@@ -13,6 +13,11 @@ function requireIterable(iterable $iterable): iterable
 }
 
 function iterableToArray(iterable $source):array {
+    if(is_array($source)) {
+
+        return $source;
+    }
+
     $sink = [];
     foreach ($source as $k => $v) {
         $sink[$k] = $v;

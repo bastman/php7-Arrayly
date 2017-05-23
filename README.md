@@ -25,7 +25,7 @@ inspired by
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
 
-            Arrayly::ofArray($cities)
+            Arrayly::ofIterable($cities)
             
             ->map(function ($item) {return $item["country"];})
             ->filter(function ($country) {return $country == 'Germany';})
@@ -35,7 +35,7 @@ inspired by
             
             ->toArray();
 -             
-            Arrayly::ofArray($cities)
+            Arrayly::ofIterable($cities)
                         ->groupBy(function (array $item):string {
                             return $item["country"];
                         })
