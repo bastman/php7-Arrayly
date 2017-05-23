@@ -6,7 +6,7 @@ namespace Arrayly;
 use Arrayly\Arrays\fn;
 use Arrayly\Util\internals as utils;
 
-final class Arrayly implements ArraylyInterf
+final class Arrayly
 {
     /**
      * @var array
@@ -224,7 +224,7 @@ final class Arrayly implements ArraylyInterf
     {
         return $this->withData(fn\groupByIndexed($this->data, $keySelector));
     }
-    
+
     public function reduce($initialValue, \Closure $reducer)
     {
         return fn\reduce($this->data, $initialValue, $reducer);
