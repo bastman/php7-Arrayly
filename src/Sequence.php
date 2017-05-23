@@ -27,11 +27,7 @@ class Sequence
 
     public static function ofArray(array $source): Sequence
     {
-        $gen = function () use ($source) {
-            yield from $source;
-        };
-
-        return new static($gen());
+        return new static($source);
     }
 
     public function toArray(): array
