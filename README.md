@@ -96,19 +96,20 @@ inspired by
             ->collect()
             ->asArray();
         
-3.        
-        // run the same flow again, but with a different producer (supplier)
-        $citiesSupplier = function () {
-            yield from self::createCities();
-        };
-4.
+3.
         // derive a new flow by applying a different producer
-        $derivedflowWithOtherProducer = $flow->withProducerOfIteratorSupplier($citiesSupplier);
-        $sink = $flowWithOtherProducer
+        $derivedflowWithOtherProducer = $flow
+            ->withProducerOfIteratorSupplier(
+                function():\Generator { 
+                    yield from self::createCities();
+                });
+4.      
+        // run the drived flow        
+        $sink = $derivedflowWithOtherProducer
             ->collect()
             ->asArray();
 5.
-        // and re-run it - because we can ;)
+        // and re-run the derived flow - because we can ;)
         $sink = $derivedflowWithOtherProducer
             ->collect()
             ->asArray();
