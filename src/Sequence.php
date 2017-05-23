@@ -5,7 +5,7 @@ namespace Arrayly;
 
 use Arrayly\Generators\generators as generate;
 use Arrayly\Util\internals as utils;
-class Sequence
+final class Sequence
 {
     /**
      * @var iterable

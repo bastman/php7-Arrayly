@@ -10,7 +10,7 @@ use Arrayly\Producers\RewindableProducer;
 use Arrayly\Generators\partials as generate;
 use Arrayly\Util\internals as utils;
 
-class Flow
+final class Flow
 {
 
     /**

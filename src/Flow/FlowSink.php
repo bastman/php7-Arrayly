@@ -6,7 +6,7 @@ namespace Arrayly\Flow;
 use Arrayly\Arrayly;
 use Arrayly\Sequence;
 
-class FlowSink
+final class FlowSink
 {
     private $data=[];
 

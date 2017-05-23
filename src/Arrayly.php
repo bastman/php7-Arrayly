@@ -6,7 +6,7 @@ namespace Arrayly;
 use Arrayly\Arrays\fn;
 use Arrayly\Util\internals as utils;
 
-class Arrayly
+final class Arrayly
 {
     /**
      * @var array
