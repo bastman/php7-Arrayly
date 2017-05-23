@@ -12,7 +12,6 @@ use Arrayly\Util\internals as utils;
 
 final class Flow
 {
-
     /**
      * @var \Closure[]
      */
@@ -23,19 +22,8 @@ final class Flow
      */
     private $producer;
 
-    public static function ofIterable(iterable $source):Flow {
-        return new static(RewindableProducer::ofIterable($source), []);
-    }
-
     public static function create():Flow {
-        return static::ofIterable([]);
-    }
-
-    public static function producerOfIterable(iterable $iterable):RewindableProducer {
-        return RewindableProducer::ofIterable($iterable);
-    }
-    public static function producerOfIteratorSupplier(\Closure $iteratorSupplier):RewindableProducer {
-        return RewindableProducer::ofIteratorSupplier($iteratorSupplier);
+        return new static(RewindableProducer::ofIterable([]), []);
     }
 
     private function __construct(RewindableProducer $producer, array $commands)
@@ -54,11 +42,11 @@ final class Flow
     public function withProducer(RewindableProducer $producer):Flow {
         return new static($producer, $this->commands);
     }
-    public function withProducerOfIterable(iterable $source):Flow {
-        return $this->withProducer(static::producerOfIterable($source));
+    public function withProducerOfIterable(iterable $iterable):Flow {
+        return $this->withProducer(RewindableProducer::ofIterable($iterable));
     }
     public function withProducerOfIteratorSupplier(\Closure $iteratorSupplier):Flow {
-        return $this->withProducer(static::producerOfIteratorSupplier($iteratorSupplier));
+        return $this->withProducer(RewindableProducer::ofIteratorSupplier($iteratorSupplier));
     }
 
     private function withCommandAppended(\Closure ...$commands):Flow {
