@@ -110,7 +110,7 @@ inspired by
                     yield from self::createCities();
                 });
 4.      
-        // run the drived flow        
+        // run the derived flow        
         $sink = $derivedFlow
             ->collect()
             ->toArray();
