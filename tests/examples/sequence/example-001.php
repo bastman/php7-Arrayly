@@ -14,12 +14,12 @@ class SequenceExamples001
     {
         $cities = self::createCities();
         $r = null;
-        $r = Seq::ofArray($cities)
+        $r = Seq::ofIterable($cities)
             ->keys()
             ->toArray();
         TestUtils::printTestResult("GENERATORS.keys()", $r);
 
-        $r = Seq::ofArray($cities)
+        $r = Seq::ofIterable($cities)
             ->onEach(function ($v) {
                 echo "peek: start: ".json_encode($v).PHP_EOL;
             })

@@ -20,7 +20,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.8
+    $ composer require bastman/php7-arrayly 0.0.9
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -50,7 +50,7 @@ inspired by
 ## Examples (Sequence)  - uses generators approach           
 - see: tests/examples/sequence
 
-             Sequence::ofArray($cities)
+             Sequence::ofIterable($cities)
              
               ->filter(function (array $v):bool {
                   return $v['country']==='Germany';

@@ -12,22 +12,17 @@ final class Sequence
      */
     private $data;
 
-    public function __construct(iterable $data)
+    public static function ofIterable(iterable $source): Sequence {
+        return new static($source);
+    }
+
+    private function __construct(iterable $data)
     {
         $this->data = $data;
     }
 
     public function withData(iterable $data):Sequence {
         return new static($data);
-    }
-
-    public static function ofIterable(iterable $data):Sequence {
-        return new static($data);
-    }
-
-    public static function ofArray(array $source): Sequence
-    {
-        return new static($source);
     }
 
     public function toArray(): array

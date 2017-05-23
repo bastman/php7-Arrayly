@@ -71,7 +71,7 @@ final class Arrayly
      */
     public function asSequence(): Sequence
     {
-        return Sequence::ofArray($this->data);
+        return Sequence::ofIterable($this->data);
     }
 
     /**

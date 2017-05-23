@@ -32,7 +32,7 @@ class SequenceTest extends TestCase
         $source = $this->provideTestCitiesAsList();
         $expected = ["Berlin", "Hamburg", "London", "Manchester", "Paris"];
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->map(function ($v) {
                 return $v["city"];
             })
@@ -44,7 +44,7 @@ class SequenceTest extends TestCase
 
         $this->assertSame($expected, $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->mapIndexed(function ($k, $v) {
                 return $v["city"];
             })
@@ -62,13 +62,13 @@ class SequenceTest extends TestCase
         $source = $this->provideTestCountriesAsMap();
         $expected = $this->provideTestCitiesAsList();
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->flatMap(function ($v) {
                 return $v;
             })->toArray();
         $this->assertSame($expected, $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->flatMapIndexed(function ($k, $v) {
                 return $v;
             })->toArray();
@@ -85,13 +85,13 @@ class SequenceTest extends TestCase
             ["city" => "Hamburg", "country" => "Germany"],
         ];
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->filter(function ($v) {
                 return $v["country"] === "Germany";
             })->toArray();
         $this->assertSame($expected, $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->filterIndexed(function ($k, $v) {
                 return $v["country"] === "Germany";
             })->toArray();
@@ -103,14 +103,14 @@ class SequenceTest extends TestCase
         $source = $this->provideTestCitiesAsList();
         $expected = $this->provideTestCountriesAsMap();
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->groupBy(function ($v) {
                 return $v["country"];
             })->toArray();
 
         $this->assertSame($expected, $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->groupByIndexed(function ($k, $v) {
                 return $v["country"];
             })->toArray();
@@ -124,7 +124,7 @@ class SequenceTest extends TestCase
 
         // asc
         $expected = $this->provideTestCitiesAsListAscending();
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->sortBy(function ($v1, $v2) {
                 return strcasecmp($v1["city"], $v2["city"]);
             })
@@ -138,7 +138,7 @@ class SequenceTest extends TestCase
 
         // desc
         $expected = $this->provideTestCitiesAsListDescending();
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->sortByDescending(function ($v1, $v2) {
                 return strcasecmp($v1["city"], $v2["city"]);
             })
@@ -148,28 +148,28 @@ class SequenceTest extends TestCase
 
     public function testTake()
     {
-        $source = S::ofArray($this->provideTestCitiesAsList())
+        $source = S::ofIterable($this->provideTestCitiesAsList())
             ->map(function ($v) {
                 return $v["city"];
             })
             ->toArray();
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->take(0)
             ->toArray();
         $this->assertSame([], $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->take(1)
             ->toArray();
         $this->assertSame(["Berlin"], $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->take(3)
             ->toArray();
         $this->assertSame(["Berlin", "Hamburg", "London"], $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->take(1000)
             ->toArray();
         $this->assertSame(["Berlin", "Hamburg", "London", "Manchester", "Paris"], $sink);
@@ -187,13 +187,13 @@ class SequenceTest extends TestCase
         ];
 
         $expected = $source;
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) {
                 return true;
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) {
                 return true;
             })
@@ -201,13 +201,13 @@ class SequenceTest extends TestCase
         $this->assertSame($expected, $sink);
 
         $expected = [];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) {
                 return false;
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) {
                 return false;
             })
@@ -217,13 +217,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*D*";
         $expected = [];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -235,13 +235,13 @@ class SequenceTest extends TestCase
             "a1" => "A1",
             "a2" => "A2",
         ];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -250,13 +250,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*C*";
         $expected = [];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -267,13 +267,13 @@ class SequenceTest extends TestCase
         $expected = [
             "a1" => "A1",
         ];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -282,13 +282,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*2*";
         $expected = [];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->takeWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -304,12 +304,12 @@ class SequenceTest extends TestCase
             "c" => "C",
         ];
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->drop(0)
             ->toArray();
         $this->assertSame($source, $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->drop(1)
             ->toArray();
         $this->assertSame([
@@ -317,14 +317,14 @@ class SequenceTest extends TestCase
             "c" => "C",
         ], $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->drop(2)
             ->toArray();
         $this->assertSame([
             "c" => "C",
         ], $sink);
 
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->drop(1000)
             ->toArray();
         $this->assertSame(
@@ -335,7 +335,7 @@ class SequenceTest extends TestCase
             ["B"],
             ["C"],
         ];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->drop(1)
             ->toArray();
 
@@ -358,13 +358,13 @@ class SequenceTest extends TestCase
         ];
 
         $expected = [];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) {
                 return true;
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) {
                 return true;
             })
@@ -374,13 +374,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*D*";
         $expected = $source;
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -395,13 +395,13 @@ class SequenceTest extends TestCase
             "c1" => "C1",
             "c2" => "C2",
         ];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -410,13 +410,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*C*";
         $expected = $source;
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -431,13 +431,13 @@ class SequenceTest extends TestCase
             "c1" => "C1",
             "c2" => "C2",
         ];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -446,13 +446,13 @@ class SequenceTest extends TestCase
 
         $pattern = "*2*";
         $expected = $source;
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhile(function ($v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->dropWhileIndexed(function ($k, $v) use ($pattern) {
                 return fnmatch($pattern, $v);
             })
@@ -473,21 +473,21 @@ class SequenceTest extends TestCase
         ];
 
         $expected=["C2"];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->reducing([], function ($acc, $v) { return $v;})
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->reducingIndexed([], function ($acc, $k, $v) { return $v;})
             ->toArray();
         $this->assertSame($expected, $sink);
 
         $expected=['A1A2B1B2C1C2'];
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->reducing("", function (string $acc, string $v) { return $acc.$v;})
             ->toArray();
         $this->assertSame($expected, $sink);
-        $sink = S::ofArray($source)
+        $sink = S::ofIterable($source)
             ->reducingIndexed("", function (string $acc, $k, string $v) { return $acc.$v;})
             ->toArray();
         $this->assertSame($expected, $sink);
