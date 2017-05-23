@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Arrayly\Test;
 
 use Arrayly\Flow;
+use Arrayly\Producers\RewindableProducer;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 
@@ -57,7 +58,7 @@ class FlowRewindableTest extends TestCase
             "b2" => "B2_VALUE",
         ];
 
-        $flowDerived = $flow->withSource($source);
+        $flowDerived = $flow->withProducerOfIterable($source);
         for ($i = 0; $i < 3; $i++) {
             $r1=$flowDerived->collect()->asArray();
             $r2=$flowDerived->collect()->asArray();
@@ -68,7 +69,7 @@ class FlowRewindableTest extends TestCase
             $this->printTestResult("Flow.withSource(array).collect(): (re-)consume iterator ...", $sink);
         }
 
-        $flowDerived = $flow->withSourceSupplier($sourceSupplier);
+        $flowDerived = $flow->withProducerOfIteratorSupplier($sourceSupplier);
         for ($i = 0; $i < 3; $i++) {
             $r1=$flowDerived->collect()->asArray();
             $r2=$flowDerived->collect()->asArray();

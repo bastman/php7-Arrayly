@@ -24,10 +24,3 @@ function flip(): \Closure
         return generate\flip($iterable);
     };
 }
-
-function reverse(bool $preserveKeys): \Closure
-{
-    return function (iterable $iterable) use ($preserveKeys){
-        return generate\reverse($iterable, $preserveKeys);
-    };
-}

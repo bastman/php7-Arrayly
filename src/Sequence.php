@@ -77,9 +77,9 @@ class Sequence
         return $this->withData(generate\flip($this->data));
     }
 
-    public function reverse(bool $preserveKeys): Sequence
+    public function reverse(): Sequence
     {
-        return $this->withData(generate\reverse($this->data, $preserveKeys));
+        return $this->withData(generate\reverse($this->data));
     }
 
     public function onEach(\Closure $callback): Sequence

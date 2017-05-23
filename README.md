@@ -1,7 +1,7 @@
 # php7-Arrayly
 - Arrayly (eager): decorates php array with methods similar to Java Streams / Kotlin Collections
-- Sequence (lazy): provides fluid interface to php generators
-- Flow (lazy, FBP): kind of flow-based-programming-style (FBP) for replayable transformations
+- Sequence (lazy, consume-once): provides fluid interface to php generators
+- Flow (lazy, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformations
 
 
 inspired by 
@@ -20,7 +20,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.7
+    $ composer require bastman/php7-arrayly 0.0.8
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -90,9 +90,9 @@ inspired by
                 return $itemGroup;
             });
 2.
-        // run the flow with a given source
+        // run the flow with a given producer
         $cities = self::createCities();
-        $sink = $flow->withSource($cities)
+        $sink = $flow->withProducerOfIterable($cities)
             ->collect()
             ->asArray();
         
@@ -102,7 +102,7 @@ inspired by
             yield from self::createCities();
         };
 
-        $flowWithSource = $flow->withSourceSupplier($citiesSupplier);
+        $flowWithSource = $flow->withProducerOfIteratorSupplier($citiesSupplier);
         $sink = $flowWithSource
             ->collect()
             ->asArray();

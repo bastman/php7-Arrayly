@@ -6,6 +6,7 @@ namespace Arrayly\Test\Examples;
 require_once __DIR__."/../../../vendor/autoload.php";
 
 use Arrayly\Flow;
+use Arrayly\Producers\RewindableProducer;
 use Arrayly\Test\TestUtils;
 
 class FlowExamples001
@@ -30,7 +31,7 @@ class FlowExamples001
 
         // run the flow with a given source
         $cities = self::createCities();
-        $sink = $flow->withSource($cities)
+        $sink = $flow->withProducerOfIterable($cities)
             ->collect()
             ->asArray();
         TestUtils::printTestResult("flow.withSource(array) -> results ...", $sink);
@@ -43,7 +44,7 @@ class FlowExamples001
             yield from $source;
         };
 
-        $flowWithSource = $flow->withSourceSupplier($citiesSupplier);
+        $flowWithSource = $flow->withProducer(RewindableProducer::ofIteratorSupplier($citiesSupplier));
         $sink = $flowWithSource
             ->collect()
             ->asArray();

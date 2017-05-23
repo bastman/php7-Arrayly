@@ -23,15 +23,3 @@ function flip(iterable $iterable): \Generator
         yield $v => $k;
     }
 }
-
-function reverse(iterable $iterable, bool $preserveKeys): \Generator
-{
-    $source = [];
-    foreach ($iterable as $k => $v) {
-        $source[$k] = $v;
-    }
-    $sink = array_reverse($source, $preserveKeys);
-    foreach ($sink as $k => $v) {
-        yield $k => $v;
-    }
-}

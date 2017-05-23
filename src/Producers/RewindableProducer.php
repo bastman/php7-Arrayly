@@ -1,21 +1,33 @@
 <?php
 declare( strict_types = 1 );
-namespace Arrayly\Iterator;
+namespace Arrayly\Producers;
 
 use Arrayly\Util\internals as utils;
-
-class RewindableIterator implements \Iterator
+final class RewindableProducer implements \Iterator
 {
     /**
      * @var \Closure
      */
-    private $iteratorSupplier;
+    private $supplier;
     /**
      * @var \Iterator
      */
     private $iterator;
 
-    public static function ofIterable(iterable $iterable) {
+    private function __construct( \Closure $iteratorSupplier ) {
+        $this->supplier = $iteratorSupplier;
+        $this->createIterator();
+    }
+
+    public static function ofIteratorSupplier(\Closure $iteratorSupplier):RewindableProducer {
+        return new static($iteratorSupplier);
+    }
+
+    public static function ofIterable(iterable $iterable):RewindableProducer {
+        if($iterable instanceof static) {
+            return $iterable->newInstance();
+        }
+
         if($iterable instanceof \Generator) {
 
             throw new \InvalidArgumentException(
@@ -24,24 +36,15 @@ class RewindableIterator implements \Iterator
             );
         }
 
-        $supplier = function() use($iterable){
+        $supplier = function() use($iterable):\Generator{
             yield from $iterable;
         };
 
-        return static::ofIterableSupplier($supplier);
-    }
-
-    public static function ofIterableSupplier(\Closure $supplier) {
-        return new static($supplier);
-    }
-
-    public function __construct( \Closure $iteratorSupplier ) {
-        $this->iteratorSupplier = $iteratorSupplier;
-        $this->createIterator();
+        return static::ofIteratorSupplier($supplier);
     }
 
     private function createIterator() {
-        $supplier = $this->iteratorSupplier;
+        $supplier = $this->supplier;
         $iterator = $supplier();
         if(is_array($iterator)) {
             $iterator=new \ArrayIterator($iterator);
@@ -50,28 +53,32 @@ class RewindableIterator implements \Iterator
         $this->iterator = $iterator;
     }
 
-    public function current() {
+    public function current()
+    {
         return $this->iterator->current();
     }
 
-    public function next() {
+    public function next()
+    {
         $this->iterator->next();
     }
 
-    public function key() {
+    public function key()
+    {
         return $this->iterator->key();
     }
 
-    public function valid() {
+    public function valid()
+    {
         return $this->iterator->valid();
     }
 
-    public function rewind() {
+    public function rewind()
+    {
         $this->createIterator();
     }
 
-    public function newInstance():RewindableIterator {
-        return new static($this->iteratorSupplier);
+    public function newInstance():RewindableProducer {
+        return new static($this->supplier);
     }
-
 }

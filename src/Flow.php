@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Arrayly;
 
 use Arrayly\Flow\FlowSink;
-use Arrayly\Iterator\RewindableIterator;
+
+use Arrayly\Producers\RewindableProducer;
 
 use Arrayly\Generators\partials as generate;
 use Arrayly\Util\internals as utils;
@@ -18,41 +19,46 @@ class Flow
     private $commands = [];
 
     /**
-     * @var RewindableIterator
+     * @var RewindableProducer
      */
-    private $source;
+    private $producer;
 
     public static function ofIterable(iterable $source):Flow {
-        return new static(RewindableIterator::ofIterable($source), []);
+        return new static(RewindableProducer::ofIterable($source), []);
     }
 
     public static function create():Flow {
         return static::ofIterable([]);
     }
 
-    public function __construct(RewindableIterator $source, array $commands)
+    public static function producerOfIterable(iterable $iterable):RewindableProducer {
+        return RewindableProducer::ofIterable($iterable);
+    }
+    public static function producerOfIteratorSupplier(\Closure $iteratorSupplier):RewindableProducer {
+        return RewindableProducer::ofIteratorSupplier($iteratorSupplier);
+    }
+
+    private function __construct(RewindableProducer $producer, array $commands)
     {
         $this->commands = utils\requireClosureListFromVarArgs(...$commands);
-        $this->source=$source;
+        $this->producer=$producer;
     }
 
     public function copy():Flow {
-        return new static($this->source, $this->commands);
+        return new static($this->producer, $this->commands);
     }
 
-    public function withSource(iterable $source):Flow {
-        if($source instanceof RewindableIterator) {
-            return new static($source, $this->commands);
-        } else {
-            return new static(RewindableIterator::ofIterable($source), $this->commands);
-        }
+    public function withoutProducer():Flow {
+        return new static(RewindableProducer::ofIterable([]), $this->commands);
     }
-    public function withSourceSupplier(\Closure $sourceSupplier):Flow {
-        return new static(RewindableIterator::ofIterableSupplier($sourceSupplier), $this->commands);
+    public function withProducer(RewindableProducer $producer):Flow {
+        return new static($producer, $this->commands);
     }
-
-    public function withoutSource():Flow {
-        return new static(RewindableIterator::ofIterable([]), $this->commands);
+    public function withProducerOfIterable(iterable $source):Flow {
+        return $this->withProducer(static::producerOfIterable($source));
+    }
+    public function withProducerOfIteratorSupplier(\Closure $iteratorSupplier):Flow {
+        return $this->withProducer(static::producerOfIteratorSupplier($iteratorSupplier));
     }
 
     private function withCommandAppended(\Closure ...$commands):Flow {
@@ -68,7 +74,7 @@ class Flow
     private function run(): iterable
     {
         // work on a fresh (rewinded) iterator source
-        $iterable=$this->source->newInstance();
+        $iterable=$this->producer->newInstance();
         foreach ($this->commands as $c) {
             $iterable = $c($iterable);
         }
@@ -117,9 +123,9 @@ class Flow
         return $this->withCommandAppended(generate\flip());
     }
 
-    public function reverse(bool $preserveKeys): Flow
+    public function reverse(): Flow
     {
-        return $this->withCommandAppended(generate\reverse($preserveKeys));
+        return $this->withCommandAppended(generate\reverse());
     }
 
     public function onEach(\Closure $callback): Flow
