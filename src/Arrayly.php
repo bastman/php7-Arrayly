@@ -304,18 +304,27 @@ final class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeys(\Closure $keySelector): Arrayly
+    public function mapKeysByKey(\Closure $keySelector): Arrayly
     {
-        return $this->withData(fn\mapKeys($this->data, $keySelector));
+        return $this->withData(fn\mapKeysByKey($this->data, $keySelector));
     }
 
     /**
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeysIndexed(\Closure $keySelector): Arrayly
+    public function mapKeysByValue(\Closure $keySelector): Arrayly
     {
-        return $this->withData(fn\mapKeysIndexed($this->data, $keySelector));
+        return $this->withData(fn\mapKeysByValue($this->data, $keySelector));
+    }
+
+    /**
+     * @param \Closure $keySelector
+     * @return Arrayly
+     */
+    public function mapKeysByValueIndexed(\Closure $keySelector): Arrayly
+    {
+        return $this->withData(fn\mapKeysByValueIndexed($this->data, $keySelector));
     }
 
     /**

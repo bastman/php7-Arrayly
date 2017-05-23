@@ -336,4 +336,43 @@ class ArraylyTestCase extends TestCase
 
         $this->assertSame($expected, $sink);
     }
+
+    public function testMapKeys() {
+        $source = [
+            "a1"=>"a1Value",
+            "b1"=>"b1Value",
+        ];
+        $expected = [
+            "A1"=>"a1Value",
+            "B1"=>"b1Value",
+        ];
+
+        $sink = A::ofIterable($source)
+            ->mapKeysByKey(function ($k) {return strtoupper($k);})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $sink = A::ofIterable($source)
+            ->mapKeysByValueIndexed(function ($k, $v) {return strtoupper($k);})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $expected = [
+            "a1:a1Value"=>"a1Value",
+            "b1:b1Value"=>"b1Value",
+        ];
+        $sink = A::ofIterable($source)
+            ->mapKeysByValueIndexed(function ($k, $v) {return $k.':'.$v;})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $expected = [
+            "A1VALUE"=>"a1Value",
+            "B1VALUE"=>"b1Value",
+        ];
+        $sink = A::ofIterable($source)
+            ->mapKeysByValue(function ($v) {return strtoupper($v);})
+            ->toArray();
+        $this->assertSame($expected, $sink);
+    }
 }

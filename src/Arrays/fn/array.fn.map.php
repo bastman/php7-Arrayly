@@ -23,7 +23,16 @@ function mapIndexed(array $source, \Closure $transform): array
     return $sink;
 }
 
-function mapKeys(array $source, \Closure $keySelector): array
+function mapKeysByKey(array $source, \Closure $keySelector): array
+{
+    $sink = [];
+    foreach ($source as $k => $v) {
+        $sink[$keySelector($k)] = $v;
+    }
+
+    return $sink;
+}
+function mapKeysByValue(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
@@ -33,7 +42,7 @@ function mapKeys(array $source, \Closure $keySelector): array
     return $sink;
 }
 
-function mapKeysIndexed(array $source, \Closure $keySelector): array
+function mapKeysByValueIndexed(array $source, \Closure $keySelector): array
 {
     $sink = [];
     foreach ($source as $k => $v) {
