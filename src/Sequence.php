@@ -97,14 +97,14 @@ final class Sequence
         return $this->withData(generate\mapIndexed($this->data, $transform));
     }
 
-    public function mapKeys(\Closure $keySelector): Sequence
+    public function mapKeysByValue(\Closure $keySelector): Sequence
     {
-        return $this->withData(generate\mapKeys($this->data, $keySelector));
+        return $this->withData(generate\mapKeysByValue($this->data, $keySelector));
     }
 
-    public function mapKeysIndexed(\Closure $keySelector): Sequence
+    public function mapKeysByValueIndexed(\Closure $keySelector): Sequence
     {
-        return $this->withData(generate\mapKeysIndexed($this->data, $keySelector));
+        return $this->withData(generate\mapKeysByValueIndexed($this->data, $keySelector));
     }
 
     public function filter(\Closure $predicate): Sequence

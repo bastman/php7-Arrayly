@@ -545,4 +545,41 @@ class FlowTest extends TestCase
                     ->collect()->asArray();
                 $this->assertSame($expected, $sink);
             }
+
+    public function testMapKeys() {
+        $source = [
+            "a1"=>"a1Value",
+            "b1"=>"b1Value",
+        ];
+        $expected = [
+            "A1"=>"a1Value",
+            "B1"=>"b1Value",
+        ];
+
+        $sink = Flow::create()
+            ->withProducerOfIterable($source)
+            ->mapKeysByValueIndexed(function ($k, $v) {return strtoupper($k);})
+            ->collect()->asArray();
+        $this->assertSame($expected, $sink);
+
+        $expected = [
+            "a1:a1Value"=>"a1Value",
+            "b1:b1Value"=>"b1Value",
+        ];
+        $sink = Flow::create()
+            ->withProducerOfIterable($source)
+            ->mapKeysByValueIndexed(function ($k, $v) {return $k.':'.$v;})
+            ->collect()->asArray();
+        $this->assertSame($expected, $sink);
+
+        $expected = [
+            "A1VALUE"=>"a1Value",
+            "B1VALUE"=>"b1Value",
+        ];
+        $sink = Flow::create()
+            ->withProducerOfIterable($source)
+            ->mapKeysByValue(function ($v) {return strtoupper($v);})
+            ->collect()->asArray();
+        $this->assertSame($expected, $sink);
+    }
 }

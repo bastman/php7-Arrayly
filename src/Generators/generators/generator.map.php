@@ -17,14 +17,14 @@ function mapIndexed(iterable $iterable, \Closure $transform): \Generator
     }
 }
 
-function mapKeys(iterable $iterable, \Closure $keySelector): \Generator
+function mapKeysByValue(iterable $iterable, \Closure $keySelector): \Generator
 {
     foreach ($iterable as $k => $v) {
         yield $keySelector($v) => $v;
     }
 }
 
-function mapKeysIndexed(iterable $iterable, \Closure $keySelector): \Generator
+function mapKeysByValueIndexed(iterable $iterable, \Closure $keySelector): \Generator
 {
     foreach ($iterable as $k => $v) {
         yield $keySelector($k, $v) => $v;

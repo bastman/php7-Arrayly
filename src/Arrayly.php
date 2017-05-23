@@ -304,15 +304,6 @@ final class Arrayly
      * @param \Closure $keySelector
      * @return Arrayly
      */
-    public function mapKeysByKey(\Closure $keySelector): Arrayly
-    {
-        return $this->withData(fn\mapKeysByKey($this->data, $keySelector));
-    }
-
-    /**
-     * @param \Closure $keySelector
-     * @return Arrayly
-     */
     public function mapKeysByValue(\Closure $keySelector): Arrayly
     {
         return $this->withData(fn\mapKeysByValue($this->data, $keySelector));

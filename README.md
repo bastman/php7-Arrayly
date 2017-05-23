@@ -20,7 +20,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.9
+    $ composer require bastman/php7-arrayly 0.0.10
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly

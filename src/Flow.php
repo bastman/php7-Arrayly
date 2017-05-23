@@ -136,14 +136,14 @@ final class Flow
         return $this->withCommandAppended(generate\mapIndexed($transform));
     }
 
-    public function mapKeys(\Closure $keySelector): Flow
+    public function mapKeysByValue(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(generate\mapKeys($keySelector));
+        return $this->withCommandAppended(generate\mapKeysByValue($keySelector));
     }
 
-    public function mapKeysIndexed(\Closure $keySelector): Flow
+    public function mapKeysByValueIndexed(\Closure $keySelector): Flow
     {
-        return $this->withCommandAppended(generate\mapKeysIndexed($keySelector));
+        return $this->withCommandAppended(generate\mapKeysByValueIndexed($keySelector));
     }
 
     public function filter(\Closure $predicate): Flow

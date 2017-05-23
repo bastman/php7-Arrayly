@@ -18,16 +18,16 @@ function mapIndexed(\Closure $transform): \Closure
     };
 }
 
-function mapKeys(\Closure $keySelector): \Closure
+function mapKeysByValue(\Closure $keySelector): \Closure
 {
     return function (iterable $iterable) use ($keySelector) {
-        return generate\mapKeys($iterable, $keySelector);
+        return generate\mapKeysByValue($iterable, $keySelector);
     };
 }
 
-function mapKeysIndexed(\Closure $keySelector): \Closure
+function mapKeysByValueIndexed(\Closure $keySelector): \Closure
 {
     return function (iterable $iterable) use ($keySelector) {
-        return generate\mapKeysIndexed($iterable, $keySelector);
+        return generate\mapKeysByValueIndexed($iterable, $keySelector);
     };
 }

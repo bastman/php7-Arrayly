@@ -348,11 +348,6 @@ class ArraylyTestCase extends TestCase
         ];
 
         $sink = A::ofIterable($source)
-            ->mapKeysByKey(function ($k) {return strtoupper($k);})
-            ->toArray();
-        $this->assertSame($expected, $sink);
-
-        $sink = A::ofIterable($source)
             ->mapKeysByValueIndexed(function ($k, $v) {return strtoupper($k);})
             ->toArray();
         $this->assertSame($expected, $sink);
