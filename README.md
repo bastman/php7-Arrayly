@@ -98,19 +98,20 @@ inspired by
         
 3.
         // derive a new flow by applying a different producer
-        $derivedflowWithOtherProducer = $flow
-            ->withProducerOfIteratorSupplier(
+        // note: the old flow will not be affected by this. immutability rockz :)
+        
+        $derivedFlow = $flow->withProducerOfIteratorSupplier(
                 function():\Generator { 
                     yield from self::createCities();
                 });
 4.      
         // run the drived flow        
-        $sink = $derivedflowWithOtherProducer
+        $sink = $derivedFlow
             ->collect()
             ->asArray();
 5.
         // and re-run the derived flow - because we can ;)
-        $sink = $derivedflowWithOtherProducer
+        $sink = $derivedFlow
             ->collect()
             ->asArray();
              
