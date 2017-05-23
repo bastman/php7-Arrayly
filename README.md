@@ -19,6 +19,7 @@ inspired by
 ## Design Principles
 - functional programming
 - immutability
+- strict strong typing
 
 ## Methods
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
