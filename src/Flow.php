@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly;
 
-use Arrayly\Flow\FlowResult;
+use Arrayly\Flow\FlowSink;
 use Arrayly\Iterator\RewindableIterator;
 
 use Arrayly\Generators\partials as generate;
@@ -76,14 +76,14 @@ class Flow
         return $iterable;
     }
 
-    public function collect():FlowResult {
+    public function collect():FlowSink {
         $iter = $this->run();
         $sink=[];
         foreach ($iter as $k=>$v) {
             $sink[$k] = $v;
         }
 
-        return FlowResult::ofArray($sink);
+        return FlowSink::ofArray($sink);
     }
 
 

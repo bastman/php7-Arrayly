@@ -6,7 +6,7 @@ namespace Arrayly\Flow;
 use Arrayly\Arrayly;
 use Arrayly\Sequence;
 
-class FlowResult
+class FlowSink
 {
     private $data=[];
 
@@ -38,8 +38,5 @@ class FlowResult
     {
         return Arrayly::ofIterable($this->data);
     }
-
-
-
 
 }

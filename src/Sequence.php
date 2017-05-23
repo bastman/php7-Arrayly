@@ -189,5 +189,4 @@ class Sequence
         return $this->withData(generate\sortByDescending($this->data, $comparator));
     }
 
-
 }
