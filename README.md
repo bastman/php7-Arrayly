@@ -1,7 +1,7 @@
 # php7-Arrayly
 - Arrayly (eager): decorates php array with methods similar to Java Streams / Kotlin Collections
-- Sequence (lazy, consume-once): provides fluid interface to php generators
-- Flow (lazy, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformations
+- Sequence (lazy, consume-once): provides fluid interface to php generators & iterators
+- Flow (lazy, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformation pipelines
 
 
 inspired by 
@@ -15,6 +15,10 @@ inspired by
 
 ## Notes
 - Experimental.
+
+## Design Principles
+- functional programming
+- immutability
 
 ## Methods
  - filter, map, flatMap, reduce, groupBy, find, sort, ...
