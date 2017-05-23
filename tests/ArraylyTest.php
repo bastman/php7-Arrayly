@@ -420,4 +420,71 @@ class ArraylyTestCase extends TestCase
             ->toArray();
         $this->assertSame($expected, $sink);
     }
+
+    public function testChunk() {
+        $source = [
+            "a1"=>"a1Value",
+            "a2"=>"a2Value",
+            "a3"=>"a3Value",
+        ];
+        $preserveKeys=true;
+
+        $batchSize=1;
+        $expected = [
+            [
+                "a1"=>"a1Value",
+            ],
+            [
+                "a2"=>"a2Value",
+            ],
+            [
+                "a3"=>"a3Value",
+            ],
+        ];
+        $sink = A::ofIterable($source)
+            ->chunk($batchSize,$preserveKeys)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $batchSize=2;
+        $expected = [
+            [
+                "a1"=>"a1Value",
+                "a2"=>"a2Value",
+            ],
+            [
+                "a3"=>"a3Value",
+            ],
+        ];
+        $sink = A::ofIterable($source)
+            ->chunk($batchSize,$preserveKeys)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $batchSize=3;
+        $expected = [
+            [
+                "a1"=>"a1Value",
+                "a2"=>"a2Value",
+                "a3"=>"a3Value"
+            ]
+        ];
+        $sink = A::ofIterable($source)
+            ->chunk($batchSize,$preserveKeys)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $batchSize=99999;
+        $expected = [
+            [
+                "a1"=>"a1Value",
+                "a2"=>"a2Value",
+                "a3"=>"a3Value"
+            ]
+        ];
+        $sink = A::ofIterable($source)
+            ->chunk($batchSize,$preserveKeys)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+    }
 }

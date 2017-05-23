@@ -239,4 +239,9 @@ final class Flow
         return $this->withCommandAppended(generate\sortByDescending($comparator));
     }
 
+    public function chunk(int $batchSize): Flow
+    {
+        return $this->withCommandAppended(generate\chunk($batchSize));
+    }
+
 }

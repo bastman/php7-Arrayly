@@ -289,4 +289,9 @@ final class Arrayly
         return $this->withData(fn\dropWhileIndexed($this->data, $predicate));
     }
 
+    public function chunk(int $batchSize, bool $preserveKeys): Arrayly
+    {
+        return $this->withData(fn\chunk($this->data, $batchSize, $preserveKeys));
+    }
+
 }

@@ -19,10 +19,10 @@ inspired by
 ## Design Principles
 - functional programming
 - immutability
-- strict strong typing
+- strictly strong typing
 
 ## Methods
- - filter, map, flatMap, reduce, groupBy, find, sort, ...
+ - filter, map, flatMap, reduce, groupBy, find, sort, chunk, take, drop, ...
  
 ## Install
     $ composer require bastman/php7-arrayly 0.0.11

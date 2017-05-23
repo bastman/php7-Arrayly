@@ -195,4 +195,9 @@ final class Sequence
         return $this->withData(generate\sortByDescending($this->data, $comparator));
     }
 
+    public function chunk(int $batchSize): Sequence
+    {
+        return $this->withData(generate\chunk($this->data, $batchSize));
+    }
+
 }
