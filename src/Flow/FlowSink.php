@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Arrayly\Flow;
 
@@ -6,7 +7,7 @@ namespace Arrayly\Flow;
 use Arrayly\Arrayly;
 use Arrayly\Sequence;
 
-final class FlowSink
+final class FlowSink implements \IteratorAggregate
 {
     private $data=[];
 
@@ -26,7 +27,7 @@ final class FlowSink
 
     public function toGenerator(): \Generator
     {
-        yield from $this->data;
+        return $this->getIterator();
     }
 
     public function toSequence(): Sequence
@@ -37,6 +38,19 @@ final class FlowSink
     public function toArrayly(): Arrayly
     {
         return Arrayly::ofIterable($this->data);
+    }
+
+    public function getIterator(): \Generator
+    {
+        yield from $this->data;
+    }
+
+    public function toIteratorSupplier():\Closure {
+        $fn = function () {
+            return $this->getIterator();
+        };
+
+        return $fn;
     }
 
 }

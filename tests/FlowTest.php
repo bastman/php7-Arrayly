@@ -8,6 +8,7 @@
 
 namespace Arrayly\Test;
 
+use Arrayly\Arrayly;
 use Arrayly\Flow;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
@@ -698,15 +699,13 @@ class FlowTest extends TestCase
             "a2" => "a2Value",
             "a3" => "a3Value",
         ];
-        $gen=function()use ($source){
-            foreach ($source as $k=>$v) {
-                yield $k=>$v;
-            }
-        };
+
+        $producer = Arrayly::ofIterable($source)
+            ->toIteratorSupplier();
 
         $limit = 0;
         $expected=[];
-        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+        $sink = Flow::create()->withProducerOfIteratorSupplier($producer)
             ->takeLast($limit)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
@@ -715,7 +714,7 @@ class FlowTest extends TestCase
         $expected=[
             "a3" => "a3Value",
         ];
-        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+        $sink = Flow::create()->withProducerOfIteratorSupplier($producer)
             ->takeLast($limit)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
@@ -725,21 +724,21 @@ class FlowTest extends TestCase
             "a2" => "a2Value",
             "a3" => "a3Value",
         ];
-        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+        $sink = Flow::create()->withProducerOfIteratorSupplier($producer)
             ->takeLast($limit)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $limit = 3;
         $expected=$source;
-        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+        $sink = Flow::create()->withProducerOfIteratorSupplier($producer)
             ->takeLast($limit)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
 
         $limit = 10000;
         $expected=$source;
-        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+        $sink = Flow::create()->withProducerOfIteratorSupplier($producer)
             ->takeLast($limit)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);

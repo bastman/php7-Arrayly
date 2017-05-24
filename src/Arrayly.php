@@ -6,7 +6,7 @@ namespace Arrayly;
 use Arrayly\Arrays\fn;
 use Arrayly\Util\internals as utils;
 
-final class Arrayly
+final class Arrayly implements \IteratorAggregate
 {
     /**
      * @var array
@@ -31,6 +31,18 @@ final class Arrayly
     public function toSequence(): Sequence
     {
         return Sequence::ofIterable($this->data);
+    }
+    public function getIterator(): \Generator
+    {
+        yield from $this->data;
+    }
+
+    public function toIteratorSupplier():\Closure {
+        $fn = function () {
+            return $this->getIterator();
+        };
+
+        return $fn;
     }
 
     public function copy(): Arrayly
