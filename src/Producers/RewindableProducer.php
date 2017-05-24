@@ -25,20 +25,10 @@ final class RewindableProducer implements \Iterator
 
     public static function ofIterable(iterable $iterable):RewindableProducer {
         if($iterable instanceof static) {
+
             return $iterable->newInstance();
         }
-
-        if($iterable instanceof \Generator) {
-
-            throw new \InvalidArgumentException(
-                'Parameter iterable must not be instanceof \Generator! since it is not rewindable.'
-                .'use ::ofIterableSupplier(fn) for providing rewindable generators.'
-            );
-        }
-
-        $supplier = function() use($iterable):\Generator{
-            yield from $iterable;
-        };
+        $supplier = utils\iterableToRewindableIteratorSupplier($iterable);
 
         return static::ofIteratorSupplier($supplier);
     }
@@ -46,10 +36,8 @@ final class RewindableProducer implements \Iterator
     private function createIterator() {
         $supplier = $this->supplier;
         $iterator = $supplier();
-        if(is_array($iterator)) {
-            $iterator=new \ArrayIterator($iterator);
-        }
-        $iterator = utils\requireIsIterator($iterator);
+        $iterator = utils\iterableToIterator($iterator);
+
         $this->iterator = $iterator;
     }
 

@@ -43,7 +43,7 @@ final class Producer implements \Iterator
         if(is_array($iterator)) {
             $iterator=new \ArrayIterator($iterator);
         }
-        $iterator = utils\requireIsIterator($iterator);
+        $iterator = utils\requireIterator($iterator);
         $this->iterator = $iterator;
     }
 

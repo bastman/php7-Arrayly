@@ -3,8 +3,70 @@ declare(strict_types=1);
 
 namespace Arrayly\Util\internals;
 
-function requireIsIterator(\Iterator $iterator):\Iterator{
+function iterableToIteratorSupplier(iterable $iterable):\Closure {
+    $supplier = function() use($iterable):\Generator{
+        yield from $iterable;
+    };
+
+    return $supplier;
+}
+
+function iterableToRewindableIteratorSupplier(iterable $iterable):\Closure {
+    if($iterable instanceof \Generator) {
+
+        throw new \InvalidArgumentException(
+            'Parameter iterable must not be instanceof \Generator! since it is not rewindable.'
+            .'use ::ofIterableSupplier(fn) for providing rewindable generators.'
+        );
+    }
+
+    $supplier = function() use($iterable):\Generator{
+        yield from $iterable;
+    };
+
+    return $supplier;
+}
+
+
+function requireIterator(\Iterator $iterator):\Iterator{
     return $iterator;
+}
+
+function iterableToTraversable(iterable $iterable):\Traversable {
+    if($iterable instanceof \Traversable) {
+        return $iterable;
+    }
+    if ($iterable instanceof \Iterator) {
+        return $iterable;
+    }
+    if ($iterable instanceof \IteratorAggregate) {
+        return $iterable->getIterator();
+    }
+
+    if (is_array($iterable)) {
+        return new \ArrayIterator($iterable);
+    }
+
+    throw new \InvalidArgumentException('Argument "iterable" must be traversable!');
+}
+
+function iterableToIterator(iterable $iterable):\Iterator {
+    if($iterable instanceof \Iterator) {
+        return $iterable;
+    }
+    if (is_array($iterable)) {
+        return new \ArrayIterator($iterable);
+    }
+
+    if ($iterable instanceof \IteratorAggregate) {
+        $iter = $iterable->getIterator();
+        if($iter instanceof \Iterator) {
+
+            return $iter;
+        }
+    }
+
+    throw new \InvalidArgumentException('Argument "iterable" must be has no Iterator!');
 }
 
 function requireIterable(iterable $iterable): iterable
