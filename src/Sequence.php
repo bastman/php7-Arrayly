@@ -30,11 +30,6 @@ final class Sequence
         return Sink::ofArray(utils\iterableToArray($this->data));
     }
 
-    public function toArrayly(): Arrayly
-    {
-        return Arrayly::ofIterable($this->data);
-    }
-
     public function forEachRemaining(\Closure $callback): Void
     {
         foreach ($this->data as $v) {
