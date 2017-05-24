@@ -1,13 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Arrayly\Flow;
+namespace Arrayly;
 
 
-use Arrayly\Arrayly;
-use Arrayly\Sequence;
-
-final class FlowSink implements \IteratorAggregate
+final class Sink implements \IteratorAggregate
 {
     private $data=[];
 

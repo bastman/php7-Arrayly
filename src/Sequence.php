@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Arrayly;
 
-use Arrayly\Flow\FlowSink;
 use Arrayly\Generators\generators as generate;
 use Arrayly\Util\internals as utils;
 
@@ -27,13 +26,8 @@ final class Sequence
         return new static($data);
     }
 
-    public function collect():FlowSink {
-        return FlowSink::ofArray(utils\iterableToArray($this->data));
-    }
-
-    public function toArray(): array
-    {
-        return utils\iterableToArray($this->data);
+    public function collect():Sink {
+        return Sink::ofArray(utils\iterableToArray($this->data));
     }
 
     public function toArrayly(): Arrayly

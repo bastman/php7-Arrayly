@@ -16,7 +16,7 @@ class SequenceExamples001
         $r = null;
         $r = Seq::ofIterable($cities)
             ->keys()
-            ->toArray();
+            ->collect()->toArray();
         TestUtils::printTestResult("GENERATORS.keys()", $r);
 
         $r = Seq::ofIterable($cities)
@@ -60,7 +60,7 @@ class SequenceExamples001
             ->onEach(function ($v) {
                 echo "peek: piped:".json_encode($v).PHP_EOL;
             })
-            ->toArray();
+            ->collect()->toArray();
 
         TestUtils::printTestResult("GENERATORS", $r);
     }
