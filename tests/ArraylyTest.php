@@ -427,7 +427,6 @@ class ArraylyTestCase extends TestCase
             "a2"=>"a2Value",
             "a3"=>"a3Value",
         ];
-        $preserveKeys=true;
 
         $batchSize=1;
         $expected = [
@@ -442,7 +441,7 @@ class ArraylyTestCase extends TestCase
             ],
         ];
         $sink = A::ofIterable($source)
-            ->chunk($batchSize,$preserveKeys)
+            ->chunk($batchSize)
             ->toArray();
         $this->assertSame($expected, $sink);
 
@@ -457,7 +456,7 @@ class ArraylyTestCase extends TestCase
             ],
         ];
         $sink = A::ofIterable($source)
-            ->chunk($batchSize,$preserveKeys)
+            ->chunk($batchSize)
             ->toArray();
         $this->assertSame($expected, $sink);
 
@@ -470,7 +469,7 @@ class ArraylyTestCase extends TestCase
             ]
         ];
         $sink = A::ofIterable($source)
-            ->chunk($batchSize,$preserveKeys)
+            ->chunk($batchSize)
             ->toArray();
         $this->assertSame($expected, $sink);
 
@@ -483,7 +482,61 @@ class ArraylyTestCase extends TestCase
             ]
         ];
         $sink = A::ofIterable($source)
-            ->chunk($batchSize,$preserveKeys)
+            ->chunk($batchSize)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+    }
+
+    public function testTakeLast()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $gen=function()use ($source){
+            foreach ($source as $k=>$v) {
+                yield $k=>$v;
+            }
+        };
+
+        $limit = 0;
+        $expected=[];
+        $sink = A::ofIterable($gen())
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 1;
+        $expected=[
+            "a3" => "a3Value",
+        ];
+        $sink = A::ofIterable($gen())
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 2;
+        $expected=[
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $sink = A::ofIterable($gen())
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 3;
+        $expected=$source;
+        $sink = A::ofIterable($gen())
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 10000;
+        $expected=$source;
+        $sink = A::ofIterable($gen())
+            ->takeLast($limit)
             ->toArray();
         $this->assertSame($expected, $sink);
     }

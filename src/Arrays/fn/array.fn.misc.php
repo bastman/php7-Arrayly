@@ -34,9 +34,9 @@ function count(array $source): int
     return \count($source);
 }
 
-function reverse(array $source, bool $preserveKeys): array
+function reverse(array $source): array
 {
-    return array_reverse($source, $preserveKeys);
+    return array_reverse($source, true);
 }
 
 function hasKey(array $source, $key): bool

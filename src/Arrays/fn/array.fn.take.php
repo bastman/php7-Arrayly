@@ -50,3 +50,17 @@ function takeWhileIndexed(array $source, \Closure $predicate): array
 
     return $sink;
 }
+
+function takeLast(array $source, int $offset): array
+{
+    if($offset===0) {
+
+        return [];
+    }
+    if($offset<0) {
+
+        throw new \InvalidArgumentException('amount must be >=0! given='.$offset);
+    }
+
+    return array_slice($source, -1*$offset, null, true);
+}

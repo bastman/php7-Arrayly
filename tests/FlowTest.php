@@ -690,4 +690,58 @@ class FlowTest extends TestCase
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
     }
+
+    public function testTakeLast()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $gen=function()use ($source){
+            foreach ($source as $k=>$v) {
+                yield $k=>$v;
+            }
+        };
+
+        $limit = 0;
+        $expected=[];
+        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+            ->takeLast($limit)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 1;
+        $expected=[
+            "a3" => "a3Value",
+        ];
+        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+            ->takeLast($limit)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 2;
+        $expected=[
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+            ->takeLast($limit)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 3;
+        $expected=$source;
+        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+            ->takeLast($limit)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 10000;
+        $expected=$source;
+        $sink = Flow::create()->withProducerOfIteratorSupplier($gen)
+            ->takeLast($limit)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+    }
 }

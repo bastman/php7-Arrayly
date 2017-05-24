@@ -155,11 +155,6 @@ final class Sequence
         return $this->withData(generate\take($this->data, $amount));
     }
 
-    public function drop(int $amount): Sequence
-    {
-        return $this->withData(generate\drop($this->data, $amount));
-    }
-
     public function takeWhile(\Closure $predicate): Sequence
     {
         return $this->withData(generate\takeWhile($this->data, $predicate));
@@ -168,6 +163,15 @@ final class Sequence
     public function takeWhileIndexed(\Closure $predicate): Sequence
     {
         return $this->withData(generate\takeWhileIndexed($this->data, $predicate));
+    }
+    public function takeLast(int $amount): Sequence
+    {
+        return $this->withData(generate\takeLast($this->data, $amount));
+    }
+
+    public function drop(int $amount): Sequence
+    {
+        return $this->withData(generate\drop($this->data, $amount));
     }
 
     public function dropWhile(\Closure $predicate): Sequence

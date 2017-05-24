@@ -199,11 +199,6 @@ final class Flow
         return $this->withCommandAppended(generate\take($amount));
     }
 
-    public function drop(int $amount): Flow
-    {
-        return $this->withCommandAppended(generate\drop($amount));
-    }
-
     public function takeWhile(\Closure $predicate): Flow
     {
         return $this->withCommandAppended(generate\takeWhile($predicate));
@@ -212,6 +207,16 @@ final class Flow
     public function takeWhileIndexed(\Closure $predicate): Flow
     {
         return $this->withCommandAppended(generate\takeWhileIndexed($predicate));
+    }
+
+    public function takeLast(int $amount): Flow
+    {
+        return $this->withCommandAppended(generate\takeLast($amount));
+    }
+
+    public function drop(int $amount): Flow
+    {
+        return $this->withCommandAppended(generate\drop($amount));
     }
 
     public function dropWhile(\Closure $predicate): Flow

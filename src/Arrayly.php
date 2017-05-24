@@ -76,9 +76,9 @@ final class Arrayly
         return fn\count($this->data);
     }
 
-    public function reverse(bool $preserveKeys): Arrayly
+    public function reverse(): Arrayly
     {
-        return $this->withData(fn\reverse($this->data, $preserveKeys));
+        return $this->withData(fn\reverse($this->data));
     }
 
     public function hasKey($key): bool
@@ -263,6 +263,10 @@ final class Arrayly
     {
         return $this->withData(fn\takeWhileIndexed($this->data, $predicate));
     }
+    public function takeLast(int $amount): Arrayly
+    {
+        return $this->withData(fn\takeLast($this->data, $amount));
+    }
 
     public function drop(int $amount): Arrayly
     {
@@ -279,9 +283,9 @@ final class Arrayly
         return $this->withData(fn\dropWhileIndexed($this->data, $predicate));
     }
 
-    public function chunk(int $batchSize, bool $preserveKeys): Arrayly
+    public function chunk(int $batchSize): Arrayly
     {
-        return $this->withData(fn\chunk($this->data, $batchSize, $preserveKeys));
+        return $this->withData(fn\chunk($this->data, $batchSize));
     }
 
 }

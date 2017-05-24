@@ -24,3 +24,10 @@ function takeWhileIndexed(\Closure $predicate): \Closure
         return generate\takeWhileIndexed($iterable, $predicate);
     };
 }
+
+function takeLast(int $amount): \Closure
+{
+    return function (iterable $iterable) use ($amount) {
+        return generate\takeLast($iterable, $amount);
+    };
+}

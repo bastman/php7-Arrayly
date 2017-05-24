@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Arrayly\Arrays\fn;
 
-function chunk(array $source, int $batchSize, bool $preserveKeys): array
+function chunk(array $source, int $batchSize): array
 {
-    return array_chunk($source, $batchSize, $preserveKeys);
+    return array_chunk($source, $batchSize, true);
 }
 

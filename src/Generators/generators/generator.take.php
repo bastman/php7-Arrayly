@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
 
+use function Arrayly\Util\internals\iterableToArray;
+
 function take(iterable $iterable, int $amount): \Generator
 {
     $currentAmount = 0;
@@ -35,4 +37,21 @@ function takeWhileIndexed(iterable $iterable, \Closure $predicate): \Generator
         }
         yield $k => $v;
     }
+}
+
+function takeLast(iterable $iterable, int $offset): \Generator
+{
+    if($offset===0) {
+
+        return;
+    }
+    if($offset<0) {
+
+        throw new \InvalidArgumentException('amount must be >=0! given='.$offset);
+    }
+
+    $array = iterableToArray($iterable);
+    $slice = array_slice($array, -1*$offset, null, true);
+
+    yield from $slice;
 }

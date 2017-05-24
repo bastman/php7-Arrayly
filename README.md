@@ -12,7 +12,7 @@ inspired by
 
 ## Alternative Concepts
 - Transducers: https://github.com/mtdowling/transducers.php
-
+- Pipeline, e.g.: https://www.hughgrigg.com/posts/simple-pipes-php-generators
 ## Notes
 - Experimental.
 

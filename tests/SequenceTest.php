@@ -1,6 +1,7 @@
 <?php
 namespace Arrayly\Test;
 
+use Arrayly\Producers\RewindableProducer;
 use Arrayly\Sequence as S;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
@@ -634,6 +635,60 @@ class SequenceTest extends TestCase
         ];
         $sink = S::ofIterable($source)
             ->chunk($batchSize)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+    }
+
+    public function testTakeLast()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $gen=function()use ($source){
+            foreach ($source as $k=>$v) {
+                yield $k=>$v;
+            }
+        };
+
+        $limit = 0;
+        $expected=[];
+        $sink = S::ofIterable(RewindableProducer::ofIteratorSupplier($gen))
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 1;
+        $expected=[
+            "a3" => "a3Value",
+        ];
+        $sink = S::ofIterable(RewindableProducer::ofIteratorSupplier($gen))
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 2;
+        $expected=[
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $sink = S::ofIterable(RewindableProducer::ofIteratorSupplier($gen))
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 3;
+        $expected=$source;
+        $sink = S::ofIterable(RewindableProducer::ofIteratorSupplier($gen))
+            ->takeLast($limit)
+            ->toArray();
+        $this->assertSame($expected, $sink);
+
+        $limit = 10000;
+        $expected=$source;
+        $sink = S::ofIterable(RewindableProducer::ofIteratorSupplier($gen))
+            ->takeLast($limit)
             ->toArray();
         $this->assertSame($expected, $sink);
     }
