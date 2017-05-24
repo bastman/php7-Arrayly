@@ -199,4 +199,10 @@ final class Sequence
         return $this->withData(generate\chunk($this->data, $batchSize));
     }
 
+    public function slice(int $offset, ?int $length): Sequence {
+        return $this->withData(generate\slice($this->data, $offset, $length));
+    }
+
+
+
 }

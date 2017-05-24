@@ -53,6 +53,7 @@
       "src/Generators/generators/generator.pipeTo.php",
       "src/Generators/generators/generator.reduce.php",
       "src/Generators/generators/generator.reverse.php",
+      "src/Generators/generators/generator.slice.php",
       "src/Generators/generators/generator.sort.php",
       "src/Generators/generators/generator.take.php",
 
@@ -67,6 +68,7 @@
       "src/Generators/partials/partial.pipeTo.php",
       "src/Generators/partials/partial.reduce.php",
       "src/Generators/partials/partial.reverse.php",
+      "src/Generators/generators/generator.slice.php",
       "src/Generators/partials/partial.sort.php",
       "src/Generators/partials/partial.take.php"
     ]
