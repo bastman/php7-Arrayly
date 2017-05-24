@@ -1,7 +1,7 @@
 # php7-Arrayly
 - Arrayly (eager): decorates php array with methods similar to Java Streams / Kotlin Collections
-- Sequence (lazy, consume-once): provides fluid interface to php generators & iterators
-- Flow (lazy, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformation pipelines
+- Sequence (lazy-ish, consume-once): provides fluid interface to php generators & iterators
+- Flow (lazy-ish, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformation pipelines
 
 
 inspired by 
@@ -20,12 +20,14 @@ inspired by
 - functional programming
 - immutability
 - strictly strong typing
+- composition over inheritance hell
+- treat php arrays as kind of Map (-vs- List), therefore try to preserve keys
 
 ## Methods
  - filter, map, flatMap, reduce, groupBy, find, sort, chunk, take, drop, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.12
+    $ composer require bastman/php7-arrayly 0.0.13
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
@@ -75,6 +77,7 @@ inspired by
                   }
               })
               
+              ->collect()
               ->toArray();
               
 ## Examples (Flow)  - Flow Based Programming (FBP)           
@@ -124,7 +127,7 @@ inspired by
 
     public function toArray(): array;
 
-    public function toSequence(): Sequence;
+    public function collect(): Sink;
 
     public function copy(): Arrayly;
 
@@ -142,7 +145,7 @@ inspired by
 
     public function count(): int;
 
-    public function reverse(bool $preserveKeys): Arrayly;
+    public function reverse(): Arrayly;
 
     public function hasKey($key): bool;
 
@@ -222,4 +225,4 @@ inspired by
 
     public function dropWhileIndexed(\Closure $predicate): Arrayly;
 
-    public function chunk(int $batchSize, bool $preserveKeys): Arrayly;
+    public function chunk(int $batchSize): Arrayly;

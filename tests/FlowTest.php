@@ -701,7 +701,7 @@ class FlowTest extends TestCase
         ];
 
         $producer = Arrayly::ofIterable($source)
-            ->toIteratorSupplier();
+            ->collect()->toIteratorSupplier();
 
         $limit = 0;
         $expected=[];

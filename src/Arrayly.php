@@ -23,26 +23,18 @@ final class Arrayly implements \IteratorAggregate
         $this->data = $data;
     }
 
+    public function collect():Sink {
+        return Sink::ofArray($this->data);
+    }
+
     public function toArray(): array
     {
         return $this->data;
     }
 
-    public function toSequence(): Sequence
-    {
-        return Sequence::ofIterable($this->data);
-    }
     public function getIterator(): \Generator
     {
         yield from $this->data;
-    }
-
-    public function toIteratorSupplier():\Closure {
-        $fn = function () {
-            return $this->getIterator();
-        };
-
-        return $fn;
     }
 
     public function copy(): Arrayly
