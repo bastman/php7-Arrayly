@@ -39,6 +39,7 @@
       "src/Arrays/fn/array.fn.map.php",
       "src/Arrays/fn/array.fn.misc.php",
       "src/Arrays/fn/array.fn.reduce.php",
+      "src/Arrays/fn/array.fn.slice.php",
       "src/Arrays/fn/array.fn.sort.php",
       "src/Arrays/fn/array.fn.take.php",
 
@@ -68,7 +69,7 @@
       "src/Generators/partials/partial.pipeTo.php",
       "src/Generators/partials/partial.reduce.php",
       "src/Generators/partials/partial.reverse.php",
-      "src/Generators/generators/generator.slice.php",
+      "src/Generators/partials/partial.slice.php",
       "src/Generators/partials/partial.sort.php",
       "src/Generators/partials/partial.take.php"
     ]

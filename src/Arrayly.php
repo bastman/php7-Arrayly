@@ -292,4 +292,9 @@ final class Arrayly implements \IteratorAggregate
         return $this->withData(fn\chunk($this->data, $batchSize));
     }
 
+    public function slice(int $offset, ?int $length): Arrayly
+    {
+        return $this->withData(fn\slice($this->data, $offset, $length));
+    }
+
 }

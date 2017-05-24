@@ -247,4 +247,9 @@ final class Flow
         return $this->withCommandAppended(generate\chunk($batchSize));
     }
 
+    public function slice(int $offset, ?int $length): Flow
+    {
+        return $this->withCommandAppended(generate\slice($offset, $length));
+    }
+
 }

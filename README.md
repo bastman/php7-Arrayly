@@ -27,7 +27,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, chunk, take, drop, ...
  
 ## Install
-    $ composer require bastman/php7-arrayly 0.0.13
+    $ composer require bastman/php7-arrayly 0.0.14
 
 ## Examples (Arrayly)
 - see: tests/examples/arrayly
