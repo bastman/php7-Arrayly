@@ -16,20 +16,26 @@ function slice(array $source, int $offset, ?int $length): array
 }
 // mimics JmesPath slice(startIndex,endExclusiveIndex, step)
 // see: https://github.com/jmespath/jmespath.php/blob/master/src/Utils.php
-function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, ?int $step): array
+function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, int $step=1): array
 {
-    if($step===0) {
+
+    if($step===null || $step===0) {
         $step=1;
+    }
+    if($step<0) {
+        // Who will ever understand expressions with negative step size? guys working at nasa ???
+        throw new \InvalidArgumentException('Argument "step" must be >=0 !');
     }
 
     if(
         ($startIndex===null || $startIndex===0)
         && $stopIndexExclusive===null
-        && ($step===null || $step===1)
+        && ($step===1)
     ){
         // nothing changed
         return $source;
     }
+
 
 
     $adjustEndpoint = function (int $length, int $endpoint, int $step):int {
@@ -49,19 +55,21 @@ function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, 
     $sourceItemsCount = count($source);
 
     if ($startIndex === null) {
-        $startIndex = $step < 0 ? $sourceItemsCount - 1 : 0;
+        //$startIndex = $step < 0 ? $sourceItemsCount - 1 : 0;
+        $startIndex = 0;
     } else {
         $startIndex = $adjustEndpoint($sourceItemsCount, $startIndex, $step);
     }
 
     if ($stopIndexExclusive === null) {
-        $stopIndexExclusive = $step < 0 ? -1 : $sourceItemsCount;
+        //$stopIndexExclusive = $step < 0 ? -1 : $sourceItemsCount;
+       $stopIndexExclusive = $sourceItemsCount;
     } else {
         $stopIndexExclusive = $adjustEndpoint($sourceItemsCount, $stopIndexExclusive, $step);
     }
 
     $sink=[];
-    if ($step > 0) {
+
         $currentIndex=-1;
         $findAt = $startIndex;
         //var_dump("start: ".$startIndex, "stop: ".$stopIndexExclusive, "step: ".$step);
@@ -87,14 +95,6 @@ function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, 
             }
 
         }
-
-    } else {
-        for ($i = $startIndex; $i > $stopIndexExclusive; $i += $step) {
-            $value=$source[$i];
-            $key = key($source);
-            $sink[$key] = $value;
-        }
-    }
 
     return $sink;
 }

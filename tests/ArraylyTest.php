@@ -786,8 +786,9 @@ class ArraylyTestCase extends TestCase
         ];
 
         $tests=[
+            // step
             [
-                'given'=>['step'=>null, 'start'=>null, 'stop'=>null],
+                'given'=>['step'=>0, 'start'=>null, 'stop'=>null],
                 'expected' => $source
             ],
             [
@@ -820,7 +821,77 @@ class ArraylyTestCase extends TestCase
                 'expected' => [
                     "a1" => "a1Value"
                 ]
-            ]
+            ],
+            // start
+            [
+                'given'=>['step'=>1, 'start'=>2, 'stop'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a4" => "a4Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>2, 'stop'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>4, 'stop'=>null],
+                'expected' => [
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>5, 'stop'=>null],
+                'expected' => []
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-10, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-5, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-4, 'stop'=>null],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-3, 'stop'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-2, 'stop'=>null],
+                'expected' => [
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-1, 'stop'=>null],
+                'expected' => [
+                    "a5" => "a5Value",
+                ]
+            ],
+            // stop
+
         ];
 
         A::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
