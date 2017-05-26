@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Arrayly\Util\internals;
 
+use Arrayly\Producers\RewindableProducer;
+
 function iterableToIteratorSupplier(iterable $iterable):\Closure {
     $supplier = function() use($iterable):\Generator{
         yield from $iterable;
@@ -25,6 +27,26 @@ function iterableToRewindableIteratorSupplier(iterable $iterable):\Closure {
     };
 
     return $supplier;
+}
+
+function iteratorSupplierToIterator(\Closure $supplier):\Iterator {
+    $iterator = $supplier();
+    if(is_array($iterator)) {
+        $iterator=new \ArrayIterator($iterator);
+    }
+    $iterator = requireIterator($iterator);
+
+    return $iterator;
+}
+
+function iteratorSupplierToRewindableProducer(\Closure $supplier):RewindableProducer {
+    $iterator = $supplier();
+    if(is_array($iterator)) {
+        $iterator=new \ArrayIterator($iterator);
+    }
+    $iterator = requireIterator($iterator);
+
+    return $iterator;
 }
 
 

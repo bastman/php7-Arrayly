@@ -11,19 +11,6 @@ function reverse(iterable $iterable): \Generator
     }
     $reversed = array_reverse($entries, false);
     foreach ($reversed as $entry) {
-        yield $reversed['k'] => $reversed['v'];
+        yield $entry['k'] => $entry['v'];
     }
-
-    /*
-    $stack = new \SplStack();
-    foreach ($iterable as $k =>$v){
-        $stack->push(["k"=>$k, "v"=>$v]);
-    }
-
-    while (!$stack->isEmpty()){
-        $popped=$stack->pop();
-        yield $popped['k']  =>  $popped['v'];
-    }
-    */
-
 }

@@ -12,33 +12,27 @@ final class Sink implements \IteratorAggregate
         return new static($data);
     }
 
-    public function __construct(array $data)
-    {
+    public function __construct(array $data) {
         $this->data = $data;
     }
 
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return $this->data;
     }
 
-    public function toGenerator(): \Generator
-    {
+    public function toGenerator(): \Generator {
         return $this->getIterator();
     }
 
-    public function toSequence(): Sequence
-    {
+    public function toSequence(): Sequence {
         return Sequence::ofIterable($this->data);
     }
 
-    public function toArrayly(): Arrayly
-    {
+    public function toArrayly(): Arrayly {
         return Arrayly::ofIterable($this->data);
     }
 
-    public function getIterator(): \Generator
-    {
+    public function getIterator(): \Generator {
         yield from $this->data;
     }
 

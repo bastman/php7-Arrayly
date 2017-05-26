@@ -743,4 +743,241 @@ class FlowTest extends TestCase
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
     }
+
+    public function testTakeSlice()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $gen=function() use ($source){
+            yield from $source;
+        };
+
+        $length = 0; $offset=0;
+        $expected=[];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 0; $offset=1;
+        $expected=[];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=0;
+        $expected=[
+            "a1" => "a1Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=1;
+        $expected=[
+            "a2" => "a2Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=2;
+        $expected=[
+            "a3" => "a3Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=3;
+        $expected=[];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=-1;
+        $expected=[
+            "a3" => "a3Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=-2;
+        $expected=[
+            "a2" => "a2Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=-3;
+        $expected=[
+            "a1" => "a1Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = 1; $offset=-1000;
+        $expected=[
+            "a1" => "a1Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=0;
+        $expected=$source;
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=1;
+        $expected=[
+            "a2" => "a2Value",
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=2;
+        $expected=[
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=3;
+        $expected=[];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=-1;
+        $expected=[
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=-2;
+        $expected=[
+            "a2" => "a2Value",
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $length = null; $offset=-3;
+        $expected=$source;
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+        $length = null; $offset=-1000;
+        $expected=$source;
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->slice($offset, $length)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+    }
+
+    public function testNth()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+        ];
+        $gen=function() use ($source){
+            yield from $source;
+        };
+
+        $n = 1;
+        $expected = $source;
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = 2;
+        $expected = [
+            "a1" => "a1Value",
+            "a3" => "a3Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = 3;
+        $expected = [
+            "a1" => "a1Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = 4;
+        $expected = [ "a1" => "a1Value"];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = -1;
+        $expected = [
+            "a3" => "a3Value",
+            "a2" => "a2Value",
+            "a1" => "a1Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = -2;
+        $expected = [
+            "a3" => "a3Value",
+            "a1" => "a1Value",
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = -3;
+        $expected = [
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+
+        $n = -4;
+        $expected = [
+            "a3" => "a3Value"
+        ];
+        $sink = Flow::ofRewindableIteratorSupplier($gen)
+            ->nth($n)
+            ->collect()->toArray();
+        $this->assertSame($expected, $sink);
+    }
 }
