@@ -249,4 +249,8 @@ final class Arrayly implements \IteratorAggregate
         return $this->withData(fn\nth($this->data, $n));
     }
 
+    public function sliceSubset(?int $startIndex, ?int $stopIndexExclusive, ?int $step): Arrayly {
+        return $this->withData(fn\sliceSubset($this->data, $startIndex, $stopIndexExclusive, $step));
+    }
+
 }

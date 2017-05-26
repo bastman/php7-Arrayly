@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Arrayly\Test;
 
 use Arrayly\Arrayly as A;
+use Arrayly\Arrayly;
 use Arrayly\Test\TestUtils as TestUtils;
+use function foo\func;
 use PHPUnit\Framework\TestCase;
 
 class ArraylyTestCase extends TestCase
@@ -770,5 +772,76 @@ class ArraylyTestCase extends TestCase
             ->nth($n)
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
+    }
+
+
+    public function testSliceSubset()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+            "a4" => "a4Value",
+            "a5" => "a5Value",
+        ];
+
+        $tests=[
+            [
+                'given'=>['step'=>null, 'start'=>null, 'stop'=>null],
+                'expected' => $source
+            ],
+            [
+                'given'=>['step'=>1, 'start'=>null, 'stop'=>null],
+                'expected' => $source
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>4, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>5, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>100, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1" => "a1Value"
+                ]
+            ]
+        ];
+
+        A::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
+            $start=$testCase['given']['start'];
+            $stop=$testCase['given']['stop'];
+            $step=$testCase['given']['step'];
+
+            $sink = A::ofIterable($source)
+                ->sliceSubset($start, $stop, $step)
+                ->collect()->toArray();
+            try{
+                $this->assertSame($testCase['expected'], $sink);
+            }catch (\Throwable $all) {
+                echo " --> Testcase at index: ".$testCaseIndex. " failed!";
+
+                throw $all;
+            }
+
+        });
+
+
+
     }
 }
