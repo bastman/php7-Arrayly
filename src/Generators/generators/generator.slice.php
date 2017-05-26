@@ -5,7 +5,7 @@ namespace Arrayly\Generators\generators;
 
 use Arrayly\Arrayly;
 use function Arrayly\Util\internals\iterableToArray;
-
+use Arrayly\Arrays\fn as arrays;
 function slice(iterable $iterable, int $offset, ?int $length): \Generator
 {
     $preserveKeys = true;
@@ -53,9 +53,18 @@ function slice(iterable $iterable, int $offset, ?int $length): \Generator
 // mimics JmesPath slice(startIndex,endExclusiveIndex, step)
 // see: https://github.com/jmespath/jmespath.php/blob/master/src/Utils.php
 function sliceSubset(iterable $iterable, ?int $startIndex, ?int $stopIndexExclusive, int $step=1): \Generator {
+
+    if($step<1) {
+        // Who will ever understand expressions with negative step size? guys working at nasa ???
+        throw new \InvalidArgumentException('Argument "step" must be >0 !');
+    }
+
+
+
+
     // for now - delegate to array functions
 
-    yield from \Arrayly\Arrays\fn\sliceSubset(iterableToArray($iterable), $startIndex, $stopIndexExclusive, $step);
+    yield from arrays\sliceSubset(iterableToArray($iterable), $startIndex, $stopIndexExclusive, $step);
 }
 
 

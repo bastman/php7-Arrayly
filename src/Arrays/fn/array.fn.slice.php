@@ -19,12 +19,9 @@ function slice(array $source, int $offset, ?int $length): array
 function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, int $step=1): array
 {
 
-    if($step===null || $step===0) {
-        $step=1;
-    }
-    if($step<0) {
+    if($step<1) {
         // Who will ever understand expressions with negative step size? guys working at nasa ???
-        throw new \InvalidArgumentException('Argument "step" must be >=0 !');
+        throw new \InvalidArgumentException('Argument "step" must be >0 !');
     }
 
     if(
@@ -39,14 +36,19 @@ function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, 
 
 
     $adjustEndpoint = function (int $length, int $endpoint, int $step):int {
-
+        if($step<1) {
+            // Who will ever understand expressions with negative step size? guys working at nasa ???
+            throw new \InvalidArgumentException('Argument "step" must be >0 !');
+        }
         if ($endpoint < 0) {
             $endpoint += $length;
             if ($endpoint < 0) {
-                $endpoint = $step < 0 ? -1 : 0;
+                //$endpoint = $step < 0 ? -1 : 0;
+                $endpoint=0;
             }
         } elseif ($endpoint >= $length) {
-            $endpoint = $step < 0 ? $length - 1 : $length;
+            //$endpoint = $step < 0 ? $length - 1 : $length;
+            $endpoint = $length;
         }
 
         return $endpoint;

@@ -787,10 +787,7 @@ class ArraylyTestCase extends TestCase
 
         $tests=[
             // step
-            [
-                'given'=>['step'=>0, 'start'=>null, 'stop'=>null],
-                'expected' => $source
-            ],
+
             [
                 'given'=>['step'=>1, 'start'=>null, 'stop'=>null],
                 'expected' => $source
