@@ -181,6 +181,9 @@ final class Sequence
     public function slice(int $offset, ?int $length): Sequence {
         return $this->withData(generate\slice($this->data, $offset, $length));
     }
+    public function sliceSubset(?int $startIndex, ?int $stopIndexExclusive=null, int $step=1): Sequence {
+        return $this->withData(generate\sliceSubset($this->data, $startIndex, $stopIndexExclusive, $step));
+    }
 
     public function nth(int $n): Sequence {
         return $this->withData(generate\nth($this->data, $n));

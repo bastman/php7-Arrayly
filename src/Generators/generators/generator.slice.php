@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Generators\generators;
 
+use Arrayly\Arrayly;
 use function Arrayly\Util\internals\iterableToArray;
 
 function slice(iterable $iterable, int $offset, ?int $length): \Generator
@@ -48,3 +49,13 @@ function slice(iterable $iterable, int $offset, ?int $length): \Generator
 
     yield from $sink;
 }
+
+// mimics JmesPath slice(startIndex,endExclusiveIndex, step)
+// see: https://github.com/jmespath/jmespath.php/blob/master/src/Utils.php
+function sliceSubset(iterable $iterable, ?int $startIndex, ?int $stopIndexExclusive, int $step=1): \Generator {
+    // for now - delegate to array functions
+
+    yield from \Arrayly\Arrays\fn\sliceSubset(iterableToArray($iterable), $startIndex, $stopIndexExclusive, $step);
+}
+
+

@@ -55,14 +55,12 @@ function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, 
     $sourceItemsCount = count($source);
 
     if ($startIndex === null) {
-        //$startIndex = $step < 0 ? $sourceItemsCount - 1 : 0;
         $startIndex = 0;
     } else {
         $startIndex = $adjustEndpoint($sourceItemsCount, $startIndex, $step);
     }
 
     if ($stopIndexExclusive === null) {
-        //$stopIndexExclusive = $step < 0 ? -1 : $sourceItemsCount;
        $stopIndexExclusive = $sourceItemsCount;
     } else {
         $stopIndexExclusive = $adjustEndpoint($sourceItemsCount, $stopIndexExclusive, $step);
