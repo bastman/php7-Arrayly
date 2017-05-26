@@ -848,6 +848,7 @@ class ArraylyTestCase extends TestCase
                 'given'=>['step'=>2, 'start'=>5, 'stop'=>null],
                 'expected' => []
             ],
+            // start: negative
             [
                 'given'=>['step'=>2, 'start'=>-10, 'stop'=>null],
                 'expected' => [
@@ -979,7 +980,38 @@ class ArraylyTestCase extends TestCase
             [
                 'given'=>['step'=>2, 'start'=>null, 'stop'=>-1000],
                 'expected' => []
-            ]
+            ],
+
+            // mixed (start, stop, step)
+            [
+                'given'=>['start'=>3, 'stop'=>-1, 'step'=>2],
+                'expected' => [
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['start'=>1, 'stop'=>-1, 'step'=>1],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a3" => "a3Value",
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['start'=>1, 'stop'=>-2, 'step'=>1],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a3" => "a3Value"
+                ]
+            ],
+            [
+                'given'=>['start'=>-4, 'stop'=>-1, 'step'=>1],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a3" => "a3Value",
+                    "a4" => "a4Value",
+                ]
+            ],
         ];
 
         A::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
@@ -993,7 +1025,7 @@ class ArraylyTestCase extends TestCase
             try{
                 $this->assertSame($testCase['expected'], $sink);
             }catch (\Throwable $all) {
-                echo " --> Testcase at index: ".$testCaseIndex. " failed!";
+                echo " --> Testcase at index: ".$testCaseIndex. " failed! testCase=".json_encode($testCase);
 
                 throw $all;
             }
