@@ -1032,7 +1032,6 @@ class ArraylyTestCase extends TestCase
 
         });
 
-
-
     }
+
 }
