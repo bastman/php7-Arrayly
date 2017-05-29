@@ -787,7 +787,7 @@ class SequenceTest extends TestCase
     }
 
 
-    public function testSliceSubset()
+    public function testSlice()
     {
         $source = [
             "a1" => "a1Value",
