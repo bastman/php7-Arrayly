@@ -14,7 +14,7 @@ final class Arrayly implements \IteratorAggregate
     private $data = [];
 
     public static function ofIterable(iterable $iterable): Arrayly {
-        return new Arrayly(utils\iterableToArray($iterable));
+        return new static(utils\iterableToArray($iterable));
     }
 
     private function __construct(array $data) {
@@ -22,7 +22,7 @@ final class Arrayly implements \IteratorAggregate
     }
 
     public function collect(): Sink {
-        return Sink::ofArray($this->data);
+        return Sink::ofArray($this->toArray());
     }
 
     public function toArray(): array {
@@ -34,7 +34,7 @@ final class Arrayly implements \IteratorAggregate
     }
 
     public function copy(): Arrayly {
-        return static::ofIterable($this->data);
+        return static::ofIterable($this->toArray());
     }
 
     public function withData(array $data): Arrayly {

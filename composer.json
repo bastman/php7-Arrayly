@@ -25,6 +25,7 @@
   "autoload": {
     "psr-4": { "Arrayly\\": "src/" },
     "files": [
+      "src/functions.php",
       "src/Util/internals/functions.php",
 
       "src/Arrays/fn/array.fn.chunk.php",

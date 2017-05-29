@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Arrayly;
 
 
+use Arrayly\Collections\ArrayList;
+
 final class Sink implements \IteratorAggregate
 {
     private $data=[];
@@ -30,6 +32,10 @@ final class Sink implements \IteratorAggregate
 
     public function toArrayly(): Arrayly {
         return Arrayly::ofIterable($this->data);
+    }
+
+    public function toList(): ArrayList {
+        return ArrayList::ofIterable($this->data);
     }
 
     public function getIterator(): \Generator {
