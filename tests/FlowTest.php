@@ -8,7 +8,7 @@
 
 namespace Arrayly\Test;
 
-use Arrayly\Arrayly;
+use Arrayly\ArrayMap;
 use Arrayly\Flow;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
@@ -700,7 +700,7 @@ class FlowTest extends TestCase
             "a3" => "a3Value",
         ];
 
-        $producer = Arrayly::ofIterable($source)
+        $producer = ArrayMap::ofIterable($source)
             ->collect()->toIteratorSupplier();
 
         $limit = 0;
@@ -839,7 +839,7 @@ class FlowTest extends TestCase
             "a4" => "a4Value",
             "a5" => "a5Value",
         ];
-        $producer = Arrayly::ofIterable($source)
+        $producer = ArrayMap::ofIterable($source)
             ->collect()->toIteratorSupplier();
 
         $tests=[
@@ -1068,7 +1068,7 @@ class FlowTest extends TestCase
 
         ];
 
-        Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($producer){
+        ArrayMap::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($producer){
             $start=$testCase['given']['start'];
             $stop=$testCase['given']['stop'];
             $step=$testCase['given']['step'];
@@ -1291,9 +1291,9 @@ class FlowTest extends TestCase
             ],
         ];
 
-        $producer = Arrayly::ofIterable($source)
+        $producer = ArrayMap::ofIterable($source)
             ->collect()->toIteratorSupplier();
-        Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($producer){
+        ArrayMap::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($producer){
 
             try{
                 $offset=$testCase['given']['offset'];

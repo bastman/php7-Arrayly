@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Arrayly\Test;
 
-use Arrayly\Arrayly as A;
-use Arrayly\Arrayly;
+use Arrayly\ArrayMap as A;
+
+use function Arrayly\mapOfIterable;
 use Arrayly\Test\TestUtils as TestUtils;
-use function foo\func;
 use PHPUnit\Framework\TestCase;
 
-class ArraylyTestCase extends TestCase
+class ArrayMapTest extends TestCase
 {
     public function testConstruct()
     {
@@ -20,14 +20,14 @@ class ArraylyTestCase extends TestCase
 
     public function assertArrayly($actual)
     {
-        $this->assertInstanceOf('Arrayly\Arrayly', $actual);
+        $this->assertInstanceOf('Arrayly\ArrayMap', $actual);
     }
 
     public function testMap()
     {
         $source = $this->provideTestCitiesAsList();
 
-        $sink = A::ofIterable($source)
+        $sink = mapOfIterable($source)
             ->map(function ($v) {
                 return $v["city"];
             })

@@ -39,17 +39,6 @@ function iteratorSupplierToIterator(\Closure $supplier):\Iterator {
     return $iterator;
 }
 
-function iteratorSupplierToRewindableProducer(\Closure $supplier):RewindableProducer {
-    $iterator = $supplier();
-    if(is_array($iterator)) {
-        $iterator=new \ArrayIterator($iterator);
-    }
-    $iterator = requireIterator($iterator);
-
-    return $iterator;
-}
-
-
 function requireIterator(\Iterator $iterator):\Iterator{
     return $iterator;
 }

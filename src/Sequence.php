@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Arrayly;
 
 use Arrayly\Generators\generators as generate;
-use Arrayly\Producers\Producer;
 use Arrayly\Producers\RewindableProducer;
 use Arrayly\Util\internals as utils;
 

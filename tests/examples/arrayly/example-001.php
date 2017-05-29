@@ -5,7 +5,7 @@ namespace Arrayly\Test\Examples;
 
 require_once __DIR__."/../../../vendor/autoload.php";
 
-use Arrayly\Arrayly as A;
+use Arrayly\ArrayMap as A;
 use Arrayly\Test\TestUtils;
 
 class ArraylyExamples001

@@ -174,12 +174,12 @@ final class ArrayList implements \IteratorAggregate
         return $this->withData(arrays\flatMapIndexed($this->data, $transform));
     }
 
-    public function groupBy(\Closure $keySelector): Arrayly {
-        return Arrayly::ofIterable(arrays\groupBy($this->data, $keySelector));
+    public function groupBy(\Closure $keySelector): ArrayMap {
+        return ArrayMap::ofIterable(arrays\groupBy($this->data, $keySelector));
     }
 
-    public function groupByIndexed(\Closure $keySelector): Arrayly {
-        return Arrayly::ofIterable(arrays\groupByIndexed($this->data, $keySelector));
+    public function groupByIndexed(\Closure $keySelector): ArrayMap {
+        return ArrayMap::ofIterable(arrays\groupByIndexed($this->data, $keySelector));
     }
 
     public function reduce($initialValue, \Closure $reducer) {

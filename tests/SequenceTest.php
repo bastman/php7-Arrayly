@@ -1,7 +1,7 @@
 <?php
 namespace Arrayly\Test;
 
-use Arrayly\Arrayly;
+use Arrayly\ArrayMap;
 use Arrayly\Producers\RewindableProducer;
 use Arrayly\Sequence as S;
 use Arrayly\Test\TestUtils as TestUtils;
@@ -1023,7 +1023,7 @@ class SequenceTest extends TestCase
 
         ];
 
-        Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
+        ArrayMap::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
             $start=$testCase['given']['start'];
             $stop=$testCase['given']['stop'];
             $step=$testCase['given']['step'];
@@ -1247,7 +1247,7 @@ class SequenceTest extends TestCase
             ],
         ];
 
-        Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
+        ArrayMap::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
 
             try{
                 $offset=$testCase['given']['offset'];
