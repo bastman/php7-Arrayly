@@ -1173,6 +1173,7 @@ class SequenceTest extends TestCase
                     "a4" => "a4Value",
                 ]
             ],
+
         ];
 
         Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){

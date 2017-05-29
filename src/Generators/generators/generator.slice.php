@@ -50,21 +50,67 @@ function slice(iterable $iterable, int $offset, ?int $length): \Generator
     yield from $sink;
 }
 
-// mimics JmesPath slice(startIndex,endExclusiveIndex, step)
+// mimics JmesPath/Python slice(startIndex,endExclusiveIndex, step)
 // see: https://github.com/jmespath/jmespath.php/blob/master/src/Utils.php
-function sliceSubset(iterable $iterable, ?int $startIndex, ?int $stopIndexExclusive, int $step=1): \Generator {
+function sliceSubset(iterable $iterable, ?int $startIndex, ?int $stopIndexExclusive, int $step): \Generator {
 
     if($step<1) {
         // Who will ever understand expressions with negative step size? guys working at nasa ???
         throw new \InvalidArgumentException('Argument "step" must be >0 !');
     }
 
+    if(
+        ($startIndex===null || $startIndex===0)
+        && $stopIndexExclusive===null
+        && ($step===1)
+    ){
+        // nothing changed
+        yield from $iterable;
 
+        return;
+    }
 
+    $useLazyImpl = (
+        $step>0
+        && ($startIndex===null || (is_int($startIndex) && $startIndex>=0))
+        && ($stopIndexExclusive===null || (is_int($stopIndexExclusive) && $stopIndexExclusive>=0))
+    );
+    if(!$useLazyImpl) {
+        //delegate to array functions
+        yield from arrays\sliceSubset(iterableToArray($iterable), $startIndex, $stopIndexExclusive, $step);
+    }
 
-    // for now - delegate to array functions
+    // use generator approach
+    if($startIndex===null) {
+        $startIndex = 0;
+    }
 
-    yield from arrays\sliceSubset(iterableToArray($iterable), $startIndex, $stopIndexExclusive, $step);
+    $currentIndex=-1;
+    $findAt = $startIndex;
+    foreach ($iterable as $k=>$v) {
+        $currentIndex++;
+
+        // apply constraint: startIndex
+        if($currentIndex<$startIndex) {
+            // ignore
+            continue;
+        }
+
+        if($stopIndexExclusive!==null) {
+            // apply constraint: stopIndexExclusive
+            if($currentIndex>=$stopIndexExclusive) {
+                // done
+                break;
+            }
+        }
+
+        if($currentIndex===$findAt) {
+            yield $k => $v;
+
+            $findAt += $step;
+        }
+    }
+
 }
 
 
