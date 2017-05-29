@@ -219,10 +219,6 @@ final class Flow
         return $this->withCommandAppended(generate\chunk($batchSize));
     }
 
-    public function nth(int $n): self {
-        return $this->withCommandAppended(generate\nth($n));
-    }
-
     public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): self {
         return $this->withCommandAppended(generate\slice($startIndex, $stopIndexExclusive, $step));
     }

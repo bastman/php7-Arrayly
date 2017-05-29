@@ -34,7 +34,7 @@ inspired by
  
 ## Install
     
-    $ composer require bastman/php7-arrayly 0.1.0
+    $ composer require bastman/php7-arrayly 0.2.0
 
 ## Examples (ArrayMap)
 - see: tests/examples/arrayly
@@ -289,8 +289,6 @@ inspired by
 
     public function chunk(int $batchSize): ArrayMap;
 
-    public function nth(int $n): ArrayMap;
-
     public function slice(? $startIndex, ? $stopIndexExclusive, int $step = 1): ArrayMap;
 
     public function sliceByOffsetAndLimit(int $offset, ? $limit, int $step = 1): ArrayMap;
@@ -397,8 +395,6 @@ inspired by
 
     public function chunk(int $batchSize): ArrayList;
 
-    public function nth(int $n): ArrayList;
-
     public function slice(? $startIndex, ? $stopIndexExclusive, int $step = 1): ArrayList;
 
     public function sliceByOffsetAndLimit(int $offset, ? $limit, int $step = 1): ArrayList;
@@ -478,8 +474,6 @@ inspired by
     public function sortByDescending(\Closure $comparator): Sequence;
 
     public function chunk(int $batchSize): Sequence;
-
-    public function nth(int $n): Sequence;
 
     public function slice(? $startIndex, ? $stopIndexExclusive, int $step = 1): Sequence;
 
@@ -568,8 +562,6 @@ inspired by
     public function sortByDescending(\Closure $comparator): Flow;
 
     public function chunk(int $batchSize): Flow;
-
-    public function nth(int $n): Flow;
 
     public function slice(? $startIndex, ? $stopIndexExclusive, int $step = 1): Flow;
 

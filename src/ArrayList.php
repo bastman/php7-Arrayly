@@ -225,10 +225,6 @@ final class ArrayList implements \IteratorAggregate
         return $this->withData(arrays\chunkArrayList($this->data, $batchSize));
     }
 
-    public function nth(int $n): self {
-        return $this->withData(arrays\nth($this->data, $n));
-    }
-
     public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): self {
         return $this->withData(arrays\slice($this->data, $startIndex, $stopIndexExclusive, $step));
     }

@@ -172,10 +172,6 @@ final class Sequence
         return $this->withData(generate\chunk($this->data, $batchSize));
     }
 
-    public function nth(int $n): self {
-        return $this->withData(generate\nth($this->data, $n));
-    }
-
     public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): self {
         return $this->withData(generate\slice($this->data, $startIndex, $stopIndexExclusive, $step));
     }
