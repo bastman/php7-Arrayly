@@ -7,6 +7,10 @@ use function Arrayly\Util\internals\iterableToArray;
 
 function take(iterable $iterable, int $amount): \Generator
 {
+    if ($amount <0) {
+
+        throw new \InvalidArgumentException('amount must be >=0! given='.$amount);
+    }
     $currentAmount = 0;
     foreach ($iterable as $k => $v) {
         if ($currentAmount >= $amount) {
