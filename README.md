@@ -16,7 +16,7 @@ inspired by
 - Pipeline, e.g.: https://www.hughgrigg.com/posts/simple-pipes-php-generators
 
 ## Notes
-- Experimental.
+- Beta. Happy Testing ;)
 
 ## Licence
 
