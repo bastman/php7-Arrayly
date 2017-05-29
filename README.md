@@ -14,8 +14,13 @@ inspired by
 ## Alternative Concepts
 - Transducers: https://github.com/mtdowling/transducers.php
 - Pipeline, e.g.: https://www.hughgrigg.com/posts/simple-pipes-php-generators
+
 ## Notes
 - Experimental.
+
+## Licence
+
+- MIT. Do whatever you like with that code. 
 
 ## Design Principles
 - functional programming
@@ -28,6 +33,7 @@ inspired by
  - filter, map, flatMap, reduce, groupBy, find, sort, chunk, take, drop, ...
  
 ## Install
+    
     $ composer require bastman/php7-arrayly 0.1.0
 
 ## Examples (ArrayMap)
