@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Arrayly\Test;
 
 use Arrayly\Flow;
-use Arrayly\Producers\RewindableProducer;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 
