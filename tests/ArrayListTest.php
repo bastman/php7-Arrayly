@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Arrayly\Test;
 
+use Arrayly\ArrayList;
 use function Arrayly\listOf;
 use function Arrayly\listOfIterable as ofIterable;
 use Arrayly\Test\TestUtils as TestUtils;
@@ -600,4 +601,263 @@ class ArrayListTest extends TestCase
             ->collect()->toArray();
         $this->assertSame($expected, $sink);
     }
+
+
+    public function testSlice()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+            "a4" => "a4Value",
+            "a5" => "a5Value",
+        ];
+
+        $tests=[
+            // step
+
+            [
+                'given'=>['step'=>1, 'start'=>null, 'stop'=>null],
+                'expected' => array_values($source)
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>4, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>5, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>100, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1Value"
+                ]
+            ],
+            // start
+            [
+                'given'=>['step'=>1, 'start'=>2, 'stop'=>null],
+                'expected' => [
+                    "a3Value",
+                    "a4Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>2, 'stop'=>null],
+                'expected' => [
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>4, 'stop'=>null],
+                'expected' => [
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>5, 'stop'=>null],
+                'expected' => []
+            ],
+            // start: negative
+            [
+                'given'=>['step'=>2, 'start'=>-10, 'stop'=>null],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-5, 'stop'=>null],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-4, 'stop'=>null],
+                'expected' => [
+                    "a2Value",
+                    "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-3, 'stop'=>null],
+                'expected' => [
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-2, 'stop'=>null],
+                'expected' => [
+                    "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>-1, 'stop'=>null],
+                'expected' => [
+                    "a5Value",
+                ]
+            ],
+            // stop
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>null],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>0],
+                'expected' => []
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>1],
+                'expected' => [
+                    "a1Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>2],
+                'expected' => [
+                    "a1Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>3],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>4],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>5],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>1000],
+                'expected' => [
+                    "a1Value",
+                    "a3Value",
+                    "a5Value",
+                ]
+            ],
+            // stop negative
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-1],
+                'expected' => [
+                    "a1Value",
+                    "a3Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-2],
+                'expected' => [
+                    "a1Value",
+                    "a3Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-3],
+                'expected' => [
+                    "a1Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-4],
+                'expected' => [
+                    "a1Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-5],
+                'expected' => []
+            ],
+            [
+                'given'=>['step'=>2, 'start'=>null, 'stop'=>-1000],
+                'expected' => []
+            ],
+
+            // mixed (start, stop, step)
+            [
+                'given'=>['start'=>3, 'stop'=>-1, 'step'=>2],
+                'expected' => [
+                    "a4Value",
+                ]
+            ],
+            [
+                'given'=>['start'=>1, 'stop'=>-1, 'step'=>1],
+                'expected' => [
+                    "a2Value",
+                    "a3Value",
+                    "a4Value",
+                ]
+            ],
+            [
+                'given'=>['start'=>1, 'stop'=>-2, 'step'=>1],
+                'expected' => [
+                    "a2Value",
+                    "a3Value"
+                ]
+            ],
+            [
+                'given'=>['start'=>-4, 'stop'=>-1, 'step'=>1],
+                'expected' => [
+                    "a2Value",
+                    "a3Value",
+                    "a4Value",
+                ]
+            ],
+        ];
+
+        ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
+            $start=$testCase['given']['start'];
+            $stop=$testCase['given']['stop'];
+            $step=$testCase['given']['step'];
+
+            $sink = ofIterable($source)
+                ->slice($start, $stop, $step)
+                ->collect()->toArray();
+            try{
+                $this->assertSame($testCase['expected'], $sink);
+            }catch (\Throwable $all) {
+                echo " --> Testcase at index: ".$testCaseIndex. " failed! testCase=".json_encode($testCase);
+
+                throw $all;
+            }
+
+        });
+
+    }
+
+
 }
