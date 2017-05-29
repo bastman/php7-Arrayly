@@ -10,6 +10,8 @@ namespace Arrayly\Test;
 
 use Arrayly\ArrayMap;
 use Arrayly\Flow;
+use function Arrayly\flowOfIterable;
+use function Arrayly\flowOfRewindableIteratorSupplier;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 
@@ -33,6 +35,41 @@ class FlowTest extends TestCase
     private function provideTestCountriesAsMap(): array
     {
         return TestUtils::loadResourceJson('source/countries-map.json');
+    }
+
+    public function testConstruct()
+    {
+        $source = [
+            "a1" => "A1",
+            "a2" => "A2",
+            "b1" => "B1",
+            "b2" => "B2",
+            "c1" => "C1",
+            "c2" => "C2",
+        ];
+        $supplier = function() use($source) {
+            yield from $source;
+        };
+
+        $flow = flowOfIterable($source);
+        $this->assertFlow($flow);
+        $this->assertSame($source, $flow->collect()->toArray());
+
+        $flow = flowOfRewindableIteratorSupplier($supplier);
+        $this->assertFlow($flow);
+        $this->assertSame($source, $flow->collect()->toArray());
+
+        $flow = flowOfRewindableIteratorSupplier($supplier);
+        $this->assertFlow($flow);
+        // collect multiple times
+        for ($i=0;$i<3; $i++) {
+            $this->assertSame($source, $flow->collect()->toArray());
+        }
+    }
+
+    private function assertFlow($actual)
+    {
+        $this->assertInstanceOf('Arrayly\Flow', $actual);
     }
 
     public function testMap()

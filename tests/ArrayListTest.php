@@ -28,7 +28,7 @@ class ArrayListTest extends TestCase
         $this->assertSame(["bar"], $arrayList->toArray());
     }
 
-    public function assertArrayList($actual)
+    private function assertArrayList($actual)
     {
         $this->assertInstanceOf('Arrayly\ArrayList', $actual);
     }

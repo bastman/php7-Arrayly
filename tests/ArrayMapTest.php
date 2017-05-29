@@ -24,7 +24,7 @@ class ArrayMapTest extends TestCase
         $this->assertSame(["foo" => "bar"], $arrayMap->toArray());
     }
 
-    public function assertArrayMap($actual)
+    private function assertArrayMap($actual)
     {
         $this->assertInstanceOf('Arrayly\ArrayMap', $actual);
     }
