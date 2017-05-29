@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Arrayly;
 
 use Arrayly\Generators\generators as generate;
-use Arrayly\Producers\RewindableProducer;
 use Arrayly\Util\internals as utils;
 
 final class Sequence
@@ -20,10 +19,6 @@ final class Sequence
 
     public static function ofIteratorSupplier(\Closure $supplier): Sequence {
         return static::ofIterable(utils\iteratorSupplierToIterator($supplier));
-    }
-
-    public static function ofRewindableIteratorSupplier(\Closure $supplier): Sequence {
-        return static::ofIterable(RewindableProducer::ofIteratorSupplier($supplier));
     }
 
     private function __construct(iterable $data) {
@@ -52,7 +47,7 @@ final class Sequence
         return $this->withData(generate\reducingIndexed($this->data, $initialValue, $reducer));
     }
 
-    public function pipeTo(\Closure $transform): Sequence {
+    public function pipe(\Closure $transform): Sequence {
         return $this->withData(generate\pipeTo($this->data, $transform));
     }
 

@@ -52,7 +52,7 @@ class SequenceExamples001
             ->onEach(function ($v) {
                 echo "peek: flatMapped:".json_encode($v).PHP_EOL;
             })
-            ->pipeTo(function (iterable $iterable) {
+            ->pipe(function (iterable $iterable) {
                 foreach ($iterable as $k => $v) {
                     yield $k => $v;
                 }
