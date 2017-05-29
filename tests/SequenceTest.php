@@ -4,6 +4,9 @@ namespace Arrayly\Test;
 use Arrayly\ArrayMap;
 use Arrayly\Producers\RewindableProducer;
 use Arrayly\Sequence as S;
+use function Arrayly\sequenceOfIterable;
+use function Arrayly\sequenceOfIteratorSupplier;
+use function Arrayly\sequenceOfRewindableIteratorSupplier;
 use Arrayly\Test\TestUtils as TestUtils;
 use PHPUnit\Framework\TestCase;
 
@@ -27,6 +30,41 @@ class SequenceTest extends TestCase
     private function provideTestCountriesAsMap(): array
     {
         return TestUtils::loadResourceJson('source/countries-map.json');
+    }
+
+    public function testConstruct()
+    {
+        $source = [
+            "a1" => "A1",
+            "a2" => "A2",
+            "b1" => "B1",
+            "b2" => "B2",
+            "c1" => "C1",
+            "c2" => "C2",
+        ];
+        $supplier = function() use($source) {
+            yield from $source;
+        };
+
+        $seq = sequenceOfIterable($source);
+        $this->assertSequence($seq);
+        $this->assertSame($source, $seq->collect()->toArray());
+
+        $seq = sequenceOfIteratorSupplier($supplier);
+        $this->assertSequence($seq);
+        $this->assertSame($source, $seq->collect()->toArray());
+
+        $seq = sequenceOfRewindableIteratorSupplier($supplier);
+        $this->assertSequence($seq);
+        // collect multiple times
+        for ($i=0;$i<3; $i++) {
+            $this->assertSame($source, $seq->collect()->toArray());
+        }
+    }
+
+    private function assertSequence($actual)
+    {
+        $this->assertInstanceOf('Arrayly\Sequence', $actual);
     }
 
     public function testMap()

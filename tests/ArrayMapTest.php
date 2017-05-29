@@ -13,12 +13,18 @@ class ArrayMapTest extends TestCase
 {
     public function testConstruct()
     {
-        $arrayly = A::ofIterable(["foo" => "bar"]);
-        $this->assertArrayly($arrayly);
-        $this->assertEquals('bar', (string)$arrayly->getOrNull('foo'));
+        $arrayMap = A::ofIterable(["foo" => "bar"]);
+        $this->assertArrayMap($arrayMap);
+
+        $this->assertEquals('bar', (string)$arrayMap->getOrNull('foo'));
+        $this->assertSame(["foo" => "bar"], $arrayMap->toArray());
+
+        $arrayMap = mapOfIterable(["foo" => "bar"]);
+        $this->assertArrayMap($arrayMap);
+        $this->assertSame(["foo" => "bar"], $arrayMap->toArray());
     }
 
-    public function assertArrayly($actual)
+    public function assertArrayMap($actual)
     {
         $this->assertInstanceOf('Arrayly\ArrayMap', $actual);
     }

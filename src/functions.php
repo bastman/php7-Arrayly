@@ -5,7 +5,7 @@ use Arrayly\Producers\RewindableProducer;
 use Arrayly\Util\internals as utils;
 
 function listOf(...$values):ArrayList {
-    return ArrayList::ofIterable(...$values);
+    return ArrayList::ofIterable($values);
 }
 function listOfIterable(iterable $iterable):ArrayList {
     return ArrayList::ofIterable($iterable);
