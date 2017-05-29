@@ -158,14 +158,6 @@ final class ArrayList implements \IteratorAggregate
         return $this->withData(arrays\mapIndexed($this->data, $transform));
     }
 
-    public function mapKeysByValue(\Closure $keySelector): self {
-        return $this->withData(arrays\mapKeysByValue($this->data, $keySelector));
-    }
-
-    public function mapKeysByValueIndexed(\Closure $keySelector): self {
-        return $this->withData(arrays\mapKeysByValueIndexed($this->data, $keySelector));
-    }
-
     public function flatMap(\Closure $transform): self {
         return $this->withData(arrays\flatMap($this->data, $transform));
     }
@@ -231,7 +223,7 @@ final class ArrayList implements \IteratorAggregate
     }
 
     public function chunk(int $batchSize): ArrayList {
-        return $this->withData(arrays\chunk($this->data, $batchSize));
+        return $this->withData(arrays\chunkArrayList($this->data, $batchSize));
     }
 
     public function nth(int $n): ArrayList {

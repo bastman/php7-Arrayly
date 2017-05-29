@@ -7,4 +7,8 @@ function chunk(array $source, int $batchSize): array
 {
     return array_chunk($source, $batchSize, true);
 }
+function chunkArrayList(array $source, int $batchSize): array
+{
+    return array_chunk($source, $batchSize, false);
+}
 
