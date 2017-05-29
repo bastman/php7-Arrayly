@@ -41,7 +41,6 @@ final class ArrayList implements \IteratorAggregate
         return static::ofIterable($data);
     }
 
-
     public function keys(bool $strict = true): self {
         return $this->withData(arrays\keys($this->data, $strict));
     }
@@ -182,58 +181,58 @@ final class ArrayList implements \IteratorAggregate
         return arrays\reduceIndexed($this->data, $initialValue, $reducer);
     }
 
-    public function sortedBy(\Closure $comparator, bool $descending): ArrayList {
+    public function sortedBy(\Closure $comparator, bool $descending): self {
         return $this->withData(arrays\sortedBy($this->data, $descending, $comparator));
     }
 
-    public function sortBy(\Closure $comparator): ArrayList {
+    public function sortBy(\Closure $comparator): self {
         return $this->withData(arrays\sortBy($this->data, $comparator));
     }
 
-    public function sortByDescending(\Closure $comparator): ArrayList {
+    public function sortByDescending(\Closure $comparator): self {
         return $this->withData(arrays\sortByDescending($this->data, $comparator));
     }
 
-    public function take(int $amount): ArrayList {
+    public function take(int $amount): self {
         return $this->withData(arrays\take($this->data, $amount));
     }
 
-    public function takeWhile(\Closure $predicate): ArrayList {
+    public function takeWhile(\Closure $predicate): self {
         return $this->withData(arrays\takeWhile($this->data, $predicate));
     }
 
-    public function takeWhileIndexed(\Closure $predicate): ArrayList {
+    public function takeWhileIndexed(\Closure $predicate): self {
         return $this->withData(arrays\takeWhileIndexed($this->data, $predicate));
     }
 
-    public function takeLast(int $amount): ArrayList {
+    public function takeLast(int $amount): self {
         return $this->withData(arrays\takeLast($this->data, $amount));
     }
 
-    public function drop(int $amount): ArrayList {
+    public function drop(int $amount): self {
         return $this->withData(arrays\drop($this->data, $amount));
     }
 
-    public function dropWhile(\Closure $predicate): ArrayList {
+    public function dropWhile(\Closure $predicate): self {
         return $this->withData(arrays\dropWhile($this->data, $predicate));
     }
 
-    public function dropWhileIndexed(\Closure $predicate): ArrayList {
+    public function dropWhileIndexed(\Closure $predicate): self {
         return $this->withData(arrays\dropWhileIndexed($this->data, $predicate));
     }
 
-    public function chunk(int $batchSize): ArrayList {
+    public function chunk(int $batchSize): self {
         return $this->withData(arrays\chunkArrayList($this->data, $batchSize));
     }
 
-    public function nth(int $n): ArrayList {
+    public function nth(int $n): self {
         return $this->withData(arrays\nth($this->data, $n));
     }
 
-    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): ArrayList {
+    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): self {
         return $this->withData(arrays\slice($this->data, $startIndex, $stopIndexExclusive, $step));
     }
-    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): ArrayList {
+    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): self {
         return $this->withData(arrays\sliceByOffsetAndLimit($this->data, $offset, $limit, $step));
     }
 

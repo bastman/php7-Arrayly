@@ -13,11 +13,11 @@ final class Sequence
      */
     private $data;
 
-    public static function ofIterable(iterable $source): Sequence {
+    public static function ofIterable(iterable $source): self {
         return new static($source);
     }
 
-    public static function ofIteratorSupplier(\Closure $supplier): Sequence {
+    public static function ofIteratorSupplier(\Closure $supplier): self {
         return static::ofIterable(utils\iteratorSupplierToIterator($supplier));
     }
 
@@ -25,7 +25,7 @@ final class Sequence
         $this->data = $data;
     }
 
-    public function withData(iterable $data):Sequence {
+    public function withData(iterable $data):self {
         return new static($data);
     }
 
@@ -39,147 +39,147 @@ final class Sequence
         }
     }
 
-    public function reducing($initialValue, \Closure $reducer): Sequence {
+    public function reducing($initialValue, \Closure $reducer): self {
         return $this->withData(generate\reducing($this->data, $initialValue, $reducer));
     }
 
-    public function reducingIndexed($initialValue, \Closure $reducer): Sequence {
+    public function reducingIndexed($initialValue, \Closure $reducer): self {
         return $this->withData(generate\reducingIndexed($this->data, $initialValue, $reducer));
     }
 
-    public function pipe(\Closure $transform): Sequence {
-        return $this->withData(generate\pipeTo($this->data, $transform));
+    public function pipe(\Closure $transform): self {
+        return $this->withData(generate\pipe($this->data, $transform));
     }
 
-    public function keys(): Sequence {
+    public function keys(): self {
         return $this->withData(generate\keys($this->data));
     }
 
-    public function values(): Sequence {
+    public function values(): self {
         return $this->withData(generate\values($this->data));
     }
 
-    public function flip(): Sequence {
+    public function flip(): self {
         return $this->withData(generate\flip($this->data));
     }
 
-    public function reverse(): Sequence {
+    public function reverse(): self {
         return $this->withData(generate\reverse($this->data));
     }
 
-    public function onEach(\Closure $callback): Sequence {
+    public function onEach(\Closure $callback): self {
         return $this->withData(generate\onEach($this->data, $callback));
     }
 
-    public function onEachIndexed(\Closure $callback): Sequence {
+    public function onEachIndexed(\Closure $callback): self {
         return $this->withData(generate\onEachIndexed($this->data, $callback));
     }
 
-    public function map(\Closure $transform): Sequence {
+    public function map(\Closure $transform): self {
         return $this->withData(generate\map($this->data, $transform));
     }
 
-    public function mapIndexed(\Closure $transform): Sequence {
+    public function mapIndexed(\Closure $transform): self {
         return $this->withData(generate\mapIndexed($this->data, $transform));
     }
 
-    public function mapKeysByValue(\Closure $keySelector): Sequence {
+    public function mapKeysByValue(\Closure $keySelector): self {
         return $this->withData(generate\mapKeysByValue($this->data, $keySelector));
     }
 
-    public function mapKeysByValueIndexed(\Closure $keySelector): Sequence {
+    public function mapKeysByValueIndexed(\Closure $keySelector): self {
         return $this->withData(generate\mapKeysByValueIndexed($this->data, $keySelector));
     }
 
-    public function filter(\Closure $predicate): Sequence
+    public function filter(\Closure $predicate): self
     {
         return $this->withData(generate\filter($this->data, $predicate));
     }
 
-    public function filterIndexed(\Closure $predicate): Sequence {
+    public function filterIndexed(\Closure $predicate): self {
         return $this->withData(generate\filterIndexed($this->data, $predicate));
     }
 
-    public function filterNot(\Closure $predicate): Sequence {
+    public function filterNot(\Closure $predicate): self {
         return $this->withData(generate\filterNot($this->data, $predicate));
     }
 
-    public function filterNotIndexed(\Closure $predicate): Sequence {
+    public function filterNotIndexed(\Closure $predicate): self {
         return $this->withData(generate\filterNotIndexed($this->data, $predicate));
     }
 
-    public function filterNotNull(): Sequence {
+    public function filterNotNull(): self {
         return $this->withData(generate\filterNotNull($this->data));
     }
 
-    public function flatMap(\Closure $transform): Sequence {
+    public function flatMap(\Closure $transform): self {
         return $this->withData(generate\flatMap($this->data, $transform));
     }
 
-    public function flatMapIndexed(\Closure $transform): Sequence
+    public function flatMapIndexed(\Closure $transform): self
     {
         return $this->withData(generate\flatMapIndexed($this->data, $transform));
     }
-    public function groupBy(\Closure $keySelector): Sequence {
+    public function groupBy(\Closure $keySelector): self {
         return $this->withData(generate\groupBy($this->data, $keySelector));
     }
 
-    public function groupByIndexed(\Closure $keySelector): Sequence {
+    public function groupByIndexed(\Closure $keySelector): self {
         return $this->withData(generate\groupByIndexed($this->data, $keySelector));
     }
 
-    public function take(int $amount): Sequence {
+    public function take(int $amount): self {
         return $this->withData(generate\take($this->data, $amount));
     }
 
-    public function takeWhile(\Closure $predicate): Sequence {
+    public function takeWhile(\Closure $predicate): self {
         return $this->withData(generate\takeWhile($this->data, $predicate));
     }
 
-    public function takeWhileIndexed(\Closure $predicate): Sequence {
+    public function takeWhileIndexed(\Closure $predicate): self {
         return $this->withData(generate\takeWhileIndexed($this->data, $predicate));
     }
 
-    public function takeLast(int $amount): Sequence {
+    public function takeLast(int $amount): self {
         return $this->withData(generate\takeLast($this->data, $amount));
     }
 
-    public function drop(int $amount): Sequence {
+    public function drop(int $amount): self {
         return $this->withData(generate\drop($this->data, $amount));
     }
 
-    public function dropWhile(\Closure $predicate): Sequence {
+    public function dropWhile(\Closure $predicate): self {
         return $this->withData(generate\dropWhile($this->data, $predicate));
     }
 
-    public function dropWhileIndexed(\Closure $predicate): Sequence {
+    public function dropWhileIndexed(\Closure $predicate): self {
         return $this->withData(generate\dropWhileIndexed($this->data, $predicate));
     }
 
-    public function sortedBy(bool $descending, \Closure $comparator): Sequence {
+    public function sortedBy(bool $descending, \Closure $comparator): self {
         return $this->withData(generate\sortedBy($this->data, $descending, $comparator));
     }
 
-    public function sortBy(\Closure $comparator): Sequence {
+    public function sortBy(\Closure $comparator): self {
         return $this->withData(generate\sortBy($this->data, $comparator));
     }
 
-    public function sortByDescending(\Closure $comparator): Sequence {
+    public function sortByDescending(\Closure $comparator): self {
         return $this->withData(generate\sortByDescending($this->data, $comparator));
     }
 
-    public function chunk(int $batchSize): Sequence {
+    public function chunk(int $batchSize): self {
         return $this->withData(generate\chunk($this->data, $batchSize));
     }
 
-    public function nth(int $n): Sequence {
+    public function nth(int $n): self {
         return $this->withData(generate\nth($this->data, $n));
     }
 
-    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Sequence {
+    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): self {
         return $this->withData(generate\slice($this->data, $startIndex, $stopIndexExclusive, $step));
     }
-    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): Sequence {
+    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): self {
         return $this->withData(generate\sliceByOffsetAndLimit($this->data, $offset, $limit, $step));
     }
 }
