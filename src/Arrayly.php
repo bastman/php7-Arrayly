@@ -241,16 +241,15 @@ final class Arrayly implements \IteratorAggregate
         return $this->withData(fn\chunk($this->data, $batchSize));
     }
 
-    public function slice(int $offset, ?int $length): Arrayly {
-        return $this->withData(fn\slice($this->data, $offset, $length));
-    }
-
     public function nth(int $n): Arrayly {
         return $this->withData(fn\nth($this->data, $n));
     }
 
-    public function sliceSubset(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Arrayly {
-        return $this->withData(fn\sliceSubset($this->data, $startIndex, $stopIndexExclusive, $step));
+    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Arrayly {
+        return $this->withData(fn\slice($this->data, $startIndex, $stopIndexExclusive, $step));
+    }
+    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): Arrayly {
+        return $this->withData(fn\sliceByOffsetAndLimit($this->data, $offset, $limit, $step));
     }
 
 }

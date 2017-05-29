@@ -178,14 +178,14 @@ final class Sequence
         return $this->withData(generate\chunk($this->data, $batchSize));
     }
 
-    public function slice(int $offset, ?int $length): Sequence {
-        return $this->withData(generate\slice($this->data, $offset, $length));
-    }
-    public function sliceSubset(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Sequence {
-        return $this->withData(generate\sliceSubset($this->data, $startIndex, $stopIndexExclusive, $step));
-    }
-
     public function nth(int $n): Sequence {
         return $this->withData(generate\nth($this->data, $n));
+    }
+
+    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Sequence {
+        return $this->withData(generate\slice($this->data, $startIndex, $stopIndexExclusive, $step));
+    }
+    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): Sequence {
+        return $this->withData(generate\sliceByOffsetAndLimit($this->data, $offset, $limit, $step));
     }
 }

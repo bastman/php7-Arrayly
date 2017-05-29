@@ -3,22 +3,11 @@ declare(strict_types=1);
 
 namespace Arrayly\Arrays\fn;
 
-// php array slice(offset, length)
-function slice(array $source, int $offset, ?int $length): array
-{
-    $preserveKeys = true;
 
-    if($length===0) {
-        return [];
-    }
-
-    return array_slice($source, $offset, $length, $preserveKeys);
-}
 // mimics JmesPath slice(startIndex,endExclusiveIndex, step)
 // see: https://github.com/jmespath/jmespath.php/blob/master/src/Utils.php
-function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, int $step): array
+function slice(array $source, ?int $startIndex, ?int $stopIndexExclusive, int $step): array
 {
-
     if($step<1) {
         // Who will ever understand expressions with negative step size? guys working at nasa ???
         throw new \InvalidArgumentException('Argument "step" must be >0 !');
@@ -87,3 +76,82 @@ function sliceSubset(array $source, ?int $startIndex, ?int $stopIndexExclusive, 
     return $sink;
 }
 
+// replacement for php's array_slice function - which covers too many concerns,
+function sliceByOffsetAndLimit(array $source, int $offset, ?int $limit, int $step): array
+{
+    if($step<1) {
+        // Who will ever understand expressions with negative step size? guys working at nasa ???
+        throw new \InvalidArgumentException('Argument "step" must be >0 !');
+    }
+
+    if(is_int($limit) && $limit<0) {
+        throw new \InvalidArgumentException('Argument "limit" must be >=0 !');
+    }
+
+    if($limit===0) {
+        // empty result
+        return [];
+    }
+
+    if(
+        ($step===1)
+        && ($offset===null || $offset===0)
+        && $limit===null
+    ){
+        // nothing changed
+        return $source;
+    }
+
+    $adjustEndpoint = function (int $length, int $endpoint, int $step):int {
+        if($step<1) {
+            throw new \InvalidArgumentException('Argument "step" must be >0 !');
+        }
+        if ($endpoint < 0) {
+            $endpoint += $length;
+            if ($endpoint < 0) {
+                $endpoint = 0;
+            }
+        } elseif ($endpoint >= $length) {
+            $endpoint = $length;
+        }
+
+        return $endpoint;
+    };
+
+    if ($offset === null) {
+        $offset = 0;
+    } else {
+        $offset = $adjustEndpoint(count($source), $offset, $step);
+    }
+
+    $sink=[];
+
+    $currentIndex=-1;
+    $currentLength = 0;
+    $findAt = $offset;
+    foreach ($source as $k=>$v) {
+        $currentIndex++;
+        // apply constraint: offset
+        if($currentIndex<$offset) {
+            // ignore
+            continue;
+        }
+        if(is_int($limit)) {
+            // apply constraint: limit
+            if($currentLength>=$limit) {
+                // done
+                break;
+            }
+        }
+
+        // apply constraint: step
+        if($currentIndex===$findAt) {
+            $sink[$k] = $v;
+            $currentLength ++;
+
+            $findAt += $step;
+        }
+    }
+
+    return $sink;
+}

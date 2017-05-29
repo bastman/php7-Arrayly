@@ -219,16 +219,15 @@ final class Flow
         return $this->withCommandAppended(generate\chunk($batchSize));
     }
 
-    public function slice(int $offset, ?int $length): Flow {
-        return $this->withCommandAppended(generate\slice($offset, $length));
-    }
-
-    public function sliceSubset(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Flow {
-        return $this->withCommandAppended(generate\sliceSubset($startIndex, $stopIndexExclusive, $step));
-    }
-
     public function nth(int $n): Flow {
         return $this->withCommandAppended(generate\nth($n));
     }
 
+    public function slice(?int $startIndex, ?int $stopIndexExclusive, int $step=1): Flow {
+        return $this->withCommandAppended(generate\slice($startIndex, $stopIndexExclusive, $step));
+    }
+
+    public function sliceByOffsetAndLimit(int $offset, ?int $limit, int $step=1): Flow {
+        return $this->withCommandAppended(generate\sliceByOffsetAndLimit($offset, $limit, $step));
+    }
 }
