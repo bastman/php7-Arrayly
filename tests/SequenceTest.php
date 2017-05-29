@@ -1042,4 +1042,227 @@ class SequenceTest extends TestCase
         });
 
     }
+
+    public function testSliceByOffsetAndLimit()
+    {
+        $source = [
+            "a1" => "a1Value",
+            "a2" => "a2Value",
+            "a3" => "a3Value",
+            "a4" => "a4Value",
+            "a5" => "a5Value",
+        ];
+
+        $tests=[
+            // step
+
+            [
+                'given'=>['step'=>1, 'offset'=>0, 'limit'=>null],
+                'expected' => $source
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>4, 'offset'=>0, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>5, 'offset'=>0, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value"
+                ]
+            ],
+            [
+                'given'=>['step'=>100, 'offset'=>0, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value"
+                ]
+            ],
+            // offset
+            [
+                'given'=>['step'=>1, 'offset'=>2, 'limit'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a4" => "a4Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>2, 'limit'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>4, 'limit'=>null],
+                'expected' => [
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>5, 'limit'=>null],
+                'expected' => []
+            ],
+            // offset: negative
+            [
+                'given'=>['step'=>2, 'offset'=>-10, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>-5, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>-4, 'limit'=>null],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>-3, 'limit'=>null],
+                'expected' => [
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>-2, 'limit'=>null],
+                'expected' => [
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>-1, 'limit'=>null],
+                'expected' => [
+                    "a5" => "a5Value",
+                ]
+            ],
+            // limit
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>null],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>0],
+                'expected' => []
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>1],
+                'expected' => [
+                    "a1" => "a1Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>2],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>3],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>4],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>5],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['step'=>2, 'offset'=>0, 'limit'=>1000],
+                'expected' => [
+                    "a1" => "a1Value",
+                    "a3" => "a3Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+
+            // mixed (offset, limit, step)
+            [
+                'given'=>['offset'=>3, 'limit'=>null, 'step'=>2],
+                'expected' => [
+                    "a4" => "a4Value",
+                ]
+            ],
+            [
+                'given'=>['offset'=>1, 'limit'=>1000, 'step'=>1],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a3" => "a3Value",
+                    "a4" => "a4Value",
+                    "a5" => "a5Value",
+                ]
+            ],
+            [
+                'given'=>['offset'=>-4, 'limit'=>2, 'step'=>3],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a5" => "a5Value"
+                ]
+            ],
+            [
+                'given'=>['offset'=>-4, 'limit'=>4, 'step'=>2],
+                'expected' => [
+                    "a2" => "a2Value",
+                    "a4" => "a4Value",
+                ]
+            ],
+        ];
+
+        Arrayly::ofIterable($tests)->onEachIndexed(function ($testCaseIndex, array $testCase) use($source){
+
+            try{
+                $offset=$testCase['given']['offset'];
+                $limit=$testCase['given']['limit'];
+                $step=$testCase['given']['step'];
+                $sink = S::ofIterable($source)
+                    ->sliceByOffsetAndLimit($offset, $limit, $step)
+                    ->collect()->toArray();
+                $this->assertSame($testCase['expected'], $sink);
+            }catch (\Throwable $all) {
+                echo " --> Testcase at index: ".$testCaseIndex. " failed! testCase=".json_encode($testCase);
+
+                throw $all;
+            }
+
+        });
+    }
 }
