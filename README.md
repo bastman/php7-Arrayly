@@ -37,6 +37,7 @@ inspired by
 ## Alternative PHP Collection Frameworks
 
 e.g.: 
+- knapsak: https://dusankasan.github.io/Knapsack
 - laravel: https://github.com/illuminate/support
 - cake: https://github.com/cakephp/collection
 - hhvm/hack: https://docs.hhvm.com/hack/collections/introduction
