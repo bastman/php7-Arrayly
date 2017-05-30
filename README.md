@@ -4,7 +4,6 @@
 - Sequence (lazy-ish, consume-once): provides fluid interface to php generators & iterators
 - Flow (lazy-ish, consume-rewindable, FBP): kind of flow-based-programming-style (FBP) for replayable transformation pipelines
 
-
 inspired by 
 - nikic/iter: https://github.com/nikic/iter
 - Kotlin Collections: https://antonioleiva.com/collection-operations-kotlin/
@@ -15,6 +14,10 @@ inspired by
 - Transducers: https://github.com/mtdowling/transducers.php
 - Pipeline, e.g.: https://www.hughgrigg.com/posts/simple-pipes-php-generators
 
+## Install
+    
+    $ composer require bastman/php7-arrayly 0.2.1
+    
 ## Notes
 - Beta. Happy Testing ;)
 
@@ -27,14 +30,16 @@ inspired by
 - immutability
 - strictly strong typing
 - composition over inheritance hell
-- treat php arrays as kind of Map (-vs- List), therefore try to preserve keys
 
 ## Methods
  - filter, map, flatMap, reduce, groupBy, find, sort, chunk, take, drop, ...
- 
-## Install
-    
-    $ composer require bastman/php7-arrayly 0.2.0
+
+## Alternative PHP Collection Frameworks
+
+e.g.: 
+- laravel: https://github.com/illuminate/support
+- cake: https://github.com/cakephp/collection
+- hhvm/hack: https://docs.hhvm.com/hack/collections/introduction
 
 ## Examples (ArrayMap)
 - see: tests/examples/arrayly
