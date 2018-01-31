@@ -38,6 +38,7 @@ inspired by
 
 e.g.: 
 - knapsak: https://dusankasan.github.io/Knapsack
+- functional-php: https://github.com/doctore/FunctionalPHP
 - laravel: https://github.com/illuminate/support
 - cake: https://github.com/cakephp/collection
 - hhvm/hack: https://docs.hhvm.com/hack/collections/introduction
